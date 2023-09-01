@@ -3,19 +3,28 @@ import { FormProvider } from '@/lib/provider';
 import { Input, TextFiled } from './common/text-input';
 import { useForm } from 'react-hook-form';
 import { Spacing } from './common/spacing';
+import { toast } from 'react-hot-toast';
 
 export function Main() {
   const methods = useForm({ mode: 'onSubmit' });
 
   const onSubmit = methods.handleSubmit(data => {
     try {
-      fetch(process.env.NEXT_PUBLIC_SERVER_URL + '/fcmpush/all', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      toast.promise(
+        fetch(process.env.NEXT_PUBLIC_SERVER_URL + '/fcmpush/all', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }),
+        {
+          loading: '잠시만 기다려주세요',
+          success: <span>푸시 알림을 전송했어요!</span>,
+          error: <span>푸시 알림 전송에 실패했어요!</span>,
+        }
+      );
+
       throw new Error('error');
     } catch (err) {
       console.log('error');

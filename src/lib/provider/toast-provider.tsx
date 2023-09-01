@@ -9,7 +9,7 @@ interface SnackbarProvider {
 export function ToastProvider(/* { children }: SnackbarProvider */) {
   return (
     <>
-      <Toaster />
+      <Toaster position="bottom-center" reverseOrder={true} />
     </>
   );
 }
