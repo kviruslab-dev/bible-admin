@@ -52,9 +52,9 @@ const AccessFiled = ({ secret, ...props }: any) => {
     <textarea
       type="text"
       className="accessInput"
-      {...register('accessKey', {
+      {...register('content', {
         required: '인증번호를 입력해주세요',
-        validate: value => value === secret,
+        // validate: value => value === secret,
       })}
       {...props}
     />
