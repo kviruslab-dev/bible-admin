@@ -16,7 +16,7 @@ export function Input({ label, children, bottomText, ...props }: InputProps) {
     <div style={{ width: '100%' }} {...props}>
       <label
         // htmlFor={id}
-        className="inline-block py-[5px] text-base font-medium text-gray-600"
+        className="inline-block py-[5px] text-base font-semibold text-gray-600"
       >
         {label}
       </label>
