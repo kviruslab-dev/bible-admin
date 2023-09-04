@@ -16,7 +16,7 @@ export function Main() {
     data => {
       try {
         toast.promise(
-          fetch(process.env.NEXT_PUBLIC_SERVER_URL + '/fcmpush/all', {
+          fetch('https://bibleserver.gyunju.co.kr/api/v1' + '/fcmpush/all', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
