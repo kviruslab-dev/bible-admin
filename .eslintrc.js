@@ -120,3 +120,117 @@ module.exports = {
     'react/no-unknown-property': ['error', { ignore: ['css'] }],
   },
 };
+
+// {
+//   "env": {
+//     "browser": true
+//   },
+//   "extends": ["airbnb", "airbnb/hooks", "prettier"],
+//   "plugins": ["prettier", "import"],
+//   "rules": {
+//     "@typescript-eslint/explicit-function-return-type": "off",
+//     "@typescript-eslint/explicit-module-boundary-types": "off",
+//     "@typescript-eslint/no-unused-vars": ["error"],
+//     "arrow-body-style": ["error", "as-needed"],
+//     "global-require": "off",
+//     "import/export": "off",
+//     "import/extensions": [
+//       "error",
+//       "ignorePackages",
+//       {
+//         "js": "never",
+//         "jsx": "never",
+//         "ts": "never",
+//         "tsx": "never"
+//       }
+//     ],
+//     "import/no-unresolved": "error",
+//     "import/order": [
+//       "error",
+//       {
+//         "groups": ["builtin", "external", "internal"],
+//         "pathGroups": [
+//           {
+//             "pattern": "react[*]",
+//             "group": "external",
+//             "position": "before"
+//           },
+//           {
+//             "pattern": "[@]kviruslab/**",
+//             "group": "external",
+//             "position": "after"
+//           }
+//         ],
+//         "pathGroupsExcludedImportTypes": ["react"],
+//         "newlines-between": "always",
+//         "alphabetize": {
+//           "order": "asc",
+//           "caseInsensitive": true
+//         }
+//       }
+//     ],
+//     "import/prefer-default-export": "off",
+//     "no-use-before-define": "off",
+//     "prettier/prettier": "error",
+//     "react-hooks/exhaustive-deps": "warn",
+//     "react/function-component-definition": [
+//       "error",
+//       {
+//         "namedComponents": "arrow-function",
+//         "unnamedComponents": "arrow-function"
+//       }
+//     ],
+//     "react-hooks/rules-of-hooks": "error",
+//     "react/jsx-filename-extension": [
+//       "warn",
+//       {
+//         "extensions": [".tsx", ".jsx"]
+//       }
+//     ],
+//     "react/jsx-props-no-spreading": "warn",
+//     "react/prop-types": "off"
+//   },
+//   "overrides": [
+//     {
+//       "files": ["**/*.ts?(x)"],
+//       "extends": [
+//         "plugin:@typescript-eslint/recommended",
+//         "plugin:@typescript-eslint/recommended-requiring-type-checking"
+//       ],
+//       "parser": "@typescript-eslint/parser",
+//       "parserOptions": {
+//         "project": [
+//           "./tsconfig.json",
+//           "./packages/**/tsconfig.json",
+//           "./services/**/tsconfig.json"
+//         ]
+//       }
+//     },
+//     {
+//       "files": ["webpack.*.js"],
+//       "rules": {
+//         "import/no-extraneous-dependencies": [
+//           "error",
+//           { "devDependencies": true }
+//         ]
+//       }
+//     }
+//   ],
+//   "settings": {
+//     "react": {
+//       "version": "detect"
+//     },
+//     "import/parsers": {
+//       "@typescript-eslint/parser": [".ts", ".tsx"]
+//     },
+//     "import/resolver": {
+//       "node": {
+//         "extensions": [".js", ".jsx", ".ts", ".tsx"]
+//       },
+//       "typescript": {
+//         "alwaysTryTypes": true,
+//         "project": "./tsconfig.json"
+//       }
+//     }
+//   }
+// }
