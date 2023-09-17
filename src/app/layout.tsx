@@ -31,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta property="og:title" content="바이블 25" />
         <meta property="og:description" content="바이블 25 관리자 페이지입니다." />
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* <link rel="stylesheet" href="https://webfontworld.github.io/pretendard/Pretendard.css" /> */}
       </head>
       <body>
         <ToastProvider />

@@ -13,6 +13,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@google-analytics/data": "^4.0.1",
+    "@google-cloud/storage": "^7.1.0",
     "autoprefixer": "10.4.15",
     "next": "13.4.19",
     "postcss": "8.4.29",
