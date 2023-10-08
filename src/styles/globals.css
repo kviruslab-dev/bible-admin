@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://webfontworld.github.io/pretendard/Pretendard.css");
+/* @import url("https://webfontworld.github.io/pretendard/Pretendard.css"); */
 
 :root {
   --foreground-rgb: 0, 0, 0;

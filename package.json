@@ -2,6 +2,7 @@
   "name": "bible-admin",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://ch2ho.bible25.com/data/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -46,5 +47,6 @@
     "*.{ts,tsx}": [
       "eslint --fix"
     ]
-  }
+  },
+  "sideEffects": false
 }

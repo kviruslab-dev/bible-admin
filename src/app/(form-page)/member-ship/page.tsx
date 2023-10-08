@@ -5,37 +5,9 @@ import { Spacing } from '@/components/common/spacing';
 import { Input, TextFiled } from '@/components/common/text-input';
 import { FormProvider } from '@/lib/provider';
 import { useForm } from 'react-hook-form';
-
-// import { BetaAnalyticsDataClient } from "@google-analytics/data";
-
-// const propertyId = 406535399;
-// const analyticsDataClient = new BetaAnalyticsDataClient();
-
-// async function runReport() {
-//   const [response] = await analyticsDataClient.runReport({
-//     property: `properties/${propertyId}`,
-//     dateRanges: [
-//       {
-//         startDate: '2023-09-15',
-//         endDate: 'today',
-//       },
-//     ],
-//     dimensions: [
-//       {
-//         name: 'city',
-//       },
-//     ],
-//     metrics: [
-//       {
-//         name: 'activeUsers',
-//       },
-//     ],
-//   });
-//   return response;
-// }
+import { use } from 'react';
 
 export default function Home() {
-  // const data = await runReport();
   const methods = useForm({ mode: 'onSubmit' });
 
   return (
