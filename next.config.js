@@ -7,10 +7,10 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     esmExternals: true,
-    appDir: true,
-    modularizelmports: {
-      'react-hook-form': { transform: 'react-hook-form/dist/{{member}}' },
-    },
+    // appDir: true,
+    // modularizelmports: {
+    //   'react-hook-form': { transform: 'react-hook-form/dist/{{member}}' },
+    // },
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

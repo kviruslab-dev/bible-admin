@@ -5,7 +5,6 @@ import { Spacing } from '@/components/common/spacing';
 import { Input, TextFiled } from '@/components/common/text-input';
 import { FormProvider } from '@/lib/provider';
 import { useForm } from 'react-hook-form';
-import { use } from 'react';
 
 export default function Home() {
   const methods = useForm({ mode: 'onSubmit' });
