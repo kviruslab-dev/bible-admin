@@ -16,12 +16,13 @@
     "@google-analytics/data": "^4.0.1",
     "@google-cloud/storage": "^7.1.0",
     "autoprefixer": "10.4.15",
-    "next": "13.4.19",
+    "next": "^13.5.4",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "woxios": "^0.0.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -46,5 +47,6 @@
     "*.{ts,tsx}": [
       "eslint --fix"
     ]
-  }
+  },
+  "sideEffects": false
 }
