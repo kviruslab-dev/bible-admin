@@ -1,7 +1,15 @@
 'use client';
 
-import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  flexRender,
+  getCoreRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { columns, tableData } from '@/constants/column';
+import { useMemo } from 'react';
 
 export const GridProvider = ({ data }: any) => {
   const table = useReactTable({
@@ -9,6 +17,8 @@ export const GridProvider = ({ data }: any) => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   return (
@@ -16,23 +26,44 @@ export const GridProvider = ({ data }: any) => {
       <thead>
         {table.getHeaderGroups().map(headerGroup => (
           <tr key={headerGroup.id} className="">
-            {headerGroup.headers.map(header => (
-              <th
-                key={header.id}
-                className="font-medium"
-                style={{ width: header.getSize(), cursor: header.column.getCanSort() ? 'pointer' : 'default' }}
-                onClick={header.column.getToggleSortingHandler()}
-              >
-                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                {
-                  {
-                    asc: '<',
-                    desc: '>',
-                  }[header.column.getIsSorted() as string]
+            {headerGroup.headers.map(header => {
+              const sortedUniqueValues = useMemo(
+                () => Array.from(header.column.getFacetedUniqueValues().keys()).sort(),
+                [header.column]
+              );
+              const onFilterChange = (value: string) => {
+                if (value === 'null') {
+                  header.column.setFilterValue(null);
+                } else {
+                  header.column.setFilterValue(value);
                 }
-                {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null}
-              </th>
-            ))}
+              };
+              return (
+                <th
+                  key={header.id}
+                  className="font-medium"
+                  style={{ width: header.getSize(), cursor: header.column.getCanSort() ? 'pointer' : 'default' }}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  {
+                    {
+                      asc: '<',
+                      desc: '>',
+                    }[header.column.getIsSorted() as string]
+                  }
+                  {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null}
+                  {header.column.getCanFilter() ? (
+                    <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
+                      <option value="null">선택 안함</option>
+                      {sortedUniqueValues.map((value: string) => (
+                        <option key={value}>{value}</option>
+                      ))}
+                    </select>
+                  ) : null}
+                </th>
+              );
+            })}
           </tr>
         ))}
       </thead>
