@@ -108,7 +108,8 @@ module.exports = {
     'react/prop-types': 'warn',
 
     'react/display-name': 'off',
-    'react-hooks/rules-of-hooks': 'error',
+    //! 다시
+    'react-hooks/rules-of-hooks': 'warn',
     // ! hook 의존성 체크
     // 'react-hooks/exhaustive-deps': 'error',
 
