@@ -3,52 +3,60 @@
 import { ADS } from '@/constants/routes';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { headers } from 'next/headers';
 import { useSearchParams } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams().get('type');
-  // const headersList = headers();r
-  // const url = new URL(headersList.get('referer') as string).searchParams.get('type');
-
   const header = Object.keys(ADS);
 
   return (
     <>
-      <header className="fixed flex items-center justify-between bg-white bg-opacity-50 w-full px-24">
-        <div className="relative">
-          <Image src={'/logo.png'} width={50} height={50} alt="로고" />
-          <span className="text-xs absolute -top-10 -right-90 p-3 bg-blue-400 text-white rounded-md">
-            바이블25 어드민
-          </span>
-        </div>
-        <section className="flex h-[80px] w-[600px] justify-between items-center mr-20">
-          {header.map((item, index) => {
-            return (
-              <div key={index} className="px-6 font-medium text-14">
+      <header className="fixed flex justify-center bg-white bg-opacity-60 w-full px-24">
+        <section className="min-w-[1200px] flex justify-between items-center">
+          <div className="relative">
+            <Image src={'/logo.png'} width={50} height={50} alt="로고" />
+            <span className="text-xs absolute -top-5 -right-90 p-4 bg-blue-400 text-white rounded-md">
+              바이블25 어드민
+            </span>
+          </div>
+          <section className="flex h-[80px] w-[650px] justify-between items-center">
+            {header.map((item, index) => {
+              return (
                 <Link
+                  key={index}
                   href={'/ads' + ADS[item as keyof typeof ADS]}
-                  className={
-                    ADS[item as keyof typeof ADS].includes(searchParams!) ? 'text-main font-semibold' : 'text-gray-600'
-                  }
+                  className={`px-10 py-13 text-14 rounded-lg hover:bg-gray-100 ${
+                    ADS[item as keyof typeof ADS].includes(searchParams!)
+                      ? 'text-main font-semibold'
+                      : 'text-gray-500 font-normal'
+                  }`}
                 >
                   {item}
                 </Link>
-              </div>
-            );
-          })}
+              );
+            })}
+          </section>
+          <div className="text-14 flex items-center text-gray-700">
+            <Link
+              href={'/signin'}
+              className="px-12 py-8 rounded-lg mr-10 border-[2px] transition-all ease-in-out hover:border-gray-400 hover:ease-in-out"
+            >
+              로그아웃
+            </Link>
+            <Link
+              href={'/'}
+              className="bg-blue-500 text-white px-12 py-8 rounded-lg transition-all ease-in-out hover:bg-opacity-80 hover:ease-in-out"
+            >
+              푸시 알림
+            </Link>
+          </div>
         </section>
-        <div className="text-14">
-          <Link href={'/signin'} className="px-6 py-10 rounded-lg mr-10 border-[2px]">
-            로그아웃
-          </Link>
-          <Link href={'/'} className="bg-gray-800 text-white px-6 py-10 rounded-lg">
-            푸시 알림
-          </Link>
-        </div>
       </header>
-
+      <div className="h-[80px]" />
       {children}
     </>
   );
 }
+
+// const headersList = headers();r
+// const url = new URL(headersList.get('referer') as string).searchParams.get('type');
