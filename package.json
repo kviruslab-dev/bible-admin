@@ -13,10 +13,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@google-analytics/data": "^4.0.1",
-    "@google-cloud/storage": "^7.1.0",
     "autoprefixer": "10.4.15",
     "next": "^13.5.4",
+    "nprogress": "^0.2.0",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -28,6 +27,7 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/node": "^20.5.7",
+    "@types/nprogress": "^0.2.1",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.5.0",

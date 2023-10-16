@@ -1,4 +1,5 @@
 import { ToastProvider } from '@/lib/provider';
+import ProgressBar from '@/lib/provider/progress-bar';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ToastProvider />
+        <ProgressBar />
         {children}
       </body>
     </html>

@@ -38,7 +38,7 @@ export const SignInSection = () => {
         />
       </Input>
       <div className="h-[30px]" />
-      <button type="submit" className="bg-main text-white w-full py-10 rounded-xl">
+      <button type="submit" className="bg-main text-white w-full py-10 rounded-lg hover:bg-[#3173f6]">
         로그인
       </button>
     </form>
