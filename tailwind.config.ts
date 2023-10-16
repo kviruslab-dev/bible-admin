@@ -40,6 +40,6 @@ const config: Config = {
       spacing: px0_200,
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };
 export default config;
