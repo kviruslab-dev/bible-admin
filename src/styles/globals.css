@@ -52,6 +52,30 @@ input[type=number]::-webkit-out-spin-button {
   appearance: none;
 }
 
+
+.accessInput {
+  background-color: #f2f4f6;
+  width: 100%;
+  padding: 0 18px;
+  font-size: 16px;
+  line-height: 48px;
+  margin: 0;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+}
+
+.accessInput:hover {
+  background-color: #ebedf0;
+  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+}
+
+.accessInput:focus {
+  background-color: #e5e8eb;
+  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+}
+
 /* checkbox */
 .check_box input {
   display: none;
