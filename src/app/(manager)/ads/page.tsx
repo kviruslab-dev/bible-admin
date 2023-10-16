@@ -4,7 +4,7 @@ export default function Page({ searchParams }: { searchParams: { type: string } 
   console.log(searchParams);
 
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-gray-50">
       <section className="px-100 py-30">
         <GridProvider></GridProvider>
       </section>

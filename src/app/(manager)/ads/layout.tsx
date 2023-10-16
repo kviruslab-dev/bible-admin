@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <header className="fixed flex justify-center bg-white bg-opacity-90 w-full px-24">
+      <header className="fixed z-50 flex justify-center bg-white bg-opacity-90 w-full px-24">
         <section className="min-w-[1200px] flex justify-between items-center">
           <div className="relative">
             <Image src={'/logo.png'} width={50} height={50} alt="로고" />
