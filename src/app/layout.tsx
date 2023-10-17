@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   icons: [
     {
       rel: 'icon',
-      url: './favicon.ico',
+      url: '../../public/favicon.ico',
     },
   ],
 };
@@ -26,7 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <head>
-        <meta charSet="utf-8" />
         <meta property="og:image" content={'/oglogo.jpeg'} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:title" content="바이블 25" />
