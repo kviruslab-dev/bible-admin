@@ -185,13 +185,13 @@ input[type=number]::-webkit-out-spin-button {
   box-shadow: 0 0 10px #3182f6, 0 0 5px #3182f6;
 }
 
-/* table */
+/* tanstack table */
 table {
   width: 100%;
   /* border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   background-color: #fff; */
-  font-size: 14px;
+  font-size: 13px;
 }
 
 tfoot {
@@ -205,6 +205,8 @@ td {
   /* border-right: 1px solid lightgray;
   border-bottom: 1px solid lightgray; */
   text-align: left;
+  /* overflow: hidden; */
+  /* width: 200px; */
 }
 
 /* th, */
@@ -220,4 +222,42 @@ th {
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   background-color: #eee;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.resizer.isResizing {
+  background: blue;
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .resizer {
+    opacity: 0;
+  }
+
+  *:hover>.resizer {
+    opacity: 1;
+  }
+}
+
+.absBtn {
+  background-color: rgb(49 130 246 / var(--tw-bg-opacity));
+  padding: 5px 8px;
+  color: white;
+  border-radius: 6px;
+}
+
+.absBtn:hover {
+  background-color: rgb(49 130 246 / 80%);
 }
