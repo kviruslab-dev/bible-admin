@@ -22,7 +22,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
-    "woxios": "^0.0.6"
+    "woxios": "^0.0.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",

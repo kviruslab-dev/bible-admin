@@ -182,10 +182,10 @@ td {
   text-align: left;
 }
 
-/* th,
+/* th, */
 td:last-child {
-  border-right: none;
-} */
+  padding: 3px 11px;
+}
 
 td {
   border-bottom: 1px solid lightgray;

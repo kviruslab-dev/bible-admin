@@ -8,12 +8,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { columns, tableData } from '@/constants/column';
+import { columns } from '@/constants/column';
 import { useMemo } from 'react';
 
 export const GridProvider = ({ data }: any) => {
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -38,6 +38,7 @@ export const GridProvider = ({ data }: any) => {
                   header.column.setFilterValue(value);
                 }
               };
+              console.log(header.getSize());
               return (
                 <th
                   key={header.id}
@@ -56,8 +57,10 @@ export const GridProvider = ({ data }: any) => {
                   {header.column.getCanFilter() ? (
                     <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
                       <option value="null">선택 안함</option>
-                      {sortedUniqueValues.map((value: string) => (
-                        <option key={value}>{value}</option>
+                      {sortedUniqueValues.map((value: string, index) => (
+                        <option key={value + index} value={value}>
+                          {value}
+                        </option>
                       ))}
                     </select>
                   ) : null}
@@ -68,12 +71,10 @@ export const GridProvider = ({ data }: any) => {
         ))}
       </thead>
       <tbody>
-        {table.getRowModel().rows.map(row => (
+        {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
-            {row.getVisibleCells().map(cell => (
-              <td key={cell.id} className="">
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
+            {row.getVisibleCells().map((cell, index) => (
+              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
             ))}
           </tr>
         ))}
