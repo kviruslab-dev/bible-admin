@@ -13,7 +13,7 @@ import { useMemo } from 'react';
 
 export const GridProvider = ({ data }: any) => {
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -68,11 +68,22 @@ export const GridProvider = ({ data }: any) => {
         ))}
       </thead>
       <tbody>
-        {table.getRowModel().rows.map(row => (
+        {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
-            {row.getVisibleCells().map(cell => (
-              <td key={cell.id} className="">
+            {row.getVisibleCells().map((cell, index) => (
+              <td key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                {index === 14 && (
+                  <button
+                    onClick={() => {
+                      console.log(cell.row.original);
+                      alert('저장 ');
+                    }}
+                    className="bg-main w-full h-full px-5 rounded-md text-white"
+                  >
+                    저장
+                  </button>
+                )}
               </td>
             ))}
           </tr>

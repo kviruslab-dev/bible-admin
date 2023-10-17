@@ -162,7 +162,7 @@ input[type=number]::-webkit-out-spin-button {
 
 /* table */
 table {
-  width: 100%;
+  width: 1600px;
   /* border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   background-color: #fff; */
@@ -182,10 +182,10 @@ td {
   text-align: left;
 }
 
-/* th,
+/* th, */
 td:last-child {
-  border-right: none;
-} */
+  padding: 3px 11px;
+}
 
 td {
   border-bottom: 1px solid lightgray;
