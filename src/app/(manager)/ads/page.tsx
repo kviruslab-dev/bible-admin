@@ -5,7 +5,7 @@ import { woxios } from 'woxios';
 
 export default function Page({ searchParams }: { searchParams: { type: string } }) {
   console.log(searchParams);
-  const { data }: any = use(instance.get('/admin/select', { params: { type: searchParams.type } }));
+  const { data }: any = use(instance.get('/admin/select', { params: { type: searchParams.type }, cache: 'no-cache' }));
 
   return (
     <main className="min-h-screen bg-gray-50 flex justify-center">
