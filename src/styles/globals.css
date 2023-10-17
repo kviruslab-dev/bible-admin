@@ -162,7 +162,7 @@ input[type=number]::-webkit-out-spin-button {
 
 /* table */
 table {
-  width: 1600px;
+  width: 100%;
   /* border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   background-color: #fff; */

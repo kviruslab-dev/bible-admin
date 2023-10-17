@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { columns, tableData } from '@/constants/column';
+import { columns } from '@/constants/column';
 import { useMemo } from 'react';
 
 export const GridProvider = ({ data }: any) => {
@@ -38,6 +38,7 @@ export const GridProvider = ({ data }: any) => {
                   header.column.setFilterValue(value);
                 }
               };
+              console.log(header.getSize());
               return (
                 <th
                   key={header.id}
@@ -56,8 +57,10 @@ export const GridProvider = ({ data }: any) => {
                   {header.column.getCanFilter() ? (
                     <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
                       <option value="null">선택 안함</option>
-                      {sortedUniqueValues.map((value: string) => (
-                        <option key={value}>{value}</option>
+                      {sortedUniqueValues.map((value: string, index) => (
+                        <option key={value + index} value={value}>
+                          {value}
+                        </option>
                       ))}
                     </select>
                   ) : null}
@@ -71,20 +74,7 @@ export const GridProvider = ({ data }: any) => {
         {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell, index) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                {index === 14 && (
-                  <button
-                    onClick={() => {
-                      console.log(cell.row.original);
-                      alert('저장 ');
-                    }}
-                    className="bg-main w-full h-full px-5 rounded-md text-white"
-                  >
-                    저장
-                  </button>
-                )}
-              </td>
+              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
             ))}
           </tr>
         ))}
