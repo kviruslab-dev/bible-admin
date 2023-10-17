@@ -1,4 +1,5 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { useRef, useState } from 'react';
 
 interface AD {
   id: string;
@@ -33,13 +34,21 @@ export const columns: any = [
   columnHelper.accessor('image', { header: '이미지', size: 120, enableSorting: false, enableColumnFilter: false }),
   columnHelper.accessor('link', {
     header: '링크',
+    size: 200,
     enableSorting: false,
     enableColumnFilter: false,
     cell: ({ getValue, row, column, table }) => {
-      console.log(row);
+      const [value, setValue] = useState<string>(getValue());
+      // const linkRef = useRef<HTMLInputElement>(null);
+      // console.log(row);
       return (
         <input
-          className="w-" /* value={getValue() as string} readOnly  */ /* value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} */
+          className="adsInput"
+          value={value}
+          onChange={e => {
+            setValue(pre => e.target.value as string);
+            row.original.link = e.target.value as string;
+          }}
         />
       );
     },
@@ -57,9 +66,9 @@ export const columns: any = [
         <button
           onClick={() => {
             // console.log(row.row.original);
-            alert('저장 ');
+            alert(row.original?.link);
           }}
-          className="bg-main w-full h-full px-5 rounded-md text-white"
+          className="bg-main px-5 rounded-md text-white"
         >
           저장
         </button>

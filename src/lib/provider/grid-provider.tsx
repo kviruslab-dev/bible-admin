@@ -28,7 +28,7 @@ export const GridProvider = ({ data }: any) => {
           <tr key={headerGroup.id} className="">
             {headerGroup.headers.map(header => {
               const sortedUniqueValues = useMemo(
-                () => Array.from(header.column.getFacetedUniqueValues().keys()).sort(),
+                () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
                 [header.column]
               );
               const onFilterChange = (value: string) => {
@@ -38,7 +38,6 @@ export const GridProvider = ({ data }: any) => {
                   header.column.setFilterValue(value);
                 }
               };
-              console.log(header.getSize());
               return (
                 <th
                   key={header.id}
