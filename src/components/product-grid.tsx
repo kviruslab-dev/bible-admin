@@ -9,14 +9,10 @@ import {
   useReactTable,
   ColumnResizeMode,
 } from '@tanstack/react-table';
-import { ColumnType, columns } from '@/constants/column';
+import { productColumn as columns, ProductColumnType } from '@/constants/column';
 import { useMemo, useState } from 'react';
 
-export const GridProvider = ({ data }: { data: ColumnType[] }) => {
-  // const [column, setColumn] = useState(columns);
-
-  // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
-
+export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
   const table = useReactTable({
     data,
     columns,
@@ -62,22 +58,22 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                 >
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   {/* {
-                    {
-                      asc: '<',
-                      desc: '>',
-                    }[header.column.getIsSorted() as string]
-                  } */}
+                      {
+                        asc: '<',
+                        desc: '>',
+                      }[header.column.getIsSorted() as string]
+                    } */}
                   {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null}
-                  {header.column.getCanFilter() ? (
-                    <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
-                      <option value="null">선택 안함</option>
-                      {sortedUniqueValues.map((value: string, index) => (
-                        <option key={value + index} value={value}>
-                          {value}
-                        </option>
-                      ))}
-                    </select>
-                  ) : null} */}
+                    {header.column.getCanFilter() ? (
+                      <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
+                        <option value="null">선택 안함</option>
+                        {sortedUniqueValues.map((value: string, index) => (
+                          <option key={value + index} value={value}>
+                            {value}
+                          </option>
+                        ))}
+                      </select>
+                    ) : null} */}
                   <div
                     {...{
                       onMouseDown: header.getResizeHandler(),

@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link
                   key={index}
                   href={{ pathname: '/ads', query: { type: ADS[item as keyof typeof ADS] } }}
-                  className={`px-10 py-13 text-14 rounded-lg hover:bg-gray-100 ${
+                  className={`px-10 py-13 text-14 rounded-lg hover:bg-[#ededed] ${
                     ADS[item as keyof typeof ADS].includes(searchParams!)
                       ? 'text-main font-semibold'
                       : 'text-gray-500 font-normal'
@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
             <Link
               href={'/'}
-              className="bg-blue-500 text-white px-12 py-8 rounded-lg transition-all ease-in-out hover:bg-opacity-80 hover:ease-in-out"
+              className="bg-blue-500 text-white px-12 py-8 rounded-lg transition-all ease-in-out hover:bg-blue-600 hover:ease-in-out"
             >
               푸시 알림
             </Link>
