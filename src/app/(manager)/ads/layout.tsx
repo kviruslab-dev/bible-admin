@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const searchParams = useSearchParams().get('type');
+  const searchParams = useSearchParams().get('type') ?? 'main';
   const header = Object.keys(ADS);
 
   return (
@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               return (
                 <Link
                   key={index}
-                  href={'/ads' + ADS[item as keyof typeof ADS]}
+                  href={{ pathname: '/ads', query: { type: ADS[item as keyof typeof ADS] } }}
                   className={`px-10 py-13 text-14 rounded-lg hover:bg-gray-100 ${
                     ADS[item as keyof typeof ADS].includes(searchParams!)
                       ? 'text-main font-semibold'
