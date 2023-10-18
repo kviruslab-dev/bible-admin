@@ -25,7 +25,10 @@ input {
   outline: none;
   border: none;
   border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 textarea {
@@ -35,16 +38,18 @@ textarea {
   outline: none;
   border: none;
   border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-out-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-out-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
-
 
 .accessInput {
   background-color: #f2f4f6;
@@ -56,17 +61,26 @@ input[type=number]::-webkit-out-spin-button {
   outline: none;
   border: none;
   border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 .accessInput:hover {
   background-color: #ebedf0;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 .accessInput:focus {
   background-color: #e5e8eb;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 /* 광고 수정 인풋 */
@@ -81,17 +95,26 @@ input[type=number]::-webkit-out-spin-button {
   outline: none;
   border: none;
   /* border-radius: 8px; */
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 .adsInput:hover {
   background-color: #ebedf0;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 .adsInput:focus {
   background-color: #e5e8eb;
-  transition: background-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
 /* checkbox */
@@ -139,7 +162,7 @@ input[type=number]::-webkit-out-spin-button {
   transform: rotate(-135deg);
 }
 
-.check_box input:checked+.icon {
+.check_box input:checked + .icon {
   background-image: url(/images/ico_box.svg);
   background-repeat: no-repeat;
   background-position: center;
@@ -147,12 +170,12 @@ input[type=number]::-webkit-out-spin-button {
   border: none;
 }
 
-.check_box input:checked+.icon::before {
+.check_box input:checked + .icon::before {
   height: 6px;
   transition: all 0.2s ease;
 }
 
-.check_box input:checked+.icon::after {
+.check_box input:checked + .icon::after {
   height: 16px;
   transition: all 0.3s ease 0.2s;
 }
@@ -171,7 +194,7 @@ input[type=number]::-webkit-out-spin-button {
   width: 100%;
   position: fixed;
   background-color: #3182f6;
-  box-shadow: 0 0 2px #3182f6
+  box-shadow: 0 0 2px #3182f6;
 }
 
 #nprogress .peg {
@@ -182,7 +205,9 @@ input[type=number]::-webkit-out-spin-button {
   display: block;
   position: absolute;
   transform: rotate(3deg) translate(0px, -4px);
-  box-shadow: 0 0 10px #3182f6, 0 0 5px #3182f6;
+  box-shadow:
+    0 0 10px #3182f6,
+    0 0 5px #3182f6;
 }
 
 /* tanstack table */
@@ -246,7 +271,7 @@ th {
     opacity: 0;
   }
 
-  *:hover>.resizer {
+  *:hover > .resizer {
     opacity: 1;
   }
 }

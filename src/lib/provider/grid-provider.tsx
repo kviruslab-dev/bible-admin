@@ -13,8 +13,6 @@ import { ColumnType, columns } from '@/constants/column';
 import { useMemo, useState } from 'react';
 
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
-  // const [column, setColumn] = useState(columns);
-
   // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
 
   const table = useReactTable({
@@ -61,14 +59,22 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                   // onClick={header.column.getToggleSortingHandler()}
                 >
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  {
+                    <span
+                      style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default' }}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      ⚙️
+                    </span>
+                  }
                   {/* {
                     {
                       asc: '<',
                       desc: '>',
                     }[header.column.getIsSorted() as string]
                   } */}
-                  {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null}
-                  {header.column.getCanFilter() ? (
+                  {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null} */}
+                  {/* {header.column.getCanFilter() ? (
                     <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
                       <option value="null">선택 안함</option>
                       {sortedUniqueValues.map((value: string, index) => (
