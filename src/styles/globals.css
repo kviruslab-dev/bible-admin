@@ -85,9 +85,10 @@ input[type='number']::-webkit-out-spin-button {
 
 /* 광고 수정 인풋 */
 .adsInput {
-  background-color: #f2f4f6;
+  background-color: transparent;
   display: block;
-  width: 200px;
+  /* min-width: 150px; */
+  height: 40px;
   padding: 0 2px;
   font-size: 13px;
   line-height: 30px;
@@ -234,13 +235,15 @@ td {
   /* width: 200px; */
 }
 
-/* th, */
-td:last-child {
-  padding: 3px 11px;
-}
-
 td {
   border-bottom: 1px solid lightgray;
+  box-sizing: content-box;
+}
+
+td.active {
+  border-width: 2px;
+  border-color: #3182f6;
+  animation-fill-mode: forwards;
 }
 
 th {
@@ -249,20 +252,24 @@ th {
   background-color: #eee;
 }
 
+th:hover {
+  background-color: #ddd;
+}
+
 .resizer {
   position: absolute;
   right: 0;
   top: 0;
   height: 100%;
-  width: 5px;
-  background: rgba(0, 0, 0, 0.5);
+  width: 3px;
+  background: rgba(0, 0, 0, 0.4);
   cursor: col-resize;
   user-select: none;
   touch-action: none;
 }
 
 .resizer.isResizing {
-  background: blue;
+  background: rgba(0, 0, 0, 0.6);
   opacity: 1;
 }
 

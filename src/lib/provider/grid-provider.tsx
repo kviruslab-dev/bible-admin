@@ -53,27 +53,13 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                     colSpan: header.colSpan,
                     style: {
                       width: header.getSize(),
+                      cursor: header.column.getCanSort() ? 'pointer' : 'default',
                     },
                   }}
-                  className={`font-medium`}
-                  // style={{ /* width: header.getSize(), */ cursor: header.column.getCanSort() ? 'pointer' : 'default' }}
-                  // onClick={header.column.getToggleSortingHandler()}
+                  className={`font-medium hover:bg-gray-600`}
+                  onClick={header.column.getToggleSortingHandler()}
                 >
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  {
-                    <span
-                      className="aaa"
-                      style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default', fontSize: '20px' }}
-                      onClick={header.column.getToggleSortingHandler() /* () => setOpen(pre => !pre) */}
-                    >
-                      ‹
-                    </span>
-                  }
-                  {
-                    <span style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default', fontSize: '20px' }}>
-                      ›
-                    </span>
-                  }
                   {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>}
                   {/* {
                     {
@@ -114,9 +100,20 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
       <tbody>
         {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
-            {row.getVisibleCells().map((cell, index) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-            ))}
+            {row.getVisibleCells().map((cell, index) => {
+              const [active, setActive] = useState(false);
+              return (
+                <td
+                  key={cell.id}
+                  className={active ? 'active' : ''}
+                  onClick={() => {
+                    setActive(pre => !pre);
+                  }}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>
