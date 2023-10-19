@@ -34,6 +34,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
         {table.getHeaderGroups().map(headerGroup => (
           <tr key={headerGroup.id} className="">
             {headerGroup.headers.map(header => {
+              const [open, setOpen] = useState(false);
               const sortedUniqueValues = useMemo(
                 () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
                 [header.column]
@@ -61,12 +62,19 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   {
                     <span
-                      style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default' }}
-                      onClick={header.column.getToggleSortingHandler()}
+                      className="aaa"
+                      style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default', fontSize: '20px' }}
+                      onClick={header.column.getToggleSortingHandler() /* () => setOpen(pre => !pre) */}
                     >
-                      ⚙️
+                      ‹
                     </span>
                   }
+                  {
+                    <span style={{ cursor: header.column.getCanSort() ? 'pointer' : 'default', fontSize: '20px' }}>
+                      ›
+                    </span>
+                  }
+                  {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>}
                   {/* {
                     {
                       asc: '<',

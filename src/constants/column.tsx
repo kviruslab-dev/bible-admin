@@ -38,7 +38,7 @@ export interface ProductColumnType {
 // const columnHelper = createColumnHelper();
 
 export const columns: Array<ColumnDef<ColumnType>> = [
-  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, size: 70 },
+  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
   { accessorKey: 'title', header: '제목' },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
@@ -57,7 +57,6 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableColumnFilter: false,
     enableSorting: false,
     cell: ({ getValue, row, column, table }) => {
-      console.log(column, 'column ::: ');
       return (
         <button
           onClick={() => {
@@ -74,7 +73,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
 ];
 
 export const productColumn: Array<ColumnDef<ProductColumnType>> = [
-  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, size: 70 },
+  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
   { accessorKey: 'title', header: '제목' },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
@@ -96,7 +95,6 @@ export const productColumn: Array<ColumnDef<ProductColumnType>> = [
       return (
         <button
           onClick={() => {
-            // console.log(row.row.original);
             alert(row.original?.link);
           }}
           className="absBtn"
