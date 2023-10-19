@@ -35,6 +35,9 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
           ref={inputRef}
           className="adsInput"
           value={value}
+          onDoubleClick={() => {
+            setVisible(pre => !pre);
+          }}
           onChange={e => {
             setValue(e.target.value);
           }}
