@@ -162,7 +162,7 @@ input[type='number']::-webkit-out-spin-button {
   transform: rotate(-135deg);
 }
 
-.check_box input:checked + .icon {
+.check_box input:checked+.icon {
   background-image: url(/images/ico_box.svg);
   background-repeat: no-repeat;
   background-position: center;
@@ -170,12 +170,12 @@ input[type='number']::-webkit-out-spin-button {
   border: none;
 }
 
-.check_box input:checked + .icon::before {
+.check_box input:checked+.icon::before {
   height: 6px;
   transition: all 0.2s ease;
 }
 
-.check_box input:checked + .icon::after {
+.check_box input:checked+.icon::after {
   height: 16px;
   transition: all 0.3s ease 0.2s;
 }
@@ -271,7 +271,7 @@ th {
     opacity: 0;
   }
 
-  *:hover > .resizer {
+  *:hover>.resizer {
     opacity: 1;
   }
 }
@@ -284,5 +284,9 @@ th {
 }
 
 .absBtn:hover {
-  background-color: rgb(49 130 246 / 80%);
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
+
+/* .aaa {
+  transform: rotate(90deg)
+} */
