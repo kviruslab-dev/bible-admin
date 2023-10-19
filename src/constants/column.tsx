@@ -1,5 +1,5 @@
 'use client';
-import { EditCell } from '@/components/edit-cell';
+import { EditDateCell, EditTextCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -49,9 +49,16 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   {
     accessorKey: 'title',
     header: '제목',
-    // cell: ({ getValue, row }) => <EditCell getValue={getValue} />,
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
   },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
+  {
+    accessorKey: 'start_date',
+    header: '시작일',
+    enableColumnFilter: false,
+    cell: ({ getValue }) => <EditDateCell getValue={getValue} />,
+  },
+  { accessorKey: 'end_date', header: '종료일', enableColumnFilter: false },
   { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
   { accessorKey: 'location', minSize: 75, header: '광고위치' },
   { accessorKey: 'rate', header: '가중치' },
@@ -61,9 +68,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     header: '링크',
     enableSorting: false,
     enableColumnFilter: false,
-    cell: ({ getValue, row }) => {
-      return <input className="adsInput" value={row.getValue('link')} />;
-    },
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
   },
   { accessorKey: 'active', header: '운영' },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
