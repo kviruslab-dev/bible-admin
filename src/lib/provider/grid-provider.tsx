@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { ColumnType, columns } from '@/constants/column';
 import { useMemo, useState } from 'react';
-import { EditCell } from '@/components/edit-cell';
+import { EditTextCell } from '@/components/edit-cell';
 
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
@@ -102,7 +102,8 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
         {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell, index) => {
-              return <EditCell key={cell.id} id={cell.id} getValue={cell.getValue} />;
+              // return <EditTextCell key={cell.id} getValue={cell.getValue} />;
+              return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
             })}
           </tr>
         ))}
