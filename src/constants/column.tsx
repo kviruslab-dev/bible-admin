@@ -1,3 +1,5 @@
+'use client';
+import { EditCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -47,9 +49,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   {
     accessorKey: 'title',
     header: '제목',
-    cell: ({ getValue, row }) => {
-      return <input className="adsInput" value={row.getValue('title')} />;
-    },
+    // cell: ({ getValue, row }) => <EditCell getValue={getValue} />,
   },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
   { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
