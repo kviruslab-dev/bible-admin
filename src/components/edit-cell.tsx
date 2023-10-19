@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
-  const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +50,6 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
 };
 
 export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
-  const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -137,36 +135,34 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
+  const inputRef = useRef<HTMLInputElement>(null);
   //! 호버와 클릭 비교
 
   return (
-    <td
-      className={active ? 'active' : ''}
-      onClick={() => {
-        setActive(1);
-      }}
-    >
-      {!visible && (
-        <div
-          onDoubleClick={() => {
-            setVisible(pre => !pre);
-          }}
-        >
-          {value}
-        </div>
-      )}
-      {visible && (
-        <input
-          className="adsInput"
-          value={value}
-          onChange={e => {
-            setValue(e.target.value);
-          }}
-          onKeyDown={e => {
-            e.key === 'Enter' && setVisible(pre => !pre);
-          }}
-        />
-      )}
-    </td>
+    <>
+      <div
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+      >
+        {!visible && value}
+        {visible && (
+          <input
+            ref={inputRef}
+            type="file"
+            className="adsInput"
+            // value={value}
+            onChange={e => {
+              // console.log(e?.target?.files[0] as File);
+              // setValue(e?.target?.files[0]?.name as string);
+              // setValue(e.target.value);
+            }}
+            onKeyDown={e => {
+              e.key === 'Enter' && setVisible(pre => !pre);
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };

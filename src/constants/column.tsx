@@ -1,5 +1,5 @@
 'use client';
-import { EditDateCell, EditTextCell } from '@/components/edit-cell';
+import { EditDateCell, EditImgCell, EditTextCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -62,7 +62,14 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
   { accessorKey: 'location', minSize: 75, header: '광고위치' },
   { accessorKey: 'rate', header: '가중치' },
-  { accessorKey: 'image', header: '이미지', enableSorting: false, enableColumnFilter: false, size: 200 },
+  {
+    accessorKey: 'image',
+    header: '이미지',
+    enableSorting: false,
+    enableColumnFilter: false,
+    size: 200,
+    cell: ({ getValue, row }) => <EditImgCell getValue={getValue} />,
+  },
   {
     accessorKey: 'link',
     header: '링크',
@@ -127,4 +134,20 @@ export const productColumn: Array<ColumnDef<ProductColumnType>> = [
       );
     },
   },
+];
+interface DonateColumnType {
+  id: string;
+  create_at: string;
+  title: string;
+  image: string;
+  link: string;
+  type: string;
+}
+export const donateColumn: Array<ColumnDef<DonateColumnType>> = [
+  { accessorKey: 'id', header: 'ID' },
+  { accessorKey: 'create_at', header: '등록일' },
+  { accessorKey: 'title', header: '제목' },
+  { accessorKey: 'image', header: '이미지' },
+  { accessorKey: 'link', header: '링크' },
+  { accessorKey: 'type', header: '타입' },
 ];
