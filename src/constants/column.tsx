@@ -1,5 +1,5 @@
 'use client';
-import { EditDateCell, EditImgCell, EditTextCell } from '@/components/edit-cell';
+import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -79,7 +79,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   },
   { accessorKey: 'active', header: '운영' },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
-  { accessorKey: 'city', header: '지역(구)' },
+  { accessorKey: 'city', header: '지역(구)', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
   {
     accessorKey: 'edit',
     header: '수정',
