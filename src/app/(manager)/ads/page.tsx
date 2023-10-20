@@ -12,6 +12,8 @@ export default function Page({ searchParams }: { searchParams: { type: string } 
   const data: any = use(
     instance.get('/admin/select', { params: { type }, cache: 'force-cache' }).then((res: any) => res.data)
   );
+  const location = use(instance.get('/admin/local', { params: { type: '서울' }, cache: 'force-cache' }));
+  // console.log(location)
 
   return (
     <main className="min-h-screen bg-gray-50 flex justify-center">

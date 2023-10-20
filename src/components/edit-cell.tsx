@@ -1,5 +1,6 @@
 'use client';
 
+import { instance } from '@/utils/woxios';
 import { useEffect, useRef, useState } from 'react';
 
 export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
@@ -99,35 +100,31 @@ export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
   const [value, setValue] = useState(getValue() as string);
   //! 호버와 클릭 비교
 
+  // const location = instance.get('/admin/local', { params: { type: '서울' }, cache: 'force-cache' }).then()
+
   return (
-    <td
-      className={active ? 'active' : ''}
-      onClick={() => {
-        setActive(1);
+    <div
+      onDoubleClick={() => {
+        setVisible(pre => !pre);
       }}
     >
-      {!visible && (
-        <div
-          onDoubleClick={() => {
-            setVisible(pre => !pre);
-          }}
-        >
-          {value}
-        </div>
-      )}
+      {!visible && value}
       {visible && (
-        <input
+        <select
           className="adsInput"
-          value={value}
-          onChange={e => {
-            setValue(e.target.value);
-          }}
+          name=""
+          id=""
           onKeyDown={e => {
             e.key === 'Enter' && setVisible(pre => !pre);
           }}
-        />
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          {}
+        </select>
       )}
-    </td>
+    </div>
   );
 };
 
@@ -137,6 +134,10 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
   //! 호버와 클릭 비교
+
+  useEffect(() => {
+    visible && inputRef?.current?.focus();
+  }, [visible]);
 
   return (
     <>
@@ -151,11 +152,14 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
             ref={inputRef}
             type="file"
             className="adsInput"
-            // value={value}
+            accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
             onChange={e => {
-              // console.log(e?.target?.files[0] as File);
-              // setValue(e?.target?.files[0]?.name as string);
-              // setValue(e.target.value);
+              if (e.target.files[0].name && e.target.files[0].type.includes('image/')) {
+                console.log(e?.target?.files[0]);
+                setValue(e?.target?.files[0]?.name as string);
+              } else {
+                alert('이미지만 가능합니다.');
+              }
             }}
             onKeyDown={e => {
               e.key === 'Enter' && setVisible(pre => !pre);
