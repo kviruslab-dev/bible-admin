@@ -154,11 +154,11 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
             className="adsInput"
             accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
             onChange={e => {
-              if (e.target.files[0].name && e.target.files[0].type.includes('image/')) {
+              if (e.target.files === null) {
+                alert('이미지만 가능합니다.');
+              } else {
                 console.log(e?.target?.files[0]);
                 setValue(e?.target?.files[0]?.name as string);
-              } else {
-                alert('이미지만 가능합니다.');
               }
             }}
             onKeyDown={e => {
