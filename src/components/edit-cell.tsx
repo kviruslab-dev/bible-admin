@@ -22,30 +22,32 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
     //     setActive(1);
     //   }}
     // >
-    <div
-      className="min-w-10 min-h-10"
+    // <div
+    //   // className="min-w-10 min-h-10"
+    //   onDoubleClick={() => {
+    //     setVisible(pre => !pre);
+    //   }}
+    // >
+    // {!visible && value}
+    // {visible && (
+    <input
+      readOnly={!visible}
+      style={visible ? { outline: '2px solid #3182f6' } : {}}
+      ref={inputRef}
+      className="adsInput"
+      value={value}
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
-    >
-      {!visible && value}
-      {visible && (
-        <input
-          ref={inputRef}
-          className="adsInput"
-          value={value}
-          onDoubleClick={() => {
-            setVisible(pre => !pre);
-          }}
-          onChange={e => {
-            setValue(e.target.value);
-          }}
-          onKeyDown={e => {
-            e.key === 'Enter' && setVisible(pre => !pre);
-          }}
-        />
-      )}
-    </div>
+      onChange={e => {
+        setValue(e.target.value);
+      }}
+      onKeyDown={e => {
+        e.key === 'Enter' && setVisible(pre => !pre);
+      }}
+    />
+    // )}
+    // </div>
   );
 };
 
