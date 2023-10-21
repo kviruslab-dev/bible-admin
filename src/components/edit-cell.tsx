@@ -16,26 +16,19 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
   }, [visible]);
 
   return (
-    // <td
-    //   className={active ? 'active' : ''}
-    //   onClick={() => {
-    //     setActive(1);
-    //   }}
-    // >
-    // <div
-    //   // className="min-w-10 min-h-10"
-    //   onDoubleClick={() => {
-    //     setVisible(pre => !pre);
-    //   }}
-    // >
-    // {!visible && value}
-    // {visible && (
     <input
       readOnly={!visible}
-      style={visible ? { outline: '2px solid #3182f6' } : {}}
+      // style={visible ? { outline: '2px solid #3182f6' } : {}}
       ref={inputRef}
-      className="adsInput"
+      // className="adsInput"
       value={value}
+      onFocus={e => {
+        console.log(e.target.className);
+        e.target.className = 'adsInput focus';
+      }}
+      onBlur={e => {
+        e.target.className = 'adsInput';
+      }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
