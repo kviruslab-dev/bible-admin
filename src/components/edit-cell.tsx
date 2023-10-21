@@ -3,6 +3,8 @@
 import { instance } from '@/utils/woxios';
 import { useEffect, useRef, useState } from 'react';
 
+// TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
+
 export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
@@ -20,16 +22,13 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
     //     setActive(1);
     //   }}
     // >
-    <>
-      {!visible && (
-        <div
-          onDoubleClick={() => {
-            setVisible(pre => !pre);
-          }}
-        >
-          {value}
-        </div>
-      )}
+    <div
+      className="min-w-10 min-h-10"
+      onDoubleClick={() => {
+        setVisible(pre => !pre);
+      }}
+    >
+      {!visible && value}
       {visible && (
         <input
           ref={inputRef}
@@ -46,7 +45,7 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 
@@ -69,6 +68,7 @@ export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
     // >
     <>
       <div
+        className="w-full h-full"
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
@@ -104,6 +104,7 @@ export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
 
   return (
     <div
+      className="w-full h-full"
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
@@ -142,6 +143,7 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
   return (
     <>
       <div
+        className="w-full h-full"
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
@@ -170,3 +172,5 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
     </>
   );
 };
+
+//! 현재 필요한 것 : 수정 불가 셀, 수정 가능 셀 (text, select, img, date)

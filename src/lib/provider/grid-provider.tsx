@@ -10,23 +10,59 @@ import {
   ColumnResizeMode,
 } from '@tanstack/react-table';
 import { ColumnType, columns } from '@/constants/column';
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import { EditTextCell } from '@/components/edit-cell';
 
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
+  const [rowData, setRowData] = useState(() => data);
+
+  useLayoutEffect(() => {
+    setRowData(data);
+  }, [data]);
 
   const table = useReactTable({
-    data,
+    data: rowData,
     columns,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     // debugTable: true,
     // debugHeaders: true,
     // debugColumns: true,
+    enableRowSelection: true,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    meta: {
+      // editedRows,
+      // setEditedRows,
+      revertData: () => {},
+      updateData: () => {},
+      addRow: () => {
+        console.log('addRow');
+        const newRow: ColumnType = {
+          id: Math.floor(Math.random() * 10000).toString(),
+          create_at: new Date().toLocaleString(),
+          title: '',
+          tick: '',
+          start_date: '',
+          end_date: '',
+          page: '',
+          location: '',
+          rate: '',
+          image: '',
+          link: '',
+          active: '',
+          timezone: '',
+          city: '',
+          edit: '',
+        };
+        const setFunc = (oldData: ColumnType[]) => [...oldData, newRow];
+        setRowData(setFunc);
+        // setData(setFunc);
+        // setOriginalData(setFunc);
+      },
+    },
   });
 
   return (
@@ -108,6 +144,23 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <th colSpan={table.getCenterLeafColumns().length} align="right">
+            <div className="footer-buttons">
+              <button
+                className="add-button text-main"
+                onClick={() => {
+                  const meta = table.options.meta;
+                  // meta?.addRow()
+                }}
+              >
+                Add New +
+              </button>
+            </div>
+          </th>
+        </tr>
+      </tfoot>
     </table>
   );
 };
