@@ -244,10 +244,13 @@ td {
   box-sizing: content-box;
 }
 
-td.active {
-  border-width: 2px;
-  border-color: #3182f6;
-  animation-fill-mode: forwards;
+td:hover {
+  box-sizing: border-box;
+  /* border-width: 2px; */
+  /* border-color: #3182f6; */
+  /* animation-fill-mode: forwards; */
+  outline: 2px solid #3182f6;
+  outline-offset: -2px;
 }
 
 th {

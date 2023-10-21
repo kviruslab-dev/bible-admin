@@ -13,6 +13,12 @@ import { ColumnType, columns } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import { EditTextCell } from '@/components/edit-cell';
 
+// declare module '@tanstack/react-table' {
+//   interface TableMeta<TData extends ColumnType> {
+//     updateData: (rowIndex: number, columnId: string, value: unknown) => void
+//   }
+// }
+
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
   const [rowData, setRowData] = useState(() => data);
