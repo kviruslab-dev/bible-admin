@@ -224,6 +224,10 @@ tfoot {
   background-color: #eee;
 }
 
+tbody {
+  overflow-y: scroll;
+}
+
 th,
 td {
   position: relative;
