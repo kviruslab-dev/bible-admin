@@ -17,7 +17,7 @@ export default function Page({ searchParams }: { searchParams: { type: string } 
 
   return (
     <main className="min-h-screen bg-gray-50 flex justify-center">
-      <section className="w-[1200px] h-[700px] py-30 px-10 overflow-x-scroll overflow-y-hidden">
+      <section className="w-[1200px] h-[700px] py-30 px-10 overflow-x-scroll">
         {type !== 'product' ? <GridProvider data={data?.data} /> : <ProductGrid data={data?.data} />}
       </section>
     </main>
