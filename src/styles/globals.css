@@ -224,6 +224,13 @@ tfoot {
   background-color: #eee;
 }
 
+thead {
+  top: 0;
+  position: sticky;
+  z-index: 900;
+}
+
+
 tbody {
   overflow-y: scroll;
 }
