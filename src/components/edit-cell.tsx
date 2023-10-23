@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 // TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
 //! readonly -> non-onchange type -> input 종류
 
-export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
+export const EditTextCell = ({ getValue, ...props }: { getValue: () => unknown }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,6 +39,7 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
       onKeyDown={e => {
         e.key === 'Enter' && setVisible(pre => !pre);
       }}
+      {...props}
     />
   );
 };

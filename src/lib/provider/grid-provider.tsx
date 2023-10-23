@@ -8,16 +8,39 @@ import {
   getSortedRowModel,
   useReactTable,
   ColumnResizeMode,
+  RowData,
+  ColumnDef,
 } from '@tanstack/react-table';
 import { ColumnType, columns } from '@/constants/column';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { EditTextCell } from '@/components/edit-cell';
 
-// declare module '@tanstack/react-table' {
-//   interface TableMeta<TData extends ColumnType> {
-//     updateData: (rowIndex: number, columnId: string, value: unknown) => void
-//   }
-// }
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    addRow: () => void;
+  }
+}
+
+const defaultColumn: Partial<ColumnDef<ColumnType>> = {
+  cell: ({ getValue, row: { index }, column: { id }, table }) => {
+    const initialValue = getValue();
+    // We need to keep and update the state of the cell normally
+    const [value, setValue] = useState(initialValue);
+
+    // When the input is blurred, we'll call our table meta's updateData function
+    const onBlur = () => {
+      table.options.meta?.updateData(index, id, value);
+    };
+
+    // If the initialValue is changed external, sync it up with our state
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
+
+    return <input value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} />;
+  },
+};
 
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
@@ -30,6 +53,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   const table = useReactTable({
     data: rowData,
     columns,
+    defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     // debugTable: true,
@@ -42,7 +66,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
     meta: {
       // editedRows,
       // setEditedRows,
-      revertData: () => {},
+      // revertData: () => { },
       updateData: () => {},
       addRow: () => {
         console.log('addRow');
@@ -157,8 +181,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
               <button
                 className="add-button text-main"
                 onClick={() => {
-                  const meta = table.options.meta;
-                  // meta?.addRow()
+                  table.options.meta?.addRow();
                 }}
               >
                 Add New +

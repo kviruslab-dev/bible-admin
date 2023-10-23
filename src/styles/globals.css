@@ -189,13 +189,15 @@ tfoot {
 }
 
 thead {
-  top: 0;
-  position: sticky;
+  /* top: 0;
+  position: sticky; */
   z-index: 900;
 }
 
 
 tbody {
+  top: 0;
+  position: sticky;
   overflow-y: scroll;
 }
 
@@ -263,7 +265,7 @@ th:hover {
 /* !!! td input !!! */
 .adsInput {
   background-color: transparent;
-  min-width: 100%;
+  width: 100%;
   height: transparent;
   padding: 0 2px;
   font-size: 13px;
