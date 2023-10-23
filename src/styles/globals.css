@@ -214,13 +214,14 @@ td {
 }
 
 td:hover {
-  outline: 2px solid #7badf4;
+  outline: 2px solid #92bbf5;
   outline-offset: -2px;
 }
 
 td:focus-within {
   outline: 2px solid #3182f6;
   outline-offset: -2px;
+  padding: 0;
 }
 
 th {
@@ -263,17 +264,21 @@ th:hover {
 .adsInput {
   background-color: transparent;
   min-width: 100%;
-  min-height: 100%;
+  height: transparent;
   padding: 0 2px;
   font-size: 13px;
-  line-height: 30px;
+  line-height: 40px;
   border-radius: 0px;
   margin: 0;
   outline: none;
   border: none;
 }
 
-.adsInput.focus {
+.adsInput:focus {
+  padding: 0 10px
+}
+
+/* .adsInput.focus {
   background-color: transparent;
   display: block;
   min-width: 100%;
@@ -283,29 +288,29 @@ th:hover {
   line-height: 30px;
   margin: 0;
   outline: none;
-  border: none;
-  /* outline: 2px solid #3182f6; */
-  border-radius: 0px;
+  border: none; */
+/* outline: 2px solid #3182f6; */
+/* border-radius: 0px;
   transition: background-color 0.2s ease,
     color 0.1s ease,
-    box-shadow 0.2s ease;
-}
+    box-shadow 0.2s ease; */
+/* } */
 
-.adsInput:hover {
+/* .adsInput:hover {
   background-color: #ebedf0;
   transition:
     background-color 0.2s ease,
     color 0.1s ease,
     box-shadow 0.2s ease;
-}
+} */
 
-.adsInput:focus {
+/* .adsInput:focus {
   background-color: #e5e8eb;
   transition:
     background-color 0.2s ease,
     color 0.1s ease,
     box-shadow 0.2s ease;
-}
+} */
 
 
 .absBtn {
