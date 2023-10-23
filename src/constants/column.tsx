@@ -60,8 +60,16 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   },
   { accessorKey: 'end_date', header: '종료일', enableColumnFilter: false },
   { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
-  { accessorKey: 'location', minSize: 75, header: '광고위치' },
-  { accessorKey: 'rate', header: '가중치' },
+  {
+    accessorKey: 'location',
+    header: '광고위치',
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ type: 'number' }} />,
+  },
+  {
+    accessorKey: 'rate',
+    header: '가중치',
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ type: 'number' }} />,
+  },
   {
     accessorKey: 'image',
     header: '이미지',
@@ -75,9 +83,9 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     header: '링크',
     enableSorting: false,
     enableColumnFilter: false,
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ className: 'min-w-full' }} />,
   },
-  { accessorKey: 'active', header: '운영' },
+  { accessorKey: 'active', header: '운영', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
   { accessorKey: 'city', header: '지역(구)', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
   {
