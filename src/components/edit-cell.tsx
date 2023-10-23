@@ -4,6 +4,7 @@ import { instance } from '@/utils/woxios';
 import { useEffect, useRef, useState } from 'react';
 
 // TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
+//! readonly -> non-onchange type -> input 종류
 
 export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
   const [visible, setVisible] = useState(false);
@@ -18,9 +19,8 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
   return (
     <input
       readOnly={!visible}
-      // style={visible ? { outline: '2px solid #3182f6' } : {}}
       ref={inputRef}
-      // className="adsInput"
+      className="adsInput"
       value={value}
       onFocus={e => {
         console.log(e.target.className);
@@ -39,8 +39,6 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
         e.key === 'Enter' && setVisible(pre => !pre);
       }}
     />
-    // )}
-    // </div>
   );
 };
 
@@ -48,49 +46,35 @@ export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-  //! 호버와 클릭 비교
 
   useEffect(() => {
     visible && inputRef?.current?.focus();
   }, [visible]);
 
   return (
-    // <td
-    //   className={active ? 'active' : ''}
-    //   onClick={() => {
-    //     setActive(1);
-    //   }}
-    // >
     <>
-      <div
-        className="w-full h-full"
+      <input
+        readOnly={!visible}
+        ref={inputRef}
+        type="date"
+        className="adsInput"
+        value={value}
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
-      >
-        {!visible && value}
-        {visible && (
-          <input
-            ref={inputRef}
-            type="date"
-            className="adsInput"
-            value={value}
-            onChange={e => {
-              setValue(e.target.value);
-            }}
-            onKeyDown={e => {
-              e.key === 'Enter' && setVisible(pre => !pre);
-            }}
-          />
-        )}
-      </div>
+        onChange={e => {
+          setValue(e.target.value);
+        }}
+        onKeyDown={e => {
+          e.key === 'Enter' && setVisible(pre => !pre);
+        }}
+      />
     </>
     // </td>
   );
 };
 
 export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
-  const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   //! 호버와 클릭 비교
@@ -125,7 +109,6 @@ export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
 };
 
 export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
-  const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -146,6 +129,7 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
         {!visible && value}
         {visible && (
           <input
+            readOnly={!visible}
             ref={inputRef}
             type="file"
             className="adsInput"

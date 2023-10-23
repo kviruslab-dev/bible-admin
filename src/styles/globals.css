@@ -16,7 +16,7 @@
   }
 }
 
-/* input */
+/* !!! input !!! */
 
 input {
   -webkit-appearance: none;
@@ -83,42 +83,8 @@ input[type='number']::-webkit-out-spin-button {
     box-shadow 0.2s ease;
 }
 
-/* 광고 수정 인풋 */
-.adsInput.focus {
-  background-color: transparent;
-  display: block;
-  min-width: 100%;
-  height: 40px;
-  padding: 0 2px;
-  font-size: 13px;
-  line-height: 30px;
-  margin: 0;
-  outline: none;
-  border: none;
-  outline: 2px solid #3182f6;
-  /* border-radius: 8px; */
-  transition: background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease;
-}
 
-.adsInput:hover {
-  background-color: #ebedf0;
-  transition:
-    background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease;
-}
-
-.adsInput:focus {
-  background-color: #e5e8eb;
-  transition:
-    background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease;
-}
-
-/* checkbox */
+/*!!! checkbox !!! */
 .check_box input {
   display: none;
 }
@@ -181,7 +147,7 @@ input[type='number']::-webkit-out-spin-button {
   transition: all 0.3s ease 0.2s;
 }
 
-/* progress bar */
+/* !!! progress bar !!! */
 
 #nprogress {
   pointer-events: 'none';
@@ -211,12 +177,10 @@ input[type='number']::-webkit-out-spin-button {
     0 0 5px #3182f6;
 }
 
-/* tanstack table */
+/* !!! tanstack table !!! */
+
 table {
   width: 100%;
-  /* border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-  background-color: #fff; */
   font-size: 13px;
 }
 
@@ -237,39 +201,30 @@ tbody {
 
 th,
 td {
+  border-bottom: 1px solid lightgray;
   position: relative;
   padding: 6px 14px;
-  /* border-right: 1px solid lightgray;
-  border-bottom: 1px solid lightgray; */
   text-align: left;
-  /* overflow: hidden; */
-  /* width: 200px; */
+  box-sizing: border-box;
 }
 
 td {
-  border-bottom: 1px solid lightgray;
+  border-right: 1px dotted lightgray;
   box-sizing: content-box;
 }
 
 td:hover {
-  box-sizing: border-box;
-  /* border-width: 2px; */
-  /* border-color: #3182f6; */
-  /* animation-fill-mode: forwards; */
   outline: 2px solid #7badf4;
   outline-offset: -2px;
 }
 
-/* td:active {
+td:focus-within {
   outline: 2px solid #3182f6;
   outline-offset: -2px;
-} */
-
-/* 3182f6 */
+}
 
 th {
   border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
   background-color: #eee;
 }
 
@@ -304,6 +259,55 @@ th:hover {
   }
 }
 
+/* !!! td input !!! */
+.adsInput {
+  background-color: transparent;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 30px;
+  border-radius: 0px;
+  margin: 0;
+  outline: none;
+  border: none;
+}
+
+.adsInput.focus {
+  background-color: transparent;
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 30px;
+  margin: 0;
+  outline: none;
+  border: none;
+  /* outline: 2px solid #3182f6; */
+  border-radius: 0px;
+  transition: background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+.adsInput:hover {
+  background-color: #ebedf0;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+.adsInput:focus {
+  background-color: #e5e8eb;
+  transition:
+    background-color 0.2s ease,
+    color 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+
 .absBtn {
   background-color: rgb(49 130 246 / var(--tw-bg-opacity));
   padding: 5px 8px;
@@ -314,7 +318,3 @@ th:hover {
 .absBtn:hover {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
-
-/* .aaa {
-  transform: rotate(90deg)
-} */
