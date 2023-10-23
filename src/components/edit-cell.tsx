@@ -28,7 +28,7 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
         e.target.className = 'adsInput focus';
       }}
       onBlur={e => {
-        e.target.className = 'adsInput';
+        visible && setVisible(pre => !pre);
       }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
@@ -55,11 +55,15 @@ export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
   return (
     <>
       <input
+        style={visible ? { backgroundColor: '#eee' } : {}}
         readOnly={!visible}
         ref={inputRef}
         type="date"
         className="adsInput"
         value={value}
+        onBlur={e => {
+          visible && setVisible(pre => !pre);
+        }}
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
