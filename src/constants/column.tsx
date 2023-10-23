@@ -7,12 +7,12 @@ export interface ColumnType {
   id: string;
   create_at: string;
   title: string;
-  tick: string;
+  tick: number;
   start_date: string;
   end_date: string;
-  page: string;
-  location: string;
-  rate: string;
+  page: number;
+  location: number;
+  rate: number;
   image: string;
   link: string;
   active: string;
@@ -44,7 +44,7 @@ export interface ProductColumnType {
 // getStart: (position?: ColumnPinningPosition) => number
 
 export const columns: Array<ColumnDef<ColumnType>> = [
-  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, minSize: 70 },
+  { accessorKey: 'id', header: 'ID', maxSize: 70, enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
   {
     accessorKey: 'title',
@@ -58,7 +58,12 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableColumnFilter: false,
     cell: ({ getValue }) => <EditDateCell getValue={getValue} />,
   },
-  { accessorKey: 'end_date', header: '종료일', enableColumnFilter: false },
+  {
+    accessorKey: 'end_date',
+    header: '종료일',
+    enableColumnFilter: false,
+    cell: ({ getValue }) => <EditDateCell getValue={getValue} />,
+  },
   { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
   {
     accessorKey: 'location',
@@ -83,7 +88,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     header: '링크',
     enableSorting: false,
     enableColumnFilter: false,
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ className: 'min-w-full' }} />,
+    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
   },
   { accessorKey: 'active', header: '운영', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },

@@ -25,7 +25,7 @@ export const EditTextCell = ({ getValue, ...props }: { getValue: () => unknown }
       style={visible ? { backgroundColor: '#eee' } : {}}
       onFocus={e => {
         console.log(e.target.className);
-        e.target.className = 'adsInput focus';
+        // e.target.className = 'adsInput focus';
       }}
       onBlur={e => {
         visible && setVisible(pre => !pre);
