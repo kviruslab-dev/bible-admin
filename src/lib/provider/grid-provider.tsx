@@ -38,7 +38,15 @@ const defaultColumn: Partial<ColumnDef<ColumnType>> = {
       setValue(initialValue);
     }, [initialValue]);
 
-    return <input value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} />;
+    return (
+      <input
+        readOnly
+        className="adsInput"
+        value={value as string}
+        onChange={e => setValue(e.target.value)}
+        onBlur={onBlur}
+      />
+    );
   },
 };
 
@@ -73,13 +81,13 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
         const newRow: ColumnType = {
           id: Math.floor(Math.random() * 10000).toString(),
           create_at: new Date().toLocaleString(),
-          title: '',
-          tick: '',
+          title: '제목',
+          tick: 0,
           start_date: '',
           end_date: '',
-          page: '',
-          location: '',
-          rate: '',
+          page: 1,
+          location: 1,
+          rate: 0,
           image: '',
           link: '',
           active: '',
