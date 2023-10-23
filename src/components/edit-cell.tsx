@@ -22,6 +22,7 @@ export const EditTextCell = ({ getValue }: { getValue: () => unknown }) => {
       ref={inputRef}
       className="adsInput"
       value={value}
+      style={visible ? { backgroundColor: '#eee' } : {}}
       onFocus={e => {
         console.log(e.target.className);
         e.target.className = 'adsInput focus';
