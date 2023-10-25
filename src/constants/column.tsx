@@ -1,7 +1,6 @@
 'use client';
 import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { useState } from 'react';
 
 export interface ColumnType {
   id: string;
@@ -37,6 +36,43 @@ export interface ProductColumnType {
   edit: string;
 }
 
+// ! default 값
+// export const defaultColumn = {
+//   id: Math.floor(Math.random() * 10000).toString(),
+//   create_at: new Date().toLocaleString(),
+//   title: '제목',
+//   tick: 0,
+//   start_date: '',
+//   end_date: '',
+//   page: 1,
+//   location: 1,
+//   rate: 0,
+//   image: '',
+//   link: '',
+//   active: '',
+//   timezone: '',
+//   city: '',
+//   edit: '',
+// }
+
+// type Colum =  typeof defaultColumn
+
+// const productColumn = {
+//   id: Math.floor(Math.random() * 10000).toString(),
+//   create_at: new Date().toLocaleString(),
+//   title: '제목',
+// tick: 0,
+// gubun: 1,
+// money: 0,
+// image: '',
+// link: '',
+// active:
+// star: 0
+// dc:0,
+// sequence:
+// edit: ''
+// }
+
 // const columnHelper = createColumnHelper();
 
 // enableResizing: false
@@ -49,31 +85,41 @@ export const columns: Array<ColumnDef<ColumnType>> = [
   {
     accessorKey: 'title',
     header: '제목',
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell getValue={getValue} index={index} id={id} table={table} />
+    ),
   },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
   {
     accessorKey: 'start_date',
     header: '시작일',
     enableColumnFilter: false,
-    cell: ({ getValue }) => <EditDateCell getValue={getValue} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditDateCell getValue={getValue} index={index} id={id} table={table} />
+    ),
   },
   {
     accessorKey: 'end_date',
     header: '종료일',
     enableColumnFilter: false,
-    cell: ({ getValue }) => <EditDateCell getValue={getValue} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditDateCell getValue={getValue} index={index} id={id} table={table} />
+    ),
   },
-  { accessorKey: 'page', header: '페이지', minSize: 100, enableColumnFilter: false },
+  { accessorKey: 'page', header: '페이지', enableColumnFilter: false },
   {
     accessorKey: 'location',
     header: '광고위치',
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ type: 'number' }} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
+    ),
   },
   {
     accessorKey: 'rate',
     header: '가중치',
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} {...{ type: 'number' }} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
+    ),
   },
   {
     accessorKey: 'image',
@@ -81,35 +127,53 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableSorting: false,
     enableColumnFilter: false,
     size: 200,
-    cell: ({ getValue, row }) => <EditImgCell getValue={getValue} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditImgCell getValue={getValue} index={index} id={id} table={table} />
+    ),
   },
   {
     accessorKey: 'link',
     header: '링크',
     enableSorting: false,
     enableColumnFilter: false,
-    cell: ({ getValue, row }) => <EditTextCell getValue={getValue} />,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell getValue={getValue} index={index} id={id} table={table} />
+    ),
   },
-  { accessorKey: 'active', header: '운영', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
+  {
+    accessorKey: 'active',
+    header: '운영',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditSelectCell getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
-  { accessorKey: 'city', header: '지역(구)', cell: ({ getValue }) => <EditSelectCell getValue={getValue} /> },
+  {
+    accessorKey: 'city',
+    header: '지역(구)',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditSelectCell getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
   {
     accessorKey: 'edit',
     header: '수정',
     minSize: 70,
     enableColumnFilter: false,
     enableSorting: false,
-    cell: ({ getValue, row, column, table }) => {
+    cell: ({ getValue, row, column: { id }, table }) => {
       return (
-        <button
-          onClick={() => {
-            // console.log(row.row.original);
-            alert(row.original?.link);
-          }}
-          className="absBtn"
-        >
-          저장
-        </button>
+        <td key={row.index + id}>
+          <button
+            onClick={() => {
+              // console.log(row.row.original);
+              alert(row.original?.link);
+            }}
+            className="absBtn"
+          >
+            저장
+          </button>
+        </td>
       );
     },
   },
