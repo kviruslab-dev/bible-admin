@@ -109,40 +109,53 @@ export const EditSelectCell = ({
   index,
   id,
   table,
+  selectData,
   ...props
 }: {
   getValue: () => unknown;
   index: number;
   id: string;
   table: Table<ColumnType>;
+  selectData: string[];
 }) => {
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState(getValue() as string);
-  // const location = instance.get('/admin/local', { params: { type: '서울' }, cache: 'force-cache' }).then()
+  const selectRef = useRef<HTMLSelectElement>(null);
+  useEffect(() => {
+    visible && selectRef?.current?.focus();
+    console.log(selectRef?.current?.focus);
+  }, [visible]);
+
   return (
     <td
       key={index + id}
-      // className="w-full h-full"
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
     >
-      {!visible && value}
-      {visible && (
-        <select
-          className="adsInput"
-          name=""
-          id=""
-          onKeyDown={e => {
-            e.key === 'Enter' && setVisible(pre => !pre);
-          }}
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          {}
-        </select>
-      )}
+      <select
+        ref={selectRef}
+        className="adsInput"
+        disabled={!visible}
+        onChange={e => {
+          table.options.meta?.updateData(index, id, e.target.value);
+        }}
+        onKeyDown={e => {
+          e.key === 'Enter' && setVisible(pre => !pre);
+        }}
+        onBlur={e => {
+          visible && setVisible(pre => !pre);
+        }}
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+      >
+        {selectData.map((value, index) => (
+          <option key={index + id + value} value={value}>
+            {value}
+          </option>
+        ))}
+      </select>
+      {/* )} */}
     </td>
   );
 };

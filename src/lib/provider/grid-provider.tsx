@@ -7,20 +7,10 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  ColumnResizeMode,
-  RowData,
   ColumnDef,
 } from '@tanstack/react-table';
-import { ColumnType, columns } from '@/constants/column';
+import { ColumnType, columns, defaultRow } from '@/constants/column';
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
-    addRow: () => void;
-    removeRow: (owIndex: number) => void;
-  }
-}
 
 const defaultColumn: Partial<ColumnDef<ColumnType>> = {
   cell: ({ getValue, row: { index }, column: { id }, table }) => {
@@ -40,7 +30,7 @@ const defaultColumn: Partial<ColumnDef<ColumnType>> = {
     }, [initialValue]);
 
     return (
-      <td key={index + id}>
+      <td key={index + id} style={{ backgroundColor: 'blue' }}>
         <input
           readOnly
           className="adsInput"
@@ -68,8 +58,6 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     debugTable: true,
-    // debugHeaders: true,
-    // debugColumns: true,
     enableRowSelection: true,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -93,28 +81,8 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
         );
       },
       addRow: () => {
-        console.log('addRow');
-        const newRow: ColumnType = {
-          id: Math.floor(Math.random() * 10000).toString(),
-          create_at: new Date().toLocaleString(),
-          title: '제목',
-          tick: 0,
-          start_date: '',
-          end_date: '',
-          page: 1,
-          location: 1,
-          rate: 0,
-          image: '',
-          link: '',
-          active: '',
-          timezone: '',
-          city: '',
-          edit: '',
-        };
-        const setFunc = (oldData: ColumnType[]) => [...oldData, newRow];
+        const setFunc = (old: ColumnType[]) => [...old, defaultRow];
         setRowData(setFunc);
-        // setData(setFunc);
-        // setOriginalData(setFunc);
       },
       removeRow: (rowIndex: number) => {
         const setFilterFunc = (old: ColumnType[]) =>
