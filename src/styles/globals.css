@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -180,8 +174,9 @@ input[type='number']::-webkit-out-spin-button {
 /* !!! tanstack table !!! */
 
 table {
-  width: 100%;
   font-size: 13px;
+  border: 0;
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -201,8 +196,8 @@ thead {
 tbody {
   border-collapse: collapse;
   /* top: 0; */
-  /* position: sticky;
-  overflow-y: scroll;  */
+  /* position: sticky;*/
+  /* overflow-y: scroll; */
 }
 
 th,
@@ -284,41 +279,6 @@ th:hover {
   padding: 0 10px
 }
 
-/* .adsInput.focus {
-  background-color: transparent;
-  display: block;
-  min-width: 100%;
-  min-height: 100%;
-  padding: 0 2px;
-  font-size: 13px;
-  line-height: 30px;
-  margin: 0;
-  outline: none;
-  border: none; */
-/* outline: 2px solid #3182f6; */
-/* border-radius: 0px;
-  transition: background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease; */
-/* } */
-
-/* .adsInput:hover {
-  background-color: #ebedf0;
-  transition:
-    background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease;
-} */
-
-/* .adsInput:focus {
-  background-color: #e5e8eb;
-  transition:
-    background-color 0.2s ease,
-    color 0.1s ease,
-    box-shadow 0.2s ease;
-} */
-
-
 .absBtn {
   background-color: rgb(49 130 246 / var(--tw-bg-opacity));
   padding: 5px 8px;
@@ -328,4 +288,10 @@ th:hover {
 
 .absBtn:hover {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
+#table_wrapper {
+  overflow: auto;
+  position: relative;
+  height: 700px;
 }
