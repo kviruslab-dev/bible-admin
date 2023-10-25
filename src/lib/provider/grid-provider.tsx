@@ -10,42 +10,38 @@ import {
   ColumnDef,
 } from '@tanstack/react-table';
 import { ColumnType, columns, defaultRow } from '@/constants/column';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { FocusEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 const defaultColumn: Partial<ColumnDef<ColumnType>> = {
   cell: ({ getValue, row: { index }, column: { id }, table }) => {
-    // console.log(id, index)
     const initialValue = getValue();
-    // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue);
-
-    // When the input is blurred, we'll call our table meta's updateData function
-    const onBlur = () => {
-      table.options.meta?.updateData(index, id, value);
+    const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+      table.options.meta?.updateData(index, id, e.target.value);
     };
-
-    // If the initialValue is changed external, sync it up with our state
     useEffect(() => {
       setValue(initialValue);
     }, [initialValue]);
 
     return (
-      <td key={index + id} style={{ backgroundColor: 'blue' }}>
-        <input
-          readOnly
-          className="adsInput"
-          value={value as string}
-          onChange={e => setValue(e.target.value)}
-          onBlur={onBlur}
-        />
-      </td>
+      // <td key={index + id} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+      <input
+        readOnly
+        className="adsInput"
+        value={initialValue as string}
+        onChange={e => {
+          // table.options.meta?.updateData(index, id, e.target.value);
+          setValue(e.target.value);
+        }}
+        onBlur={onBlur}
+      />
+      // </td>
     );
   },
 };
 
 export const GridProvider = ({ data }: { data: ColumnType[] }) => {
-  // const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange');
-  const [rowData, setRowData] = useState(() => data);
+  const [rowData, setRowData] = useState(data);
 
   useLayoutEffect(() => {
     setRowData(data);
@@ -57,7 +53,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
     defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
-    debugTable: true,
+    // debugTable: true,
     enableRowSelection: true,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -93,46 +89,75 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
   });
 
   return (
-    <table {...{ style: { width: table.getTotalSize() } }}>
-      <thead>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => {
-              const [open, setOpen] = useState(false);
-              const sortedUniqueValues = useMemo(
-                () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
-                [header.column]
-              );
-              const onFilterChange = (value: string) => {
-                if (value === 'null') {
-                  header.column.setFilterValue(null);
-                } else {
-                  header.column.setFilterValue(value);
-                }
-              };
-              return (
-                <th
-                  key={header.id}
-                  {...{
-                    colSpan: header.colSpan,
-                    style: {
-                      width: header.getSize(),
-                      cursor: header.column.getCanSort() ? 'pointer' : 'default',
-                    },
-                  }}
-                  className={`font-medium hover:bg-gray-600`}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>}
-                  {/* {
+    <>
+      <div className="flex justify-start py-20">
+        <button
+          className="absBtn"
+          onClick={() => {
+            table.options.meta?.addRow();
+          }}
+        >
+          추가
+        </button>
+        <button
+          className="absBtn"
+          onClick={() => {
+            table.options.meta?.removeRow(4);
+          }}
+        >
+          삭제
+        </button>
+        <button
+          className="absBtn"
+          onClick={() => {
+            table.options.meta?.removeRow(4);
+          }}
+        >
+          저장
+        </button>
+      </div>
+      <section className="flex justify-center w-full">
+        <div id="table_wrapper">
+          <table {...{ style: { width: table.getTotalSize() } }}>
+            <thead>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    const [open, setOpen] = useState(false);
+                    const sortedUniqueValues = useMemo(
+                      () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
+                      [header.column]
+                    );
+                    const onFilterChange = (value: string) => {
+                      if (value === 'null') {
+                        header.column.setFilterValue(null);
+                      } else {
+                        header.column.setFilterValue(value);
+                      }
+                    };
+                    return (
+                      <th
+                        key={header.id}
+                        {...{
+                          colSpan: header.colSpan,
+                          style: {
+                            width: header.getSize(),
+                            cursor: header.column.getCanSort() ? 'pointer' : 'default',
+                          },
+                        }}
+                        className={`font-medium hover:bg-gray-600`}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                        {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>}
+                        {/* {
                     {
                       asc: '<',
                       desc: '>',
                     }[header.column.getIsSorted() as string]
                   } */}
-                  {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null} */}
-                  {/* {header.column.getCanFilter() ? (
+                        {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null} */}
+                        {/* {header.column.getCanFilter() ? (
                     <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
                       <option value="null">선택 안함</option>
                       {sortedUniqueValues.map((value: string, index) => (
@@ -142,80 +167,42 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                       ))}
                     </select>
                   ) : null} */}
-                  <div
-                    {...{
-                      onMouseDown: header.getResizeHandler(),
-                      onTouchStart: header.getResizeHandler(),
-                      className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`,
-                      // style: {
-                      //   transform:
-                      //     columnResizeMode === 'onEnd' && header.column.getIsResizing()
-                      //       ? `translateX(${table.getState().columnSizingInfo.deltaOffset}px)`
-                      //       : '',
-                      // },
-                    }}
-                  />
-                </th>
-              );
-            })}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table?.getRowModel().rows.map(row => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell, index) => {
-              // return <EditTextCell key={cell.id} getValue={cell.getValue} />;
-              return <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>;
-            })}
-          </tr>
-        ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          {/* {table.getFooterGroups} */}
-          <th /* colSpan={table.getCenterLeafColumns().length / 2} */ align="left">
-            {/* {table.getFooterGroups().map(item, index) => {
-              if(index < 2) return 
-            }} */}
-            <div className="footer-buttons">
-              <button
-                className="add-button text-main"
-                onClick={() => {
-                  table.options.meta?.addRow();
-                }}
-              >
-                Add New +
-              </button>
-            </div>
-          </th>
-          <th /* colSpan={table.getCenterLeafColumns().length / 2} */ align="left">
-            <div className="footer-buttons">
-              <button
-                className="add-button text-main"
-                onClick={() => {
-                  table.options.meta?.removeRow(4);
-                }}
-              >
-                Delete -
-              </button>
-            </div>
-          </th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </tfoot>
-    </table>
+                        <div
+                          {...{
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`,
+                            // style: {
+                            //   transform:
+                            //     columnResizeMode === 'onEnd' && header.column.getIsResizing()
+                            //       ? `translateX(${table.getState().columnSizingInfo.deltaOffset}px)`
+                            //       : '',
+                            // },
+                          }}
+                        />
+                      </th>
+                    );
+                  })}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table?.getRowModel().rows.map(row => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell, index) => {
+                    return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colSpan={table.getCenterLeafColumns().length} align="right"></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+    </>
   );
 };

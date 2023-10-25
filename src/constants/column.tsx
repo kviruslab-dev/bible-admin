@@ -87,7 +87,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     accessorKey: 'title',
     header: '제목',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditTextCell getValue={getValue} index={index} id={id} table={table} />
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
@@ -96,7 +96,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     header: '시작일',
     enableColumnFilter: false,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditDateCell getValue={getValue} index={index} id={id} table={table} />
+      <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
   {
@@ -104,7 +104,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     header: '종료일',
     enableColumnFilter: false,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditDateCell getValue={getValue} index={index} id={id} table={table} />
+      <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
   { accessorKey: 'page', header: '페이지', enableColumnFilter: false },
@@ -112,14 +112,14 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     accessorKey: 'location',
     header: '광고위치',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditTextCell getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
     ),
   },
   {
     accessorKey: 'rate',
     header: '가중치',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditTextCell getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
     ),
   },
   {
@@ -129,7 +129,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableColumnFilter: false,
     size: 200,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditImgCell getValue={getValue} index={index} id={id} table={table} />
+      <EditImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
   {
@@ -138,14 +138,21 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableSorting: false,
     enableColumnFilter: false,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditTextCell getValue={getValue} index={index} id={id} table={table} />
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
   {
     accessorKey: 'active',
     header: '운영',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditSelectCell getValue={getValue} index={index} id={id} table={table} selectData={['운영함', '운영안함']} />
+      <EditSelectCell
+        key={index + id}
+        getValue={getValue}
+        index={index}
+        id={id}
+        table={table}
+        selectData={['운영함', '운영안함']}
+      />
     ),
   },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
@@ -153,7 +160,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     accessorKey: 'city',
     header: '지역(구)',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditSelectCell getValue={getValue} index={index} id={id} table={table} selectData={CITY} />
+      <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={CITY} />
     ),
   },
   {
@@ -164,17 +171,15 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     enableSorting: false,
     cell: ({ getValue, row, column: { id }, table }) => {
       return (
-        <td key={row.index + id}>
-          <button
-            onClick={() => {
-              // console.log(row.row.original);
-              alert(row.original?.link);
-            }}
-            className="absBtn"
-          >
-            저장
-          </button>
-        </td>
+        <button
+          onClick={() => {
+            // console.log(row.row.original);
+            alert(row.original?.link);
+          }}
+          className="absBtn"
+        >
+          저장
+        </button>
       );
     },
   },
@@ -201,14 +206,16 @@ export const productColumn: Array<ColumnDef<ProductColumnType>> = [
     enableSorting: false,
     cell: ({ getValue, row, column, table }) => {
       return (
-        <button
-          onClick={() => {
-            alert(row.original?.link);
-          }}
-          className="absBtn"
-        >
-          저장
-        </button>
+        <td>
+          <button
+            onClick={() => {
+              alert(row.original?.link);
+            }}
+            className="absBtn"
+          >
+            저장
+          </button>
+        </td>
       );
     },
   },

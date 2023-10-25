@@ -28,33 +28,33 @@ export const EditTextCell = ({
   }, [visible]);
 
   return (
-    <td key={index + id}>
-      <input
-        readOnly={!visible}
-        ref={inputRef}
-        className="adsInput"
-        value={value}
-        style={visible ? { backgroundColor: '#eee' } : {}}
-        onFocus={e => {
-          console.log(e.target.className);
-          // e.target.className = 'adsInput focus';
-        }}
-        onBlur={e => {
-          visible && setVisible(pre => !pre);
-          table.options.meta?.updateData(index, id, value);
-        }}
-        onDoubleClick={() => {
-          setVisible(pre => !pre);
-        }}
-        onChange={e => {
-          setValue(e.target.value);
-        }}
-        onKeyDown={e => {
-          e.key === 'Enter' && setVisible(pre => !pre);
-        }}
-        {...props}
-      />
-    </td>
+    // <td >
+    <input
+      readOnly={!visible}
+      ref={inputRef}
+      className="adsInput"
+      value={value}
+      style={visible ? { backgroundColor: '#eee' } : {}}
+      onFocus={e => {
+        console.log(e.target.className);
+        // e.target.className = 'adsInput focus';
+      }}
+      onBlur={e => {
+        visible && setVisible(pre => !pre);
+        table.options.meta?.updateData(index, id, value);
+      }}
+      onDoubleClick={() => {
+        setVisible(pre => !pre);
+      }}
+      onChange={e => {
+        setValue(e.target.value);
+      }}
+      onKeyDown={e => {
+        e.key === 'Enter' && setVisible(pre => !pre);
+      }}
+      {...props}
+    />
+    // </td>
   );
 };
 
@@ -78,28 +78,28 @@ export const EditDateCell = ({
   }, [visible]);
 
   return (
-    <td key={index + id}>
-      <input
-        style={visible ? { backgroundColor: '#eee' } : {}}
-        readOnly={!visible}
-        ref={inputRef}
-        type="date"
-        className="adsInput"
-        value={value}
-        onBlur={e => {
-          visible && setVisible(pre => !pre);
-        }}
-        onDoubleClick={() => {
-          setVisible(pre => !pre);
-        }}
-        onChange={e => {
-          setValue(e.target.value);
-        }}
-        onKeyDown={e => {
-          e.key === 'Enter' && setVisible(pre => !pre);
-        }}
-      />
-    </td>
+    // <td key={index + id}>
+    <input
+      style={visible ? { backgroundColor: '#eee' } : {}}
+      readOnly={!visible}
+      ref={inputRef}
+      type="date"
+      className="adsInput"
+      value={value}
+      onBlur={e => {
+        visible && setVisible(pre => !pre);
+      }}
+      onDoubleClick={() => {
+        setVisible(pre => !pre);
+      }}
+      onChange={e => {
+        setValue(e.target.value);
+      }}
+      onKeyDown={e => {
+        e.key === 'Enter' && setVisible(pre => !pre);
+      }}
+    />
+    // </td>
     // </td>
   );
 };
@@ -126,7 +126,7 @@ export const EditSelectCell = ({
   }, [visible]);
 
   return (
-    <td
+    <div
       key={index + id}
       onDoubleClick={() => {
         setVisible(pre => !pre);
@@ -155,8 +155,7 @@ export const EditSelectCell = ({
           </option>
         ))}
       </select>
-      {/* )} */}
-    </td>
+    </div>
   );
 };
 
@@ -182,7 +181,7 @@ export const EditImgCell = ({
 
   return (
     <>
-      <td
+      <div
         key={index + id}
         // className="w-full h-full"
         onDoubleClick={() => {
@@ -210,7 +209,7 @@ export const EditImgCell = ({
             }}
           />
         )}
-      </td>
+      </div>
     </>
   );
 };

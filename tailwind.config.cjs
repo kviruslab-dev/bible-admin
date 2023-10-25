@@ -1,10 +1,11 @@
-import type { Config } from 'tailwindcss';
+// import type { Config } from 'tailwindcss';
+/** @type {import('tailwindcss').Config} */
 
-const px0_10: { [key: number]: string } = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
-const px0_100: { [key: number]: string } = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
-const px0_200: { [key: number]: string } = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
+const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
+const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
+const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
 
-const config: Config = {
+module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -42,4 +43,3 @@ const config: Config = {
   },
   plugins: [require('tailwind-scrollbar-hide')],
 };
-export default config;

@@ -8,9 +8,38 @@ import {
   getSortedRowModel,
   useReactTable,
   ColumnResizeMode,
+  ColumnDef,
 } from '@tanstack/react-table';
-import { productColumn as columns, ProductColumnType } from '@/constants/column';
-import { useMemo, useState } from 'react';
+import { productColumn as columns, ColumnType, ProductColumnType } from '@/constants/column';
+import { FocusEvent, useEffect, useMemo, useState } from 'react';
+
+const defaultColumn: Partial<ColumnDef<ProductColumnType>> = {
+  cell: ({ getValue, row: { index }, column: { id }, table }) => {
+    const initialValue = getValue();
+    const [value, setValue] = useState(initialValue);
+    const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+      table.options.meta?.updateData(index, id, e.target.value);
+    };
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
+
+    return (
+      <td key={index + id} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+        <input
+          readOnly
+          className="adsInput"
+          value={value as string}
+          onChange={e => {
+            table.options.meta?.updateData(index, id, e.target.value);
+            setValue(e.target.value);
+          }}
+          onBlur={onBlur}
+        />
+      </td>
+    );
+  },
+};
 
 export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
   const table = useReactTable({
@@ -18,9 +47,10 @@ export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
     columns,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    defaultColumn,
+    // debugTable: true,
+    // debugHeaders: true,
+    // debugColumns: true,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
@@ -97,7 +127,7 @@ export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
         {table?.getRowModel().rows.map(row => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell, index) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+              <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>
             ))}
           </tr>
         ))}
