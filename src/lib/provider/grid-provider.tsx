@@ -13,17 +13,18 @@ import {
 } from '@tanstack/react-table';
 import { ColumnType, columns } from '@/constants/column';
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { EditTextCell } from '@/components/edit-cell';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
     addRow: () => void;
+    removeRow: (owIndex: number) => void;
   }
 }
 
 const defaultColumn: Partial<ColumnDef<ColumnType>> = {
   cell: ({ getValue, row: { index }, column: { id }, table }) => {
+    // console.log(id, index)
     const initialValue = getValue();
     // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue);
@@ -39,13 +40,15 @@ const defaultColumn: Partial<ColumnDef<ColumnType>> = {
     }, [initialValue]);
 
     return (
-      <input
-        readOnly
-        className="adsInput"
-        value={value as string}
-        onChange={e => setValue(e.target.value)}
-        onBlur={onBlur}
-      />
+      <td key={index + id}>
+        <input
+          readOnly
+          className="adsInput"
+          value={value as string}
+          onChange={e => setValue(e.target.value)}
+          onBlur={onBlur}
+        />
+      </td>
     );
   },
 };
@@ -64,7 +67,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
     defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
-    // debugTable: true,
+    debugTable: true,
     // debugHeaders: true,
     // debugColumns: true,
     enableRowSelection: true,
@@ -75,7 +78,20 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
       // editedRows,
       // setEditedRows,
       // revertData: () => { },
-      updateData: () => {},
+      updateData: (rowIndex, columnId, value) => {
+        // Skip page index reset until after next rerender
+        setRowData(old =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex]!,
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
       addRow: () => {
         console.log('addRow');
         const newRow: ColumnType = {
@@ -100,6 +116,11 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
         // setData(setFunc);
         // setOriginalData(setFunc);
       },
+      removeRow: (rowIndex: number) => {
+        const setFilterFunc = (old: ColumnType[]) =>
+          old.filter((_row: ColumnType, index: number) => index !== rowIndex);
+        setRowData(setFilterFunc);
+      },
     },
   });
 
@@ -107,7 +128,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
     <table {...{ style: { width: table.getTotalSize() } }}>
       <thead>
         {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id} className="">
+          <tr key={headerGroup.id}>
             {headerGroup.headers.map(header => {
               const [open, setOpen] = useState(false);
               const sortedUniqueValues = useMemo(
@@ -177,14 +198,18 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
           <tr key={row.id}>
             {row.getVisibleCells().map((cell, index) => {
               // return <EditTextCell key={cell.id} getValue={cell.getValue} />;
-              return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
+              return <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>;
             })}
           </tr>
         ))}
       </tbody>
       <tfoot>
         <tr>
-          <th colSpan={table.getCenterLeafColumns().length} align="right">
+          {/* {table.getFooterGroups} */}
+          <th /* colSpan={table.getCenterLeafColumns().length / 2} */ align="left">
+            {/* {table.getFooterGroups().map(item, index) => {
+              if(index < 2) return 
+            }} */}
             <div className="footer-buttons">
               <button
                 className="add-button text-main"
@@ -196,6 +221,31 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
               </button>
             </div>
           </th>
+          <th /* colSpan={table.getCenterLeafColumns().length / 2} */ align="left">
+            <div className="footer-buttons">
+              <button
+                className="add-button text-main"
+                onClick={() => {
+                  table.options.meta?.removeRow(4);
+                }}
+              >
+                Delete -
+              </button>
+            </div>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
         </tr>
       </tfoot>
     </table>

@@ -1,60 +1,84 @@
 'use client';
 
+import { ColumnType } from '@/constants/column';
 import { instance } from '@/utils/woxios';
+import { Table } from '@tanstack/react-table';
 import { useEffect, useRef, useState } from 'react';
 
 // TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
 //! readonly -> non-onchange type -> input 종류
 
-export const EditTextCell = ({ getValue, ...props }: { getValue: () => unknown }) => {
+export const EditTextCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table<ColumnType>;
+}) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-  //! 호버와 클릭 비교
-
   useEffect(() => {
     visible && inputRef?.current?.focus();
   }, [visible]);
 
   return (
-    <input
-      readOnly={!visible}
-      ref={inputRef}
-      className="adsInput"
-      value={value}
-      style={visible ? { backgroundColor: '#eee' } : {}}
-      onFocus={e => {
-        console.log(e.target.className);
-        // e.target.className = 'adsInput focus';
-      }}
-      onBlur={e => {
-        visible && setVisible(pre => !pre);
-      }}
-      onDoubleClick={() => {
-        setVisible(pre => !pre);
-      }}
-      onChange={e => {
-        setValue(e.target.value);
-      }}
-      onKeyDown={e => {
-        e.key === 'Enter' && setVisible(pre => !pre);
-      }}
-      {...props}
-    />
+    <td key={index + id}>
+      <input
+        readOnly={!visible}
+        ref={inputRef}
+        className="adsInput"
+        value={value}
+        style={visible ? { backgroundColor: '#eee' } : {}}
+        onFocus={e => {
+          console.log(e.target.className);
+          // e.target.className = 'adsInput focus';
+        }}
+        onBlur={e => {
+          visible && setVisible(pre => !pre);
+          table.options.meta?.updateData(index, id, value);
+        }}
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+        onChange={e => {
+          setValue(e.target.value);
+        }}
+        onKeyDown={e => {
+          e.key === 'Enter' && setVisible(pre => !pre);
+        }}
+        {...props}
+      />
+    </td>
   );
 };
 
-export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
+export const EditDateCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table<ColumnType>;
+}) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     visible && inputRef?.current?.focus();
   }, [visible]);
 
   return (
-    <>
+    <td key={index + id}>
       <input
         style={visible ? { backgroundColor: '#eee' } : {}}
         readOnly={!visible}
@@ -75,21 +99,30 @@ export const EditDateCell = ({ getValue }: { getValue: () => unknown }) => {
           e.key === 'Enter' && setVisible(pre => !pre);
         }}
       />
-    </>
+    </td>
     // </td>
   );
 };
 
-export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
+export const EditSelectCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table<ColumnType>;
+}) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
-  //! 호버와 클릭 비교
-
   // const location = instance.get('/admin/local', { params: { type: '서울' }, cache: 'force-cache' }).then()
-
   return (
-    <div
-      className="w-full h-full"
+    <td
+      key={index + id}
+      // className="w-full h-full"
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
@@ -110,15 +143,25 @@ export const EditSelectCell = ({ getValue }: { getValue: () => unknown }) => {
           {}
         </select>
       )}
-    </div>
+    </td>
   );
 };
 
-export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
+export const EditImgCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table<ColumnType>;
+}) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-  //! 호버와 클릭 비교
 
   useEffect(() => {
     visible && inputRef?.current?.focus();
@@ -126,8 +169,9 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
 
   return (
     <>
-      <div
-        className="w-full h-full"
+      <td
+        key={index + id}
+        // className="w-full h-full"
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
@@ -153,7 +197,7 @@ export const EditImgCell = ({ getValue }: { getValue: () => unknown }) => {
             }}
           />
         )}
-      </div>
+      </td>
     </>
   );
 };
