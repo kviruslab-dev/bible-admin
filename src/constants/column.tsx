@@ -1,6 +1,7 @@
 'use client';
 import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { CITY } from './routes';
 
 export interface ColumnType {
   id: string;
@@ -37,23 +38,23 @@ export interface ProductColumnType {
 }
 
 // ! default 값
-// export const defaultColumn = {
-//   id: Math.floor(Math.random() * 10000).toString(),
-//   create_at: new Date().toLocaleString(),
-//   title: '제목',
-//   tick: 0,
-//   start_date: '',
-//   end_date: '',
-//   page: 1,
-//   location: 1,
-//   rate: 0,
-//   image: '',
-//   link: '',
-//   active: '',
-//   timezone: '',
-//   city: '',
-//   edit: '',
-// }
+export const defaultRow = {
+  id: Math.floor(Math.random() * 10000).toString(),
+  create_at: new Date().toLocaleString(),
+  title: '제목',
+  tick: 0,
+  start_date: '',
+  end_date: '',
+  page: 1,
+  location: 1,
+  rate: 0,
+  image: '',
+  link: '',
+  active: '',
+  timezone: '',
+  city: '',
+  edit: '',
+};
 
 // type Colum =  typeof defaultColumn
 
@@ -144,7 +145,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     accessorKey: 'active',
     header: '운영',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditSelectCell getValue={getValue} index={index} id={id} table={table} />
+      <EditSelectCell getValue={getValue} index={index} id={id} table={table} selectData={['운영함', '운영안함']} />
     ),
   },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
@@ -152,7 +153,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     accessorKey: 'city',
     header: '지역(구)',
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditSelectCell getValue={getValue} index={index} id={id} table={table} />
+      <EditSelectCell getValue={getValue} index={index} id={id} table={table} selectData={CITY} />
     ),
   },
   {
