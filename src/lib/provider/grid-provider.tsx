@@ -12,49 +12,54 @@ import {
 import { ColumnType, columns, defaultRow } from '@/constants/column';
 import { FocusEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
-const defaultColumn: Partial<ColumnDef<ColumnType>> = {
-  cell: ({ getValue, row: { index }, column: { id }, table }) => {
-    const initialValue = getValue();
-    const [value, setValue] = useState(initialValue);
-    const onBlur = (e: FocusEvent<HTMLInputElement>) => {
-      table.options.meta?.updateData(index, id, e.target.value);
-    };
-    useEffect(() => {
-      setValue(initialValue);
-    }, [initialValue]);
+// const defaultColumn: Partial<ColumnDef<ColumnType>> = {
+//   cell: ({ getValue, row: { index }, column: { id }, table }) => {
+//     const initialValue = getValue();
+//     const [value, setValue] = useState(initialValue);
+//     const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+//       table.options.meta?.updateData(index, id, e.target.value);
+//     };
+//     useEffect(() => {
+//       setValue(initialValue);
+//     }, [initialValue]);
 
-    return (
-      // <td key={index + id} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
-      <input
-        readOnly
-        className="adsInput"
-        value={initialValue as string}
-        onChange={e => {
-          // table.options.meta?.updateData(index, id, e.target.value);
-          setValue(e.target.value);
-        }}
-        onBlur={onBlur}
-      />
-      // </td>
-    );
-  },
-};
+//     return (
+//       // <td key={index + id} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+//       <input
+//         readOnly
+//         className="adsInput"
+//         value={initialValue as string}
+//         onChange={e => {
+//           // table.options.meta?.updateData(index, id, e.target.value);
+//           setValue(e.target.value);
+//         }}
+//         onBlur={onBlur}
+//       />
+//       // </td>
+//     );
+//   },
+// };
 
-export const GridProvider = ({ data }: { data: ColumnType[] }) => {
+export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string }) => {
   const [rowData, setRowData] = useState(data);
+  const [rowSelection, setRowSelection] = useState({});
 
   useLayoutEffect(() => {
-    setRowData(data);
-  }, [data]);
+    type && setRowData(data);
+  }, [type]);
 
   const table = useReactTable({
     data: rowData,
     columns,
-    defaultColumn,
+    // defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     // debugTable: true,
     enableRowSelection: true,
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
@@ -90,7 +95,7 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
 
   return (
     <>
-      <div className="flex justify-start py-20">
+      <div className="absBtnWrapper">
         <button
           className="absBtn"
           onClick={() => {
@@ -149,13 +154,11 @@ export const GridProvider = ({ data }: { data: ColumnType[] }) => {
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                        {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>}
-                        {/* {
-                    {
-                      asc: '<',
-                      desc: '>',
-                    }[header.column.getIsSorted() as string]
-                  } */}
+                        {{
+                          asc: ' 🔼',
+                          desc: ' 🔽',
+                        }[header.column.getIsSorted() as string] ?? null}
+                        {/* {<div style={open ? { display: 'block' } : { display: 'none' }}>하이</div>} */}
                         {/* {header.column.getCanSort() && !header.column.getIsSorted() ? '<>' : null} */}
                         {/* {header.column.getCanFilter() ? (
                     <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>

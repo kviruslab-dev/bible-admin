@@ -1,7 +1,8 @@
 'use client';
-import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell } from '@/components/edit-cell';
+import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell, IndeterminateCheckbox } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { CITY } from './routes';
+import { useMemo } from 'react';
 
 export interface ColumnType {
   id: string;
@@ -81,6 +82,34 @@ export const defaultRow = {
 // getStart: (position?: ColumnPinningPosition) => number
 
 export const columns: Array<ColumnDef<ColumnType>> = [
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
   { accessorKey: 'id', header: 'ID', maxSize: 70, enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
   {
@@ -89,6 +118,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
   {
@@ -98,6 +128,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'end_date',
@@ -106,6 +137,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   { accessorKey: 'page', header: '페이지', enableColumnFilter: false },
   {
@@ -114,6 +146,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'rate',
@@ -121,6 +154,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} {...{ type: 'number' }} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'image',
@@ -131,6 +165,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'link',
@@ -140,6 +175,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'active',
@@ -154,6 +190,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
         selectData={['운영함', '운영안함']}
       />
     ),
+    footer: props => props.column.id,
   },
   { accessorKey: 'timezone', header: '지역(시)', size: 100 },
   {
@@ -162,6 +199,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={CITY} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'edit',
@@ -182,6 +220,7 @@ export const columns: Array<ColumnDef<ColumnType>> = [
         </button>
       );
     },
+    footer: props => props.column.id,
   },
 ];
 
