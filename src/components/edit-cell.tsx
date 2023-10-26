@@ -3,7 +3,7 @@
 import { ColumnType } from '@/constants/column';
 import { instance } from '@/utils/woxios';
 import { Table } from '@tanstack/react-table';
-import { useEffect, useRef, useState } from 'react';
+import { HTMLProps, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 // TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
 //! readonly -> non-onchange type -> input 종류
@@ -23,9 +23,10 @@ export const EditTextCell = ({
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     visible && inputRef?.current?.focus();
-  }, [visible]);
+    setValue(getValue() as string);
+  }, [visible, getValue()]);
 
   return (
     // <td >
@@ -36,12 +37,11 @@ export const EditTextCell = ({
       value={value}
       style={visible ? { backgroundColor: '#eee' } : {}}
       onFocus={e => {
-        console.log(e.target.className);
         // e.target.className = 'adsInput focus';
       }}
       onBlur={e => {
         visible && setVisible(pre => !pre);
-        table.options.meta?.updateData(index, id, value);
+        table.options.meta?.updateData(index, id, e.target.value);
       }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
@@ -122,7 +122,6 @@ export const EditSelectCell = ({
   const selectRef = useRef<HTMLSelectElement>(null);
   useEffect(() => {
     visible && selectRef?.current?.focus();
-    console.log(selectRef?.current?.focus);
   }, [visible]);
 
   return (
@@ -144,6 +143,7 @@ export const EditSelectCell = ({
         }}
         onBlur={e => {
           visible && setVisible(pre => !pre);
+          !visible && table.options.meta?.updateData(index, id, e.target.value);
         }}
         onDoubleClick={() => {
           setVisible(pre => !pre);
@@ -213,5 +213,21 @@ export const EditImgCell = ({
     </>
   );
 };
+
+export function IndeterminateCheckbox({
+  indeterminate,
+  className = '',
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null!);
+
+  useEffect(() => {
+    if (typeof indeterminate === 'boolean') {
+      ref.current.indeterminate = !rest.checked && indeterminate;
+    }
+  }, [ref, indeterminate]);
+
+  return <input type="checkbox" ref={ref} className={className + ' cursor-pointer'} {...rest} />;
+}
 
 //! 현재 필요한 것 : 수정 불가 셀, 수정 가능 셀 (text, select, img, date)

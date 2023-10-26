@@ -12,7 +12,7 @@
 
 /* !!! input !!! */
 
-input {
+/* input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -23,7 +23,7 @@ input {
     background-color 0.2s ease,
     color 0.1s ease,
     box-shadow 0.2s ease;
-}
+} */
 
 textarea {
   -webkit-appearance: none;
@@ -222,7 +222,7 @@ td:hover {
 td:focus-within {
   outline: 2px solid #3182f6;
   outline-offset: -2px;
-  padding: 0;
+  /* padding: 0; */
 }
 
 th {
@@ -284,14 +284,21 @@ th:hover {
   padding: 5px 8px;
   color: white;
   border-radius: 6px;
+  margin-right: 10px;
 }
 
 .absBtn:hover {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
+.absBtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 40px;
+}
+
 #table_wrapper {
   overflow: auto;
   position: relative;
-  height: 700px;
+  height: 600px;
 }
