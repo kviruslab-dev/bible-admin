@@ -15,7 +15,7 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  pageExtensions: ['jsx', 'tsx', 'mdx', 'js', 'ts'],
+  pageExtensions: ['tsx', 'ts'],
   productionBrowserSourceMaps: false,
 };
 

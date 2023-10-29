@@ -225,6 +225,18 @@ td:focus-within {
   /* padding: 0; */
 }
 
+tbody>tr:hover {
+  background-color: #eee;
+}
+
+tbody>tr:focus-within {
+  background-color: #ddd;
+}
+
+/* tbody>tr:nth-child(2n+1) {
+  background-color: #dde9f9;
+} */
+
 th {
   border-top: 1px solid lightgray;
   background-color: #eee;

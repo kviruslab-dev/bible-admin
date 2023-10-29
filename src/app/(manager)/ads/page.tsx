@@ -2,11 +2,17 @@ import { ProductGrid } from '@/components/product-grid';
 import { ColumnType, ProductColumnType, columns, productColumn } from '@/constants/column';
 import { GridProvider } from '@/lib/provider/grid-provider';
 import { instance } from '@/utils/woxios';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { use } from 'react';
 
 type ResData = { data: ColumnType[] | ProductColumnType[] };
 
 export default function Page({ searchParams }: { searchParams: { type: string; city: string } }) {
+  //! 추후 이동
+  const cookie = cookies();
+  if (!cookie.get('csrftoken')?.value) {return redirect('/signin');}
+
   const { type = 'main', city = '서울' } = searchParams;
 
   const data: any = use(

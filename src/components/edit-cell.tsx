@@ -73,9 +73,10 @@ export const EditDateCell = ({
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     visible && inputRef?.current?.focus();
-  }, [visible]);
+    setValue(getValue() as string);
+  }, [visible, getValue()]);
 
   return (
     // <td key={index + id}>
@@ -127,6 +128,7 @@ export const EditSelectCell = ({
   return (
     <div
       key={index + id}
+      // onClick={() => { setVisible(pre => !pre) }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
@@ -175,9 +177,10 @@ export const EditImgCell = ({
   const [value, setValue] = useState(getValue() as string);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     visible && inputRef?.current?.focus();
-  }, [visible]);
+    setValue(getValue() as string);
+  }, [visible, getValue()]);
 
   return (
     <>

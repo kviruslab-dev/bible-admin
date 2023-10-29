@@ -1,16 +1,26 @@
 'use client';
 
 import { Input } from '@/ui/input';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export const SignInSection = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm();
 
-  const onSubmit = handleSubmit(submitData => console.log(submitData));
+  const onSubmit = handleSubmit(async submitData => {
+    const result = await fetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({ ...submitData }),
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err));
+    return result.code === 200 && router.push('/ads');
+  });
 
   return (
     <form onSubmit={onSubmit}>
@@ -31,7 +41,7 @@ export const SignInSection = () => {
           {...{ placeholder: '비밀번호를 입력해주세요.', type: 'password' }}
           inputMode={'text'}
           register={() =>
-            register('password', {
+            register('pwd', {
               required: '아이디를 입력해주세요.',
             })
           }
