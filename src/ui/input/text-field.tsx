@@ -4,7 +4,7 @@ import { InputHTMLAttributes } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type InputMode = 'search' | 'text' | 'none' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | undefined;
-type RegisterType = 'senderName' | 'senderPhone' | 'senderContent' | 'phone' | 'comment' | 'id' | 'password'; // ! 필드 타입
+type RegisterType = 'senderName' | 'senderPhone' | 'senderContent' | 'phone' | 'comment' | 'id' | 'pwd'; // ! 필드 타입
 interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   register: () => UseFormRegisterReturn<RegisterType>;
   inputMode?: InputMode;
