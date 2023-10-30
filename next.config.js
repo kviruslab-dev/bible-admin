@@ -7,6 +7,7 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     esmExternals: true,
+    serverActions: true,
     // appDir: true,
     // modularizelmports: {
     //   'react-hook-form': { transform: 'react-hook-form/dist/{{member}}' },
