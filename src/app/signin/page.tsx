@@ -2,16 +2,12 @@ import { SignInSection } from '@/components/signin-section';
 import { cookies } from 'next/headers';
 
 export default function SigninPage() {
-  // async function create() {
-  //   'use server'
-  //   cookies().delete('csrftoken')
-  // }
   // create()
-  const cookie = cookies();
-  if (cookie.has('csrftoken')) {
-    console.log('진입 :::');
-    fetch('http://localhost:3000/api/signout', { method: 'GET' });
-  }
+  // const cookie = cookies();
+  // if (cookie.has('csrftoken')) {
+  //   console.log('진입 :::');
+  //   fetch('http://localhost:3000/api/signout', { method: 'GET' });
+  // }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 scrollbar-hide bg-gray-200">
@@ -23,3 +19,8 @@ export default function SigninPage() {
     </main>
   );
 }
+
+// async function create() {
+//   'use server'
+//   cookies().delete('csrftoken')
+// }

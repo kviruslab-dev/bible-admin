@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/ui/input';
-import { deleteCookie } from '@/utils/cookie';
+import { deleteCookie, setCookie } from '@/utils/cookie';
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
