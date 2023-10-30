@@ -4,6 +4,7 @@ import { Input, TextFiled } from './common/text-input';
 import { useForm } from 'react-hook-form';
 import { Spacing } from './common/spacing';
 import { toast } from 'react-hot-toast';
+import { useFormStatus } from 'react-dom';
 
 interface MainProps {
   children: React.ReactNode;
@@ -11,6 +12,8 @@ interface MainProps {
 
 export function Main() {
   const methods = useForm({ mode: 'onSubmit' });
+  // const { pending } = useFormStatus();
+  // console.log(pending)
 
   const onSubmit = methods.handleSubmit(
     data => {
@@ -73,10 +76,12 @@ export function Main() {
               <Spacing size={20} />
               <button
                 type="submit"
+                // disabled={pending}
                 className={`${
                   true ? 'bg-main hover:bg-blue-600' : 'bg-gray-400'
                 } w-full rounded-lg text-white font-medium p-8`}
               >
+                {/* {pending ? '처리중 입니다' : '푸시 전송'} */}
                 푸시 전송
               </button>
             </form>

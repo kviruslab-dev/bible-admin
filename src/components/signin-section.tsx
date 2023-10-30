@@ -1,7 +1,9 @@
 'use client';
 
 import { Input } from '@/ui/input';
+import { deleteCookie } from '@/utils/cookie';
 import { useRouter } from 'next/navigation';
+import { useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 export const SignInSection = () => {
@@ -21,6 +23,10 @@ export const SignInSection = () => {
       .catch(err => console.log(err));
     return result.code === 200 && router.push('/ads');
   });
+
+  useLayoutEffect(() => {
+    deleteCookie('csrftoken');
+  }, []);
 
   return (
     <form onSubmit={onSubmit}>
