@@ -25,6 +25,7 @@ export async function GET(req: NextApiRequest, res: NextResponse) {
     const response = NextResponse.json({ code: 200, message: 'success' });
     // const cookieStore = cookies();
     const token = response.cookies.get('csrftoken')?.value;
+    response.cookies.delete('csrftoken');
     console.log(token, '들어있나?');
 
     return new Response('Cookie deleted', { status: 200 });
