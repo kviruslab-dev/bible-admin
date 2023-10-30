@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 // ! 로그아웃 안됨
 
@@ -16,7 +15,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 //   }
 // };
 
-export async function GET(req: NextApiRequest, res: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   console.log('진입 :::');
   try {
     if (req.method !== 'GET') {
