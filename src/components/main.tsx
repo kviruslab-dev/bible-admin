@@ -4,7 +4,8 @@ import { Input, TextFiled } from './common/text-input';
 import { useForm } from 'react-hook-form';
 import { Spacing } from './common/spacing';
 import { toast } from 'react-hot-toast';
-import { useFormStatus } from 'react-dom';
+// import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 
 interface MainProps {
   children: React.ReactNode;
@@ -84,6 +85,14 @@ export function Main() {
                 {/* {pending ? '처리중 입니다' : '푸시 전송'} */}
                 푸시 전송
               </button>
+              <Spacing size={5} />
+              <Link
+                href={'/ads'}
+                prefetch
+                className="block text-center rounded-lg text-main font-medium p-8 bg-blue-100 hover:bg-gray-300 hover:text-gray-500"
+              >
+                뒤로가기
+              </Link>
             </form>
           </FormProvider>
         </div>
