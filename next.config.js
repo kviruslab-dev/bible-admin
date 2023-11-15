@@ -5,6 +5,10 @@ const nextConfig = {
   cleanDistDir: true,
   trailingSlash: true,
   swcMinify: true,
+  images: {
+    // loader: 'akamai',
+    domains: ['data.bible25.com', '*'],
+  },
   experimental: {
     esmExternals: true,
     serverActions: true,

@@ -275,3 +275,15 @@ export const donateColumn: Array<ColumnDef<DonateColumnType>> = [
   { accessorKey: 'link', header: '링크' },
   { accessorKey: 'type', header: '타입' },
 ];
+
+export interface PhoneColumnType {
+  id: number;
+  name: string;
+  phone: string;
+}
+
+export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
+  { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'name', header: '이름', enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'phone', header: '핸드폰번호', enableSorting: true, enableColumnFilter: true },
+];

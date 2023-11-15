@@ -5,12 +5,39 @@ import { Spacing } from '@/components/common/spacing';
 import { Input, TextFiled } from '@/components/common/text-input';
 import { FormProvider } from '@/lib/provider';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export default function Home() {
   const methods = useForm({ mode: 'onSubmit' });
 
+  const onSubmit = methods.handleSubmit(
+    async data => {
+      const body = JSON.stringify({ name: data.name, phone: String(data.phone) });
+      await fetch('https://bible25backend.givemeprice.co.kr/cms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      })
+        .then(res => {
+          toast.success('가입신청에 성공하셨습니다', { position: 'top-center' });
+          methods.reset();
+        })
+        .catch(err => toast.error('실패', { position: 'top-center' }));
+    },
+    (error: any) => {
+      // if (error.name) toast.error(error.name.message, { position: 'top-center' })
+      // if (error.phone) toast.error(error.name.message, { position: 'top-center' })
+      // if (error.agree) toast.error(error.name.message, { position: 'top-center' })
+      console.log(error);
+    }
+  );
+
   return (
     <main className="px-30">
+      {/* 베너 */}
+      <img src="https://data.bible25.com/market/etc/large.png" alt="" className="w-full" />
       <Spacing size={50} />
       <section className="text-center">
         <h3 className="max-sm:text-30 text-45 font-bold">가입 신청</h3>
@@ -23,28 +50,24 @@ export default function Home() {
       <Spacing size={20} />
       <section className="h-5/6 justify-center items-center flex-col text-16 font-medium">
         <FormProvider methods={methods}>
-          <form /* onSubmit={onSubmit} */>
+          <form onSubmit={onSubmit}>
             <Input label="신청자명">
-              <TextFiled
+              <Input.NameFiled
                 {...{
-                  className:
-                    'w-full bg-gray-100 px-10 py-10 focus:bg-gray-200 transition-colors transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)',
                   placeholder: '신청자명을 입력해주세요.',
                 }}
               />
             </Input>
             <Spacing size={20} />
             <Input label="연락처">
-              <Input.TextFiled
+              <Input.PhoneFiled
                 {...{
-                  className:
-                    'w-full bg-gray-100 px-10 py-10 focus:bg-gray-200 transition-colors transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)',
                   placeholder: '연락처를 입력해주세요.',
                 }}
               />
             </Input>
             <Spacing size={20} />
-            <section className="rounded-xl border-2 border-[#efefef] box-content px-30 pt-30 py-20 w-600">
+            <section className="rounded-xl border-2 border-[#efefef] box-content px-20 pt-30 py-20 w-600">
               <div className="font-semibold text-24">가입 신청을 위한 약관 동의</div>
               <Spacing size={10} />
               <div className="overflow-y-scroll w-full h-200 p-15 max-sm:text-13 border-t-2 border-gray-300 bg-gray-50 text-gray-500 whitespace-pre-line">
@@ -83,12 +106,14 @@ export default function Home() {
                 {'\n'}
               </div>
               <Spacing size={20} />
-              <section className="max-sm:text-13 flex items-center">
+              <section className="max-sm:text-13 flex items-center justify-center">
                 <p className="pr-10">개인정보 수집·이용 동의</p>
-                <CheckBox type={'radio'} name={'agree'} value={'true'} />
-                <span className="pl-4 pr-7">동의</span>
-                <CheckBox type={'radio'} name={'agree'} value={'false'} />
-                <span className="pl-4 pr-7">비동의</span>
+                <div className="flex items-center">
+                  <CheckBox type={'radio'} name={'agree'} value={'true'} />
+                  <span className="pl-4 pr-7">동의</span>
+                  <CheckBox type={'radio'} name={'agree'} value={'false'} />
+                  <span className="pl-4 pr-7">비동의</span>
+                </div>
               </section>
             </section>
             <Spacing size={20} />
@@ -101,6 +126,7 @@ export default function Home() {
           </form>
         </FormProvider>
       </section>
+      <Spacing size={20} />
     </main>
   );
 }

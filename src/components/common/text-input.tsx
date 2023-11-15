@@ -60,5 +60,44 @@ const AccessFiled = ({ secret, ...props }: any) => {
     />
   );
 };
+const PhoneFiled = ({ secret, ...props }: any) => {
+  const { register } = useFormContext();
+  const regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+  return (
+    <input
+      type="number"
+      className="accessInput"
+      inputMode="numeric"
+      {...register('phone', {
+        required: '휴대폰 번호를 입력해주세요',
+        pattern: {
+          value: regPhone,
+          message: '번호를 확인해주세요.',
+        },
+      })}
+      {...props}
+    />
+  );
+};
+const NameFiled = ({ secret, ...props }: any) => {
+  const { register } = useFormContext();
+
+  return (
+    <input
+      type="text"
+      className="accessInput"
+      {...register('name', {
+        required: '이름을 입력해주세요',
+        minLength: 2,
+        // validate: value => value === secret,
+      })}
+      {...props}
+    />
+  );
+};
+
 Input.AccessFiled = AccessFiled;
 Input.TextFiled = TextFiled;
+Input.PhoneFiled = PhoneFiled;
+Input.NameFiled = NameFiled;

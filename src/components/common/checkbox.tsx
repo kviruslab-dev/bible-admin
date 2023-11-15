@@ -19,6 +19,7 @@ export const CheckBox = ({ type = 'radio', name, value = 'true', ...props }: Che
         <input
           {...register(name, {
             required: '찬성 반대를 선택해주세요.',
+            validate: value => value === 'true',
           })}
           value={value}
           type={type}
