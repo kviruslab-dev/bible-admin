@@ -13,7 +13,7 @@ export default function Home() {
   const onSubmit = methods.handleSubmit(
     async data => {
       const body = JSON.stringify({ name: data.name, phone: String(data.phone) });
-      await fetch('https://bible25backend.givemeprice.co.kr/cms', {
+      await fetch('https://dev25backend.givemeprice.co.kr/cms', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
