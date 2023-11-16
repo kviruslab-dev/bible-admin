@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { PhoneColumnType, phoneColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
+import { excelDownload } from '@/lib/grid/xlsx';
 
 export const defaultRow = {
   id: Math.floor(Math.random() * 10000).toString(),
@@ -71,26 +72,28 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
   return (
     <>
       <div className="absBtnWrapper">
-        <button
+        {/* <button
           className="absBtn"
           onClick={() => {
             table.options.meta?.addRow();
           }}
         >
           추가
-        </button>
+        </button> */}
         <button
-          className="absBtn"
+          className="text-main font-medium p-8 rounded-[10px] bg-blue-100 hover:bg-gray-300 hover:text-gray-500 mr-[10px]"
           onClick={() => {
-            table.options.meta?.removeRow(4);
+            excelDownload(rowData);
           }}
         >
-          삭제
+          엑셀 저장
         </button>
         <button
-          className="absBtn"
+          className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
           onClick={() => {
-            table.options.meta?.removeRow(4);
+            console.log(table.getRowModel().rows.map(row => row.original));
+            // table.options.meta?.removeRow(4);
+            // excelDownload(rowData)
           }}
         >
           저장
@@ -125,7 +128,7 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
                             cursor: header.column.getCanSort() ? 'pointer' : 'default',
                           },
                         }}
-                        className={`font-medium hover:bg-gray-600`}
+                        className={`font-medium hover:bg-gray-300`}
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
