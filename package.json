@@ -15,19 +15,24 @@
   "dependencies": {
     "@tanstack/react-table": "^8.10.7",
     "autoprefixer": "10.4.15",
+    "chart.js": "^4.4.0",
+    "file-saver": "^2.0.5",
     "jotai": "^2.4.3",
     "next": "^13.5.5",
     "nprogress": "^0.2.0",
     "postcss": "8.4.29",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-hot-toast": "^2.4.1",
-    "woxios": "^0.0.8"
+    "woxios": "^0.0.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.8.0",
     "@commitlint/config-conventional": "^17.8.0",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20.8.6",
     "@types/nprogress": "^0.2.1",
     "@types/react": "^18.2.28",

@@ -9,8 +9,15 @@ import {
   useReactTable,
   ColumnDef,
 } from '@tanstack/react-table';
-import { PhoneColumnType, columns, defaultRow, phoneColumn } from '@/constants/column';
+import { PhoneColumnType, phoneColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
+
+export const defaultRow = {
+  id: Math.floor(Math.random() * 10000).toString(),
+  name: '',
+  phone: '',
+  status: '상담신청',
+};
 
 export const Container = ({ data, type }: { data: PhoneColumnType[]; type: string }) => {
   const [rowData, setRowData] = useState(data);
@@ -50,8 +57,8 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
         );
       },
       addRow: () => {
-        const setFunc = (old: PhoneColumnType[]) => [...old, defaultRow];
-        // setRowData(setFunc);
+        const setFunc = (old: PhoneColumnType[]): any => [...old, defaultRow];
+        setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
         const setFilterFunc = (old: PhoneColumnType[]) =>
@@ -126,6 +133,16 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
                           asc: ' 🔼',
                           desc: ' 🔽',
                         }[header.column.getIsSorted() as string] ?? null}
+                        {/* {header.column.getCanFilter() ? (
+                          <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
+                            <option value="null">선택 안함</option>
+                            {sortedUniqueValues.map((value: string, index) => (
+                              <option key={value + index} value={value}>
+                                {value}
+                              </option>
+                            ))}
+                          </select>
+                        ) : null} */}
                         <div
                           {...{
                             onMouseDown: header.getResizeHandler(),
@@ -146,19 +163,21 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
               ))}
             </thead>
             <tbody>
-              {table?.getRowModel().rows.map(row => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell, index) => {
-                    return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
-                  })}
-                </tr>
-              ))}
+              {table?.getRowModel().rows.map(row => {
+                return (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell, index) => {
+                      return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
+                    })}
+                  </tr>
+                );
+              })}
             </tbody>
-            <tfoot>
+            {/* <tfoot>
               <tr>
                 <th colSpan={table.getCenterLeafColumns().length} align="right"></th>
               </tr>
-            </tfoot>
+            </tfoot> */}
           </table>
         </div>
       </section>

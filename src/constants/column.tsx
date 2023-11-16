@@ -280,10 +280,56 @@ export interface PhoneColumnType {
   id: number;
   name: string;
   phone: string;
+  status: string;
+  create_at: string;
 }
 
 export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
   { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
   { accessorKey: 'name', header: '이름', enableSorting: true, enableColumnFilter: true },
   { accessorKey: 'phone', header: '핸드폰번호', enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'create_at', header: '생성일', enableSorting: true, enableColumnFilter: true },
+  {
+    accessorKey: 'status',
+    header: '상태',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <select name="" id="">
+        {['상담신청', '상담취소', '상담완료', '설치완료'].map((item, index) => (
+          <option key={index} value={item}>
+            {item}
+          </option>
+        ))}
+      </select>
+    ),
+  },
 ];
