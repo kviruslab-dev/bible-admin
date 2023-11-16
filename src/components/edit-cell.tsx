@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnType } from '@/constants/column';
+import { ColumnType, PhoneColumnType } from '@/constants/column';
 import { instance } from '@/utils/woxios';
 import { Table } from '@tanstack/react-table';
 import { HTMLProps, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -116,7 +116,7 @@ export const EditSelectCell = ({
   getValue: () => unknown;
   index: number;
   id: string;
-  table: Table<ColumnType>;
+  table: any /* Table<ColumnType | PhoneColumnType>; */;
   selectData: string[];
 }) => {
   const [visible, setVisible] = useState(false);
@@ -137,6 +137,7 @@ export const EditSelectCell = ({
         ref={selectRef}
         className="adsInput"
         disabled={!visible}
+        defaultValue={getValue() as string}
         onChange={e => {
           table.options.meta?.updateData(index, id, e.target.value);
         }}

@@ -323,13 +323,14 @@ export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
     enableSorting: true,
     enableColumnFilter: true,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <select name="" id="">
-        {['상담신청', '상담취소', '상담완료', '설치완료'].map((item, index) => (
-          <option key={index} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <EditSelectCell
+        key={index + id}
+        getValue={getValue}
+        index={index}
+        id={id}
+        table={table}
+        selectData={['상담신청', '상담취소', '상담완료', '설치완료']}
+      />
     ),
   },
 ];

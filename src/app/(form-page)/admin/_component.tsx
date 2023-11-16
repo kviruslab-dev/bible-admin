@@ -1,9 +1,18 @@
 'use client';
 
-import { Doughnut, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export const ChartBox = () => {
   // ! label , data 만 받으면 될 듯
@@ -55,7 +64,25 @@ export const ChartBox = () => {
 
   return (
     <div className="h-2/6 py-5 flex justify-center">
-      <Doughnut data={data} options={options} />
+      {/* <Doughnut data={data} options={options} /> */}
+      {/* <Line
+        datasetIdKey='id'
+        data={{
+          labels: ['Jun', 'Jul', 'Aug'],
+          datasets: [
+            {
+              id: 1,
+              label: '',
+              data: [5, 6, 7],
+            },
+            {
+              id: 2,
+              label: '',
+              data: [3, 2, 1],
+            },
+          ],
+        }}
+      /> */}
     </div>
   );
 };
