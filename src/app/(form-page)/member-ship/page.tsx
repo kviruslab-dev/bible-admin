@@ -69,13 +69,13 @@ export default function Home() {
             <Input label="연락처">
               <Input.PhoneFiled
                 {...{
-                  placeholder: '연락처를 입력해주세요.',
+                  placeholder: '- 없이 숫자만 입력해주세요.',
                 }}
               />
             </Input>
             <Spacing size={20} />
             <section className="rounded-xl border-2 border-[#efefef] box-content px-20 pt-30 py-20 w-600">
-              <div className="font-semibold text-24">가입 신청을 위한 약관 동의</div>
+              <div className="font-semibold text-22">가입 신청을 위한 약관 동의</div>
               <Spacing size={10} />
               <div className="overflow-y-scroll w-full h-200 p-15 max-sm:text-13 border-t-2 border-gray-300 bg-gray-50 text-gray-500 whitespace-pre-line">
                 <p>
@@ -113,7 +113,7 @@ export default function Home() {
                 {'\n'}
               </div>
               <Spacing size={20} />
-              <section className="max-sm:text-13 flex items-center justify-center">
+              <section className="max-sm:text-13 flex items-center justify-start">
                 <p className="pr-10">개인정보 수집·이용 동의</p>
                 <div className="flex items-center">
                   <CheckBox type={'radio'} name={'agree'} value={'true'} />
