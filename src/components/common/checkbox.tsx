@@ -18,7 +18,7 @@ export const CheckBox = ({ type = 'radio', name, value = 'true', ...props }: Che
       <label className="check_box mx-3 flex items-center" htmlFor={generatedId}>
         <input
           {...register(name, {
-            required: '찬성 반대를 선택해주세요.',
+            required: '동의를 선택해주세요.',
             validate: value => value === 'true',
           })}
           value={value}

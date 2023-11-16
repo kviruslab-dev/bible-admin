@@ -27,10 +27,17 @@ export default function Home() {
         .catch(err => toast.error('실패', { position: 'top-center' }));
     },
     (error: any) => {
-      if (error.name) {return toast.error(error.name.message, { position: 'top-center' });}
-      if (error.phone) {return toast.error(error.name.message, { position: 'top-center' });}
-      if (error.agree) {return toast.error(error.name.message, { position: 'top-center' });}
       console.log(error);
+
+      if (error.name) {
+        return toast.error(error.name.message, { position: 'top-center' });
+      }
+      if (error.phone) {
+        return toast.error(error.phone.message, { position: 'top-center' });
+      }
+      if (error.agree) {
+        return toast.error(error.agree.message, { position: 'top-center' });
+      }
     }
   );
 
