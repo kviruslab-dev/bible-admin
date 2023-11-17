@@ -14,6 +14,7 @@ import { useLayoutEffect, useMemo, useState } from 'react';
 import { excelDownload } from '@/lib/grid/xlsx';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export const defaultRow = {
   id: Math.floor(Math.random() * 10000).toString(),
@@ -75,14 +76,12 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
   return (
     <>
       <div className="absBtnWrapper">
-        {/* <button
-          className="absBtn"
-          onClick={() => {
-            table.options.meta?.addRow();
-          }}
+        <Link
+          href={'/signin'}
+          className="px-12 py-8 rounded-[10px] mr-10 border-[2px] transition-all ease-in-out hover:border-gray-400 hover:ease-in-out"
         >
-          추가
-        </button> */}
+          로그아웃
+        </Link>
         <button
           className="text-main font-medium p-8 rounded-[10px] bg-blue-100 hover:bg-gray-300 hover:text-gray-500 mr-[10px]"
           onClick={() => {
@@ -99,12 +98,10 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
               fetch('https://dev25backend.givemeprice.co.kr/cms', {
                 method: 'PATCH',
                 body: JSON.stringify(
-                  table
-                    .getRowModel()
-                    .rows.map(row => ({
-                      id: Number(row.original.id),
-                      status: row.original.status /* memo: row.original.memo  */,
-                    }))
+                  table.getRowModel().rows.map(row => ({
+                    id: Number(row.original.id),
+                    status: row.original.status /* memo: row.original.memo  */,
+                  }))
                 ),
                 headers: {
                   'Content-Type': 'application/json',

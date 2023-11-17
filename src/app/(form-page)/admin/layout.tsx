@@ -9,6 +9,3 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return <>{children}</>;
 }
-
-// const headersList = headers();r
-// const url = new URL(headersList.get('referer') as string).searchParams.get('type');
