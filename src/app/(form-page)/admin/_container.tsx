@@ -12,6 +12,8 @@ import {
 import { PhoneColumnType, phoneColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import { excelDownload } from '@/lib/grid/xlsx';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export const defaultRow = {
   id: Math.floor(Math.random() * 10000).toString(),
@@ -23,6 +25,7 @@ export const defaultRow = {
 export const Container = ({ data, type }: { data: PhoneColumnType[]; type: string }) => {
   const [rowData, setRowData] = useState(data);
   const [rowSelection, setRowSelection] = useState({});
+  const router = useRouter();
 
   useLayoutEffect(() => {
     type && setRowData(data);
@@ -83,17 +86,37 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
         <button
           className="text-main font-medium p-8 rounded-[10px] bg-blue-100 hover:bg-gray-300 hover:text-gray-500 mr-[10px]"
           onClick={() => {
-            excelDownload(rowData);
+            excelDownload(data);
           }}
         >
           엑셀 저장
         </button>
         <button
           className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
-          onClick={() => {
+          onClick={async () => {
             console.log(table.getRowModel().rows.map(row => row.original));
-            // table.options.meta?.removeRow(4);
-            // excelDownload(rowData)
+            await toast.promise(
+              fetch('https://dev25backend.givemeprice.co.kr/cms', {
+                method: 'PATCH',
+                body: JSON.stringify(
+                  table
+                    .getRowModel()
+                    .rows.map(row => ({
+                      id: Number(row.original.id),
+                      status: row.original.status /* memo: row.original.memo  */,
+                    }))
+                ),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }),
+              {
+                loading: '잠시만 기다려주세요',
+                success: <span>저장에 성공했어요!</span>,
+                error: <span>저장에 실패했어요!</span>,
+              }
+            );
+            router.refresh();
           }}
         >
           저장

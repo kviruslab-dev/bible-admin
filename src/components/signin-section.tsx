@@ -21,6 +21,7 @@ export const SignInSection = () => {
     })
       .then(res => res.json())
       .catch(err => console.log(err));
+    console.log(result);
     return result.code === 200 && router.push('/ads');
   });
 

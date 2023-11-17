@@ -65,8 +65,8 @@ export const ChartBox = () => {
   return (
     <div className="h-2/6 py-5 flex justify-center">
       {/* <Doughnut data={data} options={options} /> */}
-      {/* <Line
-        datasetIdKey='id'
+      <Line
+        datasetIdKey="id"
         data={{
           labels: ['Jun', 'Jul', 'Aug'],
           datasets: [
@@ -82,7 +82,7 @@ export const ChartBox = () => {
             },
           ],
         }}
-      /> */}
+      />
     </div>
   );
 };
