@@ -10,6 +10,7 @@
     "lint:es": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
     "format:fix": "prettier --write --ignore-path .prettierignore .",
+    "re-build": "rm -rf .next node_modules && pnpm install && pnpm build",
     "prepare": "husky install"
   },
   "dependencies": {

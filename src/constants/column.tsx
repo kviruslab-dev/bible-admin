@@ -2,7 +2,6 @@
 import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell, IndeterminateCheckbox } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { CITY } from './routes';
-import { useMemo } from 'react';
 
 export interface ColumnType {
   id: string;

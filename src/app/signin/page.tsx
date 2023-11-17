@@ -1,5 +1,4 @@
 import { SignInSection } from '@/components/signin-section';
-import { cookies } from 'next/headers';
 
 export default function SigninPage() {
   return (
