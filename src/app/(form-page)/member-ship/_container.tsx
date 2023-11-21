@@ -2,10 +2,10 @@
 
 import { CheckBox, CompanyCheck } from '@/components/common/checkbox';
 import { Spacing } from '@/components/common/spacing';
-import { Input, TextFiled } from '@/components/common/text-input';
+import { Input } from '@/components/common/text-input';
 import { FormProvider } from '@/lib/provider';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
