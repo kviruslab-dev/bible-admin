@@ -281,6 +281,7 @@ export interface PhoneColumnType {
   phone: string;
   status: string;
   create_at: string;
+  company: string;
 }
 
 export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
@@ -315,6 +316,22 @@ export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
   { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
   { accessorKey: 'name', header: '이름', enableSorting: true, enableColumnFilter: true },
   { accessorKey: 'phone', header: '핸드폰번호', enableSorting: true, enableColumnFilter: true },
+  {
+    accessorKey: 'company',
+    header: '통신사',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditSelectCell
+        key={index + id}
+        getValue={getValue}
+        index={index}
+        id={id}
+        table={table}
+        selectData={['lg', 'kt', 'sk']}
+      />
+    ),
+  },
   { accessorKey: 'create_at', header: '생성일', enableSorting: true, enableColumnFilter: true },
   {
     accessorKey: 'status',

@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckBox } from '@/components/common/checkbox';
+import { CheckBox, CompanyCheck } from '@/components/common/checkbox';
 import { Spacing } from '@/components/common/spacing';
 import { Input, TextFiled } from '@/components/common/text-input';
 import { FormProvider } from '@/lib/provider';
@@ -14,7 +14,7 @@ export const FormContainer = () => {
 
   const onSubmit = methods.handleSubmit(
     async data => {
-      const body = JSON.stringify({ name: data.name, phone: String(data.phone) });
+      const body = JSON.stringify({ name: data.name, phone: String(data.phone), company: data.company });
       await fetch('https://dev25backend.givemeprice.co.kr/cms', {
         method: 'POST',
         headers: {
@@ -26,7 +26,7 @@ export const FormContainer = () => {
           toast.success('가입신청에 성공하셨습니다', { position: 'top-center' });
           methods.reset();
         })
-        .catch(err => toast.error('실패', { position: 'top-center' }));
+        .catch(err => toast.error('가입신청에 실패하였습니다.', { position: 'top-center' }));
     },
     (error: any) => {
       console.log(error);
@@ -39,6 +39,9 @@ export const FormContainer = () => {
       }
       if (error.agree) {
         return toast.error(error.agree.message, { position: 'top-center' });
+      }
+      if (error.company) {
+        return toast.error(error.company.message, { position: 'top-center' });
       }
     }
   );
@@ -72,35 +75,47 @@ export const FormContainer = () => {
                 }}
               />
             </Input>
-            <Spacing size={20} />
+            <Spacing size={30} />
+
+            <p className="py-[5px] text-base font-semibold text-gray-600">통신사 선택</p>
+            <div className="flex items-center">
+              <CompanyCheck type={'radio'} name={'company'} value={'lg'} />
+              <span className="pl-4 pr-7">LG U+</span>
+              <CompanyCheck type={'radio'} name={'company'} value={'kt'} />
+              <span className="pl-4 pr-7">KT</span>
+              <CompanyCheck type={'radio'} name={'company'} value={'sk'} />
+              <span className="pl-4 pr-7">SK</span>
+            </div>
+
+            <Spacing size={30} />
             <section className="rounded-xl border-2 border-[#efefef] box-content px-20 pt-30 py-20 w-600">
               <div className="font-semibold text-22">가입 신청을 위한 약관 동의</div>
               <Spacing size={10} />
               <div className="overflow-y-scroll w-full h-200 p-15 max-sm:text-13 border-t-2 border-gray-300 bg-gray-50 text-gray-500 whitespace-pre-line">
                 <p>
-                  ㈜후원쇼핑에서는 귀하께서 요청하신 가입 신청에 대해 아래와 같은 사항을 알리고 동의를 받아 귀하의
+                  ㈜케이바이러스연구소는 귀하께서 요청하신 가입 신청에 대해 아래와 같은 사항을 알리고 동의를 받아 귀하의
                   개인정보를 수집합니다.
                 </p>
                 {'\n'}
                 <p>
                   {` 1. 수집하는 개인정보 항목
-                  - 신청자명, 연락처`}
+- 신청자명, 연락처, 통신사`}
                 </p>
                 {'\n'}
                 <p>
-                  {`2. 개인정보의 수집 및 이용목적
-                  - 가입 신청에 대한 본인확인, 연락처 확인, 가입 신청에 대한 안내
-                  - 요청하신 문의에 대한 답변 및 관련 제반 업무 지원
+                  {`2. 개인정보 수집·이용 목적
+- ㈜케이바이러스연구소 이용자의 온라인 견적 요청 상담을 위한 참조 자료
+- 요청하신 문의에 대한 답변 및 관련 제반 업무 지원
                   `}
                 </p>
                 {'\n'}
                 <p>
-                  {`3. 개인정보의 보유 및 이용기간
-                  수집된 개인정보는 최초 온라인 문의 요청 서비스 접수일로부터 보관, 활용하며 수집 및 이용 목적이 달성된 후 지체 없이 파기합니다. 다만, 수집 목적 또는 제공받은 목적이 달성된 경우에도 하기와 같이 상법, 국세기본법 등 관련 법령 규정에 의한 거래 관련 권리 의무 관계의 확인 등을 이유로 일정 기간 보유하여야 할 필요가 있을 경우에는 일정 기간 보유합니다. 이 경우 회사는 보관하는 개인정보를 그 보관의 목적으로만 이용하며 보존 기간은 아래와 같습니다.
-                  가. 상법 등 법령의 규정에 의하여 보존할 필요성이 있는 경우
-                  - 계약 또는 청약철회 등에 관한 기록 : 5년
-                  - 대금결제 및 재화 등의 공급에 관한 기록 : 5년
-                  - 소비자 불만 또는 분쟁처리에 관한 기록 : 3년  
+                  {`3. 개인정보 보유 및 이용기간
+수집된 개인정보는 최초 온라인 문의 요청 서비스 접수일로부터 보관, 활용하며 수집 및 이용 목적이 달성된 후 지체 없이 파기합니다. 다만, 수집 목적 또는 제공받은 목적이 달성된 경우에도 하기와 같이 상법, 국세기본법 등 관련 법령 규정에 의한 거래 관련 권리 의무 관계의 확인 등을 이유로 일정 기간 보유하여야 할 필요가 있을 경우에는 일정 기간 보유합니다. 이 경우 회사는 보관하는 개인정보를 그 보관의 목적으로만 이용하며 보존 기간은 아래와 같습니다.
+가. 상법 등 법령의 규정에 의하여 보존할 필요성이 있는 경우
+- 계약 또는 청약철회 등에 관한 기록 : 5년
+- 대금결제 및 재화 등의 공급에 관한 기록 : 5년
+- 소비자 불만 또는 분쟁처리에 관한 기록 : 3년
                   `}
                 </p>
                 {'\n'}
@@ -110,6 +125,14 @@ export const FormContainer = () => {
                   `}
                 </p>
                 {'\n'}
+                <p>
+                  {`5. 회사는 계약시 고객상담 처리에 대해 원활한 업무 수행을 위해 아래와 같이 외부 전문업체에 위탁하여 운영하고 있습니다.
+
+- 개인정보 처리위탁을 받는 자 : (주) 더좋은컴퍼니
+- 처리위탁 업무내용 : 계약을 위한 개인정보 이용
+
+이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적 달성 시 지체없이 파기합니다. 다만 다른 법령에서 별도의 기간을 정하고 있는 경우나 이용자의 요청에 따라 기간을 달리 정한 경우에는 그 기간이 경과한 후 파기 등의 필요한 조치를 취합니다.`}
+                </p>
               </div>
               <Spacing size={20} />
               <section className="max-sm:text-13 flex items-center justify-start">
