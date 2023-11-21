@@ -141,20 +141,20 @@ export const FormContainer = () => {
 export const TabMenu = () => {
   const [active, setActive] = useState('lg');
 
-  useEffect(() => {
-    const img = document.querySelectorAll('.ob');
-    const observer = new IntersectionObserver(img => {
-      img.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          index === 0 && setActive('lg');
-          index === 1 && setActive('kt');
-          index === 2 && setActive('sk');
-        }
-      });
-    });
+  // useEffect(() => {
+  //   const img = document.querySelectorAll('.ob');
+  //   const observer = new IntersectionObserver(img => {
+  //     img.forEach((entry, index) => {
+  //       if (entry.isIntersecting) {
+  //         index === 0 && setActive('lg');
+  //         index === 1 && setActive('kt');
+  //         index === 2 && setActive('sk');
+  //       }
+  //     });
+  //   });
 
-    img.forEach(i => observer.observe(i));
-  });
+  //   img.forEach(i => observer.observe(i));
+  // });
 
   return (
     <>
