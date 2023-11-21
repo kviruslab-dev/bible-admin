@@ -126,18 +126,18 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => {
-                    const [open, setOpen] = useState(false);
-                    const sortedUniqueValues = useMemo(
-                      () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
-                      [header.column]
-                    );
-                    const onFilterChange = (value: string) => {
-                      if (value === 'null') {
-                        header.column.setFilterValue(null);
-                      } else {
-                        header.column.setFilterValue(value);
-                      }
-                    };
+                    // const [open, setOpen] = useState(false);
+                    // const sortedUniqueValues = useMemo(
+                    //   () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
+                    //   [header.column]
+                    // );
+                    // const onFilterChange = (value: string) => {
+                    //   if (value === 'null') {
+                    //     header.column.setFilterValue(null);
+                    //   } else {
+                    //     header.column.setFilterValue(value);
+                    //   }
+                    // };
                     return (
                       <th
                         key={header.id}

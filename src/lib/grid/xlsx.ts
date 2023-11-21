@@ -9,10 +9,12 @@ export const excelDownload = (excelData: any) => {
   const ws = utils.aoa_to_sheet([
     [`작성자_안재승`],
     [],
-    /* Object.keys(excelData[0]) */ ['id', '이름', '휴대폰번호', '작업상태', '작성일자'],
+    /* Object.keys(excelData[0]) */ ['id', '이름', '휴대폰번호', '통신사', '작업상태', '작성일자'],
   ]);
   excelData.map((data: any) => {
-    utils.sheet_add_aoa(ws, [[data.id, data.name, data.phone, data.status, data.create_at]], { origin: -1 });
+    utils.sheet_add_aoa(ws, [[data.id, data.name, data.phone, data.company, data.status, data.create_at]], {
+      origin: -1,
+    });
     // <-- 행 사이즈
     ws['!cols'] = [{ wpx: 250 }, { wpx: 250 }];
     return false;
