@@ -101,6 +101,7 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
                   table.getRowModel().rows.map(row => ({
                     id: Number(row.original.id),
                     status: row.original.status /* memo: row.original.memo  */,
+                    company: row.original.company,
                   }))
                 ),
                 headers: {
