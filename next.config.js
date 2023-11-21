@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: false,
   cleanDistDir: true,
-  trailingSlash: true,
+  // trailingSlash: true,
   swcMinify: true,
   images: {
     // loader: 'akamai',
