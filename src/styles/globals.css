@@ -320,3 +320,11 @@ th:hover {
   position: relative;
   height: 600px;
 }
+
+.top-area {
+  z-index: 999;
+}
+
+.top-wrapper {
+  z-index: 900;
+}

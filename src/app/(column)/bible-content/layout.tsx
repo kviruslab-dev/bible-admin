@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const cookie = cookies();
-  if (cookie.get('csrftoken')?.value.includes('bible') || !cookie.get('csrftoken')?.value) {
+  if (!cookie.get('csrftoken')?.value?.includes('bible')) {
     return redirect('/signin');
   }
 

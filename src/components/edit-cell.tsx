@@ -4,6 +4,8 @@ import { ColumnType, PhoneColumnType } from '@/constants/column';
 import { instance } from '@/utils/woxios';
 import { Table } from '@tanstack/react-table';
 import { HTMLProps, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Spacing } from './common/spacing';
+import { get } from 'http';
 
 // TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
 //! readonly -> non-onchange type -> input 종류
@@ -68,7 +70,7 @@ export const EditDateCell = ({
   getValue: () => unknown;
   index: number;
   id: string;
-  table: Table<ColumnType>;
+  table: Table</* ColumnType */ any>;
 }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
@@ -89,6 +91,7 @@ export const EditDateCell = ({
       value={value}
       onBlur={e => {
         visible && setVisible(pre => !pre);
+        table.options.meta?.updateData(index, id, e.target.value);
       }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
@@ -172,7 +175,7 @@ export const EditImgCell = ({
   getValue: () => unknown;
   index: number;
   id: string;
-  table: Table<ColumnType>;
+  table: Table</* ColumnType */ any>;
 }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
@@ -233,5 +236,118 @@ export function IndeterminateCheckbox({
 
   return <input type="checkbox" ref={ref} className={className + ' cursor-pointer'} {...rest} />;
 }
+
+export const UpdateImgCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table</* ColumnType */ any>;
+}) => {
+  const [visible, setVisible] = useState(false);
+  const [value, setValue] = useState(getValue() as string);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useLayoutEffect(() => {
+    visible && inputRef?.current?.focus();
+    setValue(getValue() as string);
+  }, [visible, getValue()]);
+
+  return (
+    <>
+      <input
+        readOnly={!visible}
+        ref={inputRef}
+        type="file"
+        className="adsInput"
+        accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
+        onBlur={e => {
+          visible && setVisible(pre => !pre);
+          !visible && table.options.meta?.updateData(index, id, e.target.files === null ? '' : e?.target?.files[0]);
+        }}
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+        onChange={e => {
+          if (e.target.files === null) {
+            alert('이미지만 가능합니다.');
+          } else {
+            console.log(e?.target?.files[0]);
+            setValue(e?.target?.files[0]?.name as string);
+          }
+        }}
+        onKeyDown={e => {
+          e.key === 'Enter' && setVisible(pre => !pre);
+        }}
+      />
+    </>
+  );
+};
+
+export const EditAreaCell = ({
+  getValue,
+  index,
+  id,
+  table,
+  ...props
+}: {
+  getValue: () => unknown;
+  index: number;
+  id: string;
+  table: Table</* ColumnType */ any>;
+}) => {
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState(getValue() as string);
+
+  return (
+    <>
+      <textarea
+        readOnly
+        className="adsInput h-[20px] overflow-y-auto"
+        defaultValue={getValue() as string}
+        // value={text}
+        onBlur={e => {
+          // table.options.meta?.updateData(index, id, e.target.value);
+        }}
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+      />
+      {visible && (
+        <div>
+          <div
+            className="top-wrapper fixed bg-black opacity-25 top-0 left-0 right-0 bottom-0"
+            onClick={() => setVisible(pre => !pre)}
+          ></div>
+          <div className="top-area fixed bg-white rounded-[10px] w-[500px] h-[550px] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] p-40 flex flex-col">
+            <textarea
+              name=""
+              id=""
+              defaultValue={getValue() as string}
+              className="w-full h-full p-[30px] bg-gray-100"
+              onChange={e => setText(`${e.target.value}`)}
+            />
+            <Spacing size={30} />
+            <button
+              className="bg-main px-[10px] py-[5px] rounded-[8px] font-semibold text-white text-[18px]"
+              onClick={() => {
+                table.options.meta?.updateData(index, id, text);
+                console.log(text);
+                setVisible(pre => !pre);
+              }}
+            >
+              입력하기
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 //! 현재 필요한 것 : 수정 불가 셀, 수정 가능 셀 (text, select, img, date)
