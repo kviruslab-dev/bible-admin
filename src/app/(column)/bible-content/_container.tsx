@@ -9,32 +9,34 @@ import {
   useReactTable,
   ColumnDef,
 } from '@tanstack/react-table';
-import { PhoneColumnType, phoneColumn } from '@/constants/column';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { TodayColumnType, todayColumn } from '@/constants/column';
+import { useLayoutEffect, useState } from 'react';
 import { excelDownload } from '@/lib/grid/xlsx';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export const defaultRow = {
-  id: Math.floor(Math.random() * 10000).toString(),
-  name: '',
-  phone: '',
-  status: '상담신청',
+  image: '',
+  active: 0,
+  date: '',
+  title: '',
+  url: '',
+  content: '',
 };
 
-export const Container = ({ data, type }: { data: PhoneColumnType[]; type: string }) => {
+export const Container = ({ data }: { data: TodayColumnType[] }) => {
   const [rowData, setRowData] = useState(data);
   const [rowSelection, setRowSelection] = useState({});
   const router = useRouter();
 
   useLayoutEffect(() => {
-    type && setRowData(data);
-  }, [type]);
+    setRowData(data);
+  }, []);
 
   const table = useReactTable({
     data: rowData,
-    columns: phoneColumn,
+    columns: todayColumn,
     // defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
@@ -62,12 +64,12 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
         );
       },
       addRow: () => {
-        const setFunc = (old: PhoneColumnType[]): any => [...old, defaultRow];
+        const setFunc = (old: TodayColumnType[]): any => [...old, defaultRow];
         setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
-        const setFilterFunc = (old: PhoneColumnType[]) =>
-          old.filter((_row: PhoneColumnType, index: number) => index !== rowIndex);
+        const setFilterFunc = (old: TodayColumnType[]) =>
+          old.filter((_row: TodayColumnType, index: number) => index !== rowIndex);
         setRowData(setFilterFunc);
       },
     },
@@ -85,10 +87,10 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
         <button
           className="text-main font-medium p-8 rounded-[10px] bg-blue-100 hover:bg-gray-300 hover:text-gray-500 mr-[10px]"
           onClick={() => {
-            excelDownload(data);
+            table.options.meta?.addRow();
           }}
         >
-          엑셀 저장
+          추가하기
         </button>
         <button
           className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
@@ -99,14 +101,16 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
                 method: 'PATCH',
                 body: JSON.stringify(
                   table.getRowModel().rows.map(row => ({
-                    id: Number(row.original.id),
-                    status: row.original.status,
-                    company: row.original.company,
-                    memo: row.original.memo,
+                    active: row.original.active,
+                    today: row.original.today,
+                    image: row.original.image,
+                    content: row.original.content,
+                    title: row.original.title,
+                    song: row.original.song,
                   }))
                 ),
                 headers: {
-                  'Content-Type': 'application/json',
+                  'Content-Type': 'multipart/form-data',
                 },
               }),
               {

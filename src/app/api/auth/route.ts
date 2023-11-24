@@ -21,15 +21,17 @@ export async function POST(req: Request) {
       const data: Array<{ [key: string]: string }> = readFile(buildPath());
       console.log('파일 리드 성공');
 
-      if (!data.some(i => i.id === id && i.pwd === pwd)) {throw Error;}
+      if (!data.some(i => i.id === id && i.pwd === pwd)) {
+        throw Error;
+      }
       // if (id === 'pcw') return response.json({ code: 200, message: '관리자' });
       // response.json({ code: 200, message: '업체' });
       console.log('아이디 비번 매칭 성공');
 
       response.cookies.set({
         name: 'csrftoken',
-        value: JSON.stringify({ id, pwd }),
-        // httpOnly: true,
+        value: JSON.stringify({ id }),
+        httpOnly: true,
         expires: new Date().setDate(new Date().getDate() + 1),
         path: '/',
         // secure: true,

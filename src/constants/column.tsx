@@ -1,5 +1,13 @@
 'use client';
-import { EditDateCell, EditImgCell, EditSelectCell, EditTextCell, IndeterminateCheckbox } from '@/components/edit-cell';
+import {
+  EditAreaCell,
+  EditDateCell,
+  EditImgCell,
+  EditSelectCell,
+  EditTextCell,
+  IndeterminateCheckbox,
+  UpdateImgCell,
+} from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { CITY } from './routes';
 
@@ -282,6 +290,7 @@ export interface PhoneColumnType {
   status: string;
   create_at: string;
   company: string;
+  memo: string;
 }
 
 export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
@@ -349,4 +358,57 @@ export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
       />
     ),
   },
+  {
+    accessorKey: 'memo',
+    header: '상담메모',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+];
+
+export interface TodayColumnType {
+  active: number;
+  image: string;
+  today: string;
+  content: string;
+  title: string;
+  song: string;
+}
+
+export const todayColumn: Array<ColumnDef<TodayColumnType>> = [
+  { accessorKey: 'active', header: '활성화', enableSorting: true, enableColumnFilter: true },
+  {
+    accessorKey: 'today',
+    header: '날짜',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'image',
+    header: '이미지',
+    enableSorting: true,
+    enableColumnFilter: true,
+    minSize: 400,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <UpdateImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'content',
+    header: '컨텐츠',
+    enableSorting: true,
+    enableColumnFilter: true,
+    minSize: 400,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  { accessorKey: 'title', header: '제목', minSize: 400, enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'song', header: 'url', minSize: 200, enableSorting: true, enableColumnFilter: true },
 ];
