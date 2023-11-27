@@ -76,12 +76,22 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
   return (
     <>
       <div className="absBtnWrapper">
-        <Link
-          href={'/signin'}
+        <button
+          onClick={async () => {
+            fetch('/api/logout', {
+              method: 'POST',
+            })
+              .then(() => {
+                router.replace('/signin');
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }}
           className="px-12 py-8 rounded-[10px] mr-10 border-[2px] transition-all ease-in-out hover:border-gray-400 hover:ease-in-out"
         >
           로그아웃
-        </Link>
+        </button>
         <button
           className="text-main font-medium p-8 rounded-[10px] bg-blue-100 hover:bg-gray-300 hover:text-gray-500 mr-[10px]"
           onClick={() => {

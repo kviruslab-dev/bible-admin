@@ -10,7 +10,7 @@ export default function App({ searchParams }: any) {
   const { page = '1' } = searchParams;
 
   const data: any = use(
-    fetch('https://dev25backend.givemeprice.co.kr/cms?page=1&take=500', {
+    fetch('https://spare25backend.givemeprice.co.kr/cms?page=1&take=500', {
       method: 'GET',
       cache: 'no-cache',
     })
@@ -25,6 +25,7 @@ export default function App({ searchParams }: any) {
     //   cache: 'no-cache',
     // }).catch(err => console.log(err))
   );
+  console.log(data, 'data ::');
 
   return (
     <main className="min-h-screen bg-gray-50 px-50">

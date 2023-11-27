@@ -28,4 +28,9 @@ export const CITY = [
   '제주',
 ];
 
-// export const
+export const TODAY_CONTENT = {
+  '성경 말씀': 'bible',
+  '찬송 말씀': 'hymm',
+  성경사전: 'lab',
+  투데이: 'todays',
+} as const;
