@@ -14,19 +14,13 @@ export async function POST(req: Request) {
       });
 
       response.cookies.delete('csrftoken');
-      console.log('GET 성공');
     } else if (req.method === 'POST') {
-      console.log('POST 진입');
       const { id, pwd }: { id: string; pwd: string } = await req.json(); // body data
       const data: Array<{ [key: string]: string }> = readFile(buildPath());
-      console.log('파일 리드 성공');
 
       if (!data.some(i => i.id === id && i.pwd === pwd)) {
         throw Error;
       }
-      // if (id === 'pcw') return response.json({ code: 200, message: '관리자' });
-      // response.json({ code: 200, message: '업체' });
-      console.log('아이디 비번 매칭 성공');
 
       response.cookies.set({
         name: 'csrftoken',
@@ -34,7 +28,7 @@ export async function POST(req: Request) {
         httpOnly: true,
         expires: new Date().setDate(new Date().getDate() + 1),
         path: '/',
-        // secure: true,
+        secure: true,
         // sameSite: 'none',
       });
     } else {

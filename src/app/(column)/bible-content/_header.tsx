@@ -3,12 +3,11 @@
 import { ADS } from '@/constants/routes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-export default function HeaderLayout() {
+export default function HeaderLayout({ type }: { type: string }) {
   const searchParams = useSearchParams().get('type') ?? 'main';
   const header = Object.keys(ADS);
-  const router = useRouter();
 
   return (
     <>
@@ -39,12 +38,13 @@ export default function HeaderLayout() {
           </section>
           <div className="text-14 flex items-center text-gray-700">
             <button
+              // href={'/signin'}
               onClick={async () => {
                 fetch('/api/logout', {
                   method: 'POST',
                 })
                   .then(() => {
-                    router.replace('/signin');
+                    console.log('로그아웃 성공');
                   })
                   .catch(err => {
                     console.log(err);
