@@ -16,6 +16,10 @@
   }
 }
 
+* {
+  touch-action: auto;
+}
+
 /* !!! input !!! */
 
 /* input {

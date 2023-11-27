@@ -213,9 +213,9 @@ export const TabMenu = () => {
           )}
         </Link>
       </div>
-      <img id="lg" src={`https://data.bible25.com/market/etc/internet_002.jpeg`} alt="lg" className="ob w-full" />
-      <img id="kt" src={'https://data.bible25.com/market/etc/internet_003.jpeg'} alt="kt" className="ob w-full" />
-      <img id="sk" src={'https://data.bible25.com/market/etc/internet_004.jpeg'} alt="sk" className="ob w-full" />
+      <img id="lg" src={`https://data.bible25.com/market/etc/internet_002.jpeg`} alt="lg" /* className="ob w-full" */ />
+      <img id="kt" src={'https://data.bible25.com/market/etc/internet_003.jpeg'} alt="kt" /* className="ob w-full" */ />
+      <img id="sk" src={'https://data.bible25.com/market/etc/internet_004.jpeg'} alt="sk" /* className="ob w-full" */ />
     </>
   );
 };
