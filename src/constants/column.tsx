@@ -370,6 +370,8 @@ export const phoneColumn: Array<ColumnDef<PhoneColumnType>> = [
 ];
 
 export interface TodayColumnType {
+  select: boolean;
+  id: number;
   active: number;
   image: string;
   today: string;
@@ -379,6 +381,35 @@ export interface TodayColumnType {
 }
 
 export const todayColumn: Array<ColumnDef<TodayColumnType>> = [
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
+  { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
   { accessorKey: 'active', header: '활성화', enableSorting: true, enableColumnFilter: true },
   {
     accessorKey: 'today',
@@ -392,23 +423,115 @@ export const todayColumn: Array<ColumnDef<TodayColumnType>> = [
   {
     accessorKey: 'image',
     header: '이미지',
-    enableSorting: true,
+    enableSorting: false,
     enableColumnFilter: true,
-    minSize: 400,
+    enableResizing: true,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <UpdateImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+      <EditImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
+    footer: props => props.column.id,
   },
   {
     accessorKey: 'content',
     header: '컨텐츠',
     enableSorting: true,
     enableColumnFilter: true,
-    minSize: 400,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
   },
-  { accessorKey: 'title', header: '제목', minSize: 400, enableSorting: true, enableColumnFilter: true },
-  { accessorKey: 'song', header: 'url', minSize: 200, enableSorting: true, enableColumnFilter: true },
+  {
+    accessorKey: 'title',
+    header: '제목',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'song',
+    header: 'url',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+];
+
+export interface MalsumColumnType {
+  today: string;
+  id: number;
+  title: string;
+  yojul: string;
+  content: string;
+}
+
+export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
+  { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
+  {
+    accessorKey: 'today',
+    header: '날짜',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditDateCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'title',
+    header: '제목',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'content',
+    header: '본문',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'yojul',
+    header: '요절',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
 ];
