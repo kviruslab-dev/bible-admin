@@ -17,7 +17,11 @@ export const defaultRow = {
   today: '더블 클릭해주세요.',
   id: '',
   title: '더블 클릭해주세요',
+  bible: '더블 클릭해주세요',
+  song: '더블 클릭해주세요',
   yojul: '더블 클릭해주세요',
+  sungchal: '더블 클릭해주세요',
+  kido: '더블 클릭해주세요',
   content: '더블 클릭해주세요',
 };
 
@@ -59,7 +63,7 @@ export function MalsumContainer({ data }: { data: MalsumColumnType[] }) {
         );
       },
       addRow: () => {
-        const setFunc = (old: MalsumColumnType[]): any => [...old, defaultRow];
+        const setFunc = (old: MalsumColumnType[]): any => [defaultRow, ...old];
         setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
@@ -98,7 +102,7 @@ export function MalsumContainer({ data }: { data: MalsumColumnType[] }) {
           추가하기
         </button>
         <button
-          className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
+          className="text-white font-medium py-8 px-[14px] rounded-[10px] bg-main hover:bg-blue-600"
           onClick={async () => {
             if (table.getRowModel().rows.every(row => row.getIsSelected() === false)) {
               return toast.error('하나 이상의 활성화된 데이터가 필요합니다.');
@@ -106,16 +110,23 @@ export function MalsumContainer({ data }: { data: MalsumColumnType[] }) {
               const result = await Promise.all([
                 ...table.getRowModel().rows.map(async row => {
                   if (row.getIsSelected() === true) {
+                    console.log(row.original);
                     return row.original.id.toString() === ''
-                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/todaybook', {
+                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
                           method: 'POST',
                           body: JSON.stringify(row.original),
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
                         })
                           .then(() => toast.success('성공하였습니다.'))
                           .catch(() => toast.error('실패하였습니다.'))
-                      : fetch('https://spare25backend.givemeprice.co.kr/admin/todaybook', {
+                      : fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
                           method: 'PATCH',
                           body: JSON.stringify(row.original),
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
                         })
                           .then(() => toast.success('성공하였습니다.'))
                           .catch(() => toast.error('실패하였습니다.'));

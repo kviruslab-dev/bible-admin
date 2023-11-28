@@ -7,14 +7,12 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  ColumnDef,
 } from '@tanstack/react-table';
 import { PhoneColumnType, phoneColumn } from '@/constants/column';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { excelDownload } from '@/lib/grid/xlsx';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 export const defaultRow = {
   id: Math.floor(Math.random() * 10000).toString(),
@@ -133,7 +131,7 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
       </div>
       <section className="flex justify-center w-full">
         <div id="table_wrapper">
-          <table {...{ style: { width: table.getTotalSize() } }}>
+          <table {...{ style: { minWidth: /*  table.getTotalSize() */ '1400px' } }}>
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>

@@ -110,20 +110,12 @@ export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string 
             table.options.meta?.removeRow(4);
           }}
         >
-          삭제
-        </button>
-        <button
-          className="absBtn"
-          onClick={() => {
-            table.options.meta?.removeRow(4);
-          }}
-        >
-          저장
+          선택저장
         </button>
       </div>
       <section className="flex justify-center w-full">
         <div id="table_wrapper">
-          <table {...{ style: { width: table.getTotalSize() } }}>
+          <table {...{ style: { minWidth: /*  table.getTotalSize() */ '1800px' } }}>
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>

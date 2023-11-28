@@ -4,15 +4,12 @@ import { redirect } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const cookie = cookies();
+
   if (cookie.get('csrftoken')?.value?.includes('kviruslab')) {
     return redirect('/admin');
   }
   if (cookie.get('csrftoken')?.value?.includes('bible')) {
     return redirect('/bible-content');
-  }
-
-  if (!cookie.get('csrftoken')?.value?.includes('pcw')) {
-    return redirect('/signin');
   }
 
   return (

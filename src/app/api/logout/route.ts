@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     }
     console.log('토큰 있음');
     response.cookies.delete('csrftoken');
+    console.log('토큰 삭제');
     return response;
   } catch (err) {
     const response = NextResponse.json({ code: 400, message: '로그아웃에 실패하였습니다.' });

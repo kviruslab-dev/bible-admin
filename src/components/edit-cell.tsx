@@ -185,6 +185,17 @@ export const EditImgCell = ({
   const encodeFileToBase64 = (fileBlob: any) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
+    //! 이미지  규격용
+    const img = new Image();
+    const _URL = window.URL || window.webkitURL;
+    img.src = _URL.createObjectURL(fileBlob);
+    img.onload = function () {
+      if (img.width < 640 || img.height < 730) {
+        alert('최소 이미지 사이즈(가로 640px, 세로 730px)에 맞춰서 올려주세요.');
+        return;
+      }
+      return;
+    };
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
