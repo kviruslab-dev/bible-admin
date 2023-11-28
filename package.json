@@ -2,6 +2,37 @@
   "name": "bible-admin",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Park chang woo",
+    "email": "water9707@gmail.com",
+    "url": "https://bible-admin.vercel.app/"
+  },
+  "engines": {
+    "node": ">=16.17.1",
+    "yarn": ">=1.22.18",
+    "pnpm": ">=8.6.11",
+    "npm": "pnpm only"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -56,6 +87,5 @@
     "*.{ts,tsx}": [
       "eslint --fix"
     ]
-  },
-  "sideEffects": false
+  }
 }

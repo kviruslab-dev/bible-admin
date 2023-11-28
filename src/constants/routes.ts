@@ -29,8 +29,6 @@ export const CITY = [
 ];
 
 export const TODAY_CONTENT = {
-  '성경 말씀': 'bible',
-  '찬송 말씀': 'hymm',
-  성경사전: 'lab',
-  투데이: 'todays',
+  오늘의책: 'todaybook',
+  말씀따라: 'malsum',
 } as const;

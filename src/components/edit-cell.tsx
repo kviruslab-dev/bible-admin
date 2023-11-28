@@ -20,7 +20,7 @@ export const EditTextCell = ({
   getValue: () => unknown;
   index: number;
   id: string;
-  table: Table<ColumnType>;
+  table: Table</* ColumnType */ any>;
 }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(getValue() as string);
@@ -43,12 +43,12 @@ export const EditTextCell = ({
       }}
       onBlur={e => {
         visible && setVisible(pre => !pre);
-        table.options.meta?.updateData(index, id, e.target.value);
       }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
       onChange={e => {
+        table.options.meta?.updateData(index, id, e.target.value);
         setValue(e.target.value);
       }}
       onKeyDown={e => {
@@ -178,8 +178,21 @@ export const EditImgCell = ({
   table: Table</* ColumnType */ any>;
 }) => {
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState(getValue() as string);
+  const [value, setValue] = useState(getValue() as any);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [imageSrc, setImageSrc] = useState<any>(null);
+
+  const encodeFileToBase64 = (fileBlob: any) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+
+    return new Promise((resolve: any) => {
+      reader.onload = () => {
+        setImageSrc(reader.result);
+        resolve();
+      };
+    });
+  };
 
   useLayoutEffect(() => {
     visible && inputRef?.current?.focus();
@@ -190,33 +203,53 @@ export const EditImgCell = ({
     <>
       <div
         key={index + id}
-        // className="w-full h-full"
+        className="overflow-hidden"
         onDoubleClick={() => {
           setVisible(pre => !pre);
         }}
       >
-        {!visible && value}
-        {visible && (
-          <input
-            readOnly={!visible}
-            ref={inputRef}
-            type="file"
-            className="adsInput"
-            accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
-            onChange={e => {
-              if (e.target.files === null) {
-                alert('이미지만 가능합니다.');
-              } else {
-                console.log(e?.target?.files[0]);
-                setValue(e?.target?.files[0]?.name as string);
-              }
-            }}
-            onKeyDown={e => {
-              e.key === 'Enter' && setVisible(pre => !pre);
-            }}
-          />
-        )}
+        {!visible && typeof value === 'string' ? value : value?.name}
       </div>
+      {visible && (
+        <div>
+          <div
+            className="top-wrapper fixed bg-black opacity-25 top-0 left-0 right-0 bottom-0"
+            onClick={() => {
+              setValue(null);
+              setVisible(pre => !pre);
+            }}
+          ></div>
+          <div className="top-area fixed bg-white rounded-[10px] w-[500px] h-[600px] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] p-40 flex flex-col justify-between items-center overflow-y-auto">
+            {value && imageSrc ? (
+              <img src={imageSrc} alt="사진 이미지" className="w-[300px]" />
+            ) : (
+              <img src={value} className="w-[300px]" />
+            )}
+            <Spacing size={30} />
+            <div className="border-[1px] bg-gray-200">
+              <input
+                type="file"
+                className="w-full"
+                accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
+                onChange={e => {
+                  setValue(e.target.files === null ? getValue() : e?.target?.files[0]);
+                  e.target.files && encodeFileToBase64(e?.target?.files[0]);
+                }}
+              />
+            </div>
+            <Spacing size={30} />
+            <button
+              className="bg-main w-full px-[10px] py-[5px] rounded-[8px] font-semibold text-white text-[18px]"
+              onClick={() => {
+                table.options.meta?.updateData(index, id, value);
+                setVisible(pre => !pre);
+              }}
+            >
+              입력하기
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
@@ -351,3 +384,28 @@ export const EditAreaCell = ({
 };
 
 //! 현재 필요한 것 : 수정 불가 셀, 수정 가능 셀 (text, select, img, date)
+
+{
+  /* {visible && (
+          <input
+            readOnly={!visible}
+            ref={inputRef}
+            type="file"
+            className="adsInput"
+            accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
+            onChange={e => {
+              if (e.target.files === null) {
+                alert('이미지만 가능합니다.');
+              } else {
+                console.log(encodeFileToBase64(e?.target?.files[0]));
+                setValue(e?.target?.files[0]?.name as string);
+                table.options.meta?.updateData(index, id, e.target.files === null ? '' : encodeFileToBase64(e?.target?.files[0]));
+                encodeFileToBase64(e?.target?.files[0]);
+              }
+            }}
+            onKeyDown={e => {
+              e.key === 'Enter' && setVisible(pre => !pre);
+            }}
+          />
+        )} */
+}

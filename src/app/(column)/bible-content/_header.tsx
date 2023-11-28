@@ -1,17 +1,13 @@
-'use client';
-
-import { ADS } from '@/constants/routes';
+import { ADS, TODAY_CONTENT } from '@/constants/routes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
-export default function HeaderLayout({ type }: { type: string }) {
-  const searchParams = useSearchParams().get('type') ?? 'main';
-  const header = Object.keys(ADS);
+export default function HeaderLayout({ type, children }: { type: string; children?: React.ReactNode }) {
+  const header = Object.keys(TODAY_CONTENT);
 
   return (
     <>
-      <header className="fixed z-[999] flex justify-center bg-white bg-opacity-90 w-full px-24">
+      <header className="fixed z-[400] flex justify-center bg-white bg-opacity-90 w-full px-24">
         <section className="min-w-[1200px] flex justify-between items-center">
           <div className="relative">
             <Image src={'/logo.png'} width={50} height={50} alt="로고" />
@@ -24,9 +20,12 @@ export default function HeaderLayout({ type }: { type: string }) {
               return (
                 <Link
                   key={index}
-                  href={{ pathname: '/ads', query: { type: ADS[item as keyof typeof ADS] } }}
+                  href={{
+                    pathname: '/bible-content',
+                    query: { type: TODAY_CONTENT[item as keyof typeof TODAY_CONTENT] },
+                  }}
                   className={`px-10 py-13 text-14 rounded-lg hover:bg-[#ededed] ${
-                    ADS[item as keyof typeof ADS].includes(searchParams!)
+                    TODAY_CONTENT[item as keyof typeof TODAY_CONTENT].includes(type)
                       ? 'text-main font-semibold'
                       : 'text-gray-500 font-normal'
                   }`}
@@ -36,37 +35,10 @@ export default function HeaderLayout({ type }: { type: string }) {
               );
             })}
           </section>
-          <div className="text-14 flex items-center text-gray-700">
-            <button
-              // href={'/signin'}
-              onClick={async () => {
-                fetch('/api/logout', {
-                  method: 'POST',
-                })
-                  .then(() => {
-                    console.log('로그아웃 성공');
-                  })
-                  .catch(err => {
-                    console.log(err);
-                  });
-              }}
-              className="px-12 py-8 rounded-lg mr-10 border-[2px] transition-all ease-in-out hover:border-gray-400 hover:ease-in-out"
-            >
-              로그아웃
-            </button>
-            <Link
-              href={'/'}
-              className="bg-blue-500 text-white px-12 py-8 rounded-lg transition-all ease-in-out hover:bg-blue-600 hover:ease-in-out"
-            >
-              푸시 알림
-            </Link>
-          </div>
+          <div className="text-14 flex items-center text-gray-700">{children}</div>
         </section>
       </header>
       <div className="h-[80px]" />
     </>
   );
 }
-
-// const headersList = headers();r
-// const url = new URL(headersList.get('referer') as string).searchParams.get('type');

@@ -320,9 +320,10 @@ th:hover {
 }
 
 #table_wrapper {
+  width: 100%;
   overflow: auto;
   position: relative;
-  height: 600px;
+  height: 700px;
 }
 
 .top-area {

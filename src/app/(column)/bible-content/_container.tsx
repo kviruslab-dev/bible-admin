@@ -7,21 +7,21 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  ColumnDef,
 } from '@tanstack/react-table';
 import { TodayColumnType, todayColumn } from '@/constants/column';
-import { useLayoutEffect, useState } from 'react';
+import { use, useLayoutEffect, useState } from 'react';
 import { excelDownload } from '@/lib/grid/xlsx';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 export const defaultRow = {
-  image: '',
+  image: '더블 클릭해주세요.',
+  id: '',
   active: 0,
-  date: '',
-  title: '',
-  url: '',
-  content: '',
+  today: '더블 클릭해주세요',
+  title: '더블 클릭해주세요',
+  song: '더블 클릭해주세요',
+  content: '더블 클릭해주세요',
 };
 
 export const Container = ({ data }: { data: TodayColumnType[] }) => {
@@ -39,7 +39,6 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
     // defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
-    // debugTable: true,
     enableRowSelection: true,
     state: {
       rowSelection,
@@ -104,31 +103,38 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
         <button
           className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
           onClick={async () => {
-            console.log(table.getRowModel().rows.map(row => row.original));
-            await toast.promise(
-              fetch('https://dev25backend.givemeprice.co.kr/cms', {
-                method: 'PATCH',
-                body: JSON.stringify(
-                  table.getRowModel().rows.map(row => ({
-                    active: row.original.active,
-                    today: row.original.today,
-                    image: row.original.image,
-                    content: row.original.content,
-                    title: row.original.title,
-                    song: row.original.song,
-                  }))
-                ),
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
-              }),
-              {
-                loading: '잠시만 기다려주세요',
-                success: <span>저장에 성공했어요!</span>,
-                error: <span>저장에 실패했어요!</span>,
-              }
-            );
-            router.refresh();
+            if (table.getRowModel().rows.every(row => row.getIsSelected() === false)) {
+              return toast.error('하나 이상의 활성화된 데이터가 필요합니다.');
+            } else {
+              const result = await Promise.all([
+                ...table.getRowModel().rows.map(async row => {
+                  if (row.getIsSelected() === true) {
+                    const formData = new FormData();
+                    formData.append('id', row.original.id.toString());
+                    formData.append('upload', row.original.image);
+                    formData.append('today', row.original.today);
+                    formData.append('title', row.original.title);
+                    formData.append('song', row.original.song);
+                    formData.append('content', row.original.content);
+
+                    return row.original.id.toString() === ''
+                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
+                          method: 'POST',
+                          body: formData,
+                        })
+                          .then(() => toast.success('성공하였습니다.'))
+                          .catch(() => toast.error('실패하였습니다.'))
+                      : fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
+                          method: 'PATCH',
+                          body: formData,
+                        })
+                          .then(() => toast.success('성공하였습니다.'))
+                          .catch(() => toast.error('실패하였습니다.'));
+                  }
+                }),
+              ]);
+              return result && window.location.reload();
+            }
           }}
         >
           저장
@@ -136,7 +142,7 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
       </div>
       <section className="flex justify-center w-full">
         <div id="table_wrapper">
-          <table {...{ style: { width: table.getTotalSize() } }}>
+          <table {...{ style: { minWidth: /*  table.getTotalSize() */ '1800px' } }}>
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
