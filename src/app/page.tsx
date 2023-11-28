@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 export default function Home() {
   const cookie = cookies();
-  if (!cookie.has('csrftoken')) {
+  if (!cookie.has('csrftoken') || !cookie.get('csrftoken')?.value?.includes('bible')) {
     return redirect('/signin');
   }
 

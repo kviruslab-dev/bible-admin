@@ -6,10 +6,9 @@ import {
   EditSelectCell,
   EditTextCell,
   IndeterminateCheckbox,
-  UpdateImgCell,
 } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { CITY } from './routes';
+import { CITY, GU } from './routes';
 
 export interface ColumnType {
   id: string;
@@ -24,7 +23,6 @@ export interface ColumnType {
   image: string;
   link: string;
   active: string;
-  timezone: string;
   city: string;
   edit: string;
 }
@@ -63,30 +61,6 @@ export const defaultRow = {
   city: '',
   edit: '',
 };
-
-// type Colum =  typeof defaultColumn
-
-// const productColumn = {
-//   id: Math.floor(Math.random() * 10000).toString(),
-//   create_at: new Date().toLocaleString(),
-//   title: '제목',
-// tick: 0,
-// gubun: 1,
-// money: 0,
-// image: '',
-// link: '',
-// active:
-// star: 0
-// dc:0,
-// sequence:
-// edit: ''
-// }
-
-// const columnHelper = createColumnHelper();
-
-// enableResizing: false
-// maxSize?: number
-// getStart: (position?: ColumnPinningPosition) => number
 
 export const columns: Array<ColumnDef<ColumnType>> = [
   {
@@ -199,12 +173,17 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     ),
     footer: props => props.column.id,
   },
-  { accessorKey: 'timezone', header: '지역(시)', size: 100 },
+  // {
+  //   accessorKey: 'timezone', header: '지역(시)', size: 100, cell: ({ getValue, row: { index }, column: { id }, table }) => (
+  //     <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={Object.keys(CITY)} />
+  //   ),
+  //   footer: props => props.column.id,
+  // },
   {
     accessorKey: 'city',
     header: '지역(구)',
-    cell: ({ getValue, row: { index }, column: { id }, table }) => (
-      <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={CITY} />
+    cell: ({ getValue, row: { index, original }, column: { id }, table }) => (
+      <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={GU} />
     ),
     footer: props => props.column.id,
   },
@@ -433,9 +412,9 @@ export const todayColumn: Array<ColumnDef<TodayColumnType>> = [
   },
   {
     accessorKey: 'content',
-    header: '컨텐츠',
-    enableSorting: true,
-    enableColumnFilter: true,
+    header: '본문',
+    enableSorting: false,
+    enableColumnFilter: false,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),
@@ -466,6 +445,10 @@ export interface MalsumColumnType {
   title: string;
   yojul: string;
   content: string;
+  bible: string;
+  song: string;
+  sungchal: string;
+  kido: string;
 }
 
 export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
@@ -508,6 +491,24 @@ export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
     ),
   },
   {
+    accessorKey: 'song',
+    header: '찬송',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'bible',
+    header: '성경',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
     accessorKey: 'title',
     header: '제목',
     enableSorting: true,
@@ -517,8 +518,8 @@ export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
     ),
   },
   {
-    accessorKey: 'content',
-    header: '본문',
+    accessorKey: 'yojul',
+    header: '요절',
     enableSorting: true,
     enableColumnFilter: true,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
@@ -526,10 +527,28 @@ export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
     ),
   },
   {
-    accessorKey: 'yojul',
-    header: '요절',
+    accessorKey: 'sungchal',
+    header: '성찰',
     enableSorting: true,
     enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'kido',
+    header: '기도',
+    enableSorting: true,
+    enableColumnFilter: true,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+  },
+  {
+    accessorKey: 'content',
+    header: '본문',
+    enableSorting: false,
+    enableColumnFilter: false,
     cell: ({ getValue, row: { index }, column: { id }, table }) => (
       <EditAreaCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
     ),

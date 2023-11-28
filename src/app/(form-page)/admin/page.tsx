@@ -25,7 +25,6 @@ export default function App({ searchParams }: any) {
     //   cache: 'no-cache',
     // }).catch(err => console.log(err))
   );
-  console.log(data, 'data ::');
 
   return (
     <main className="min-h-screen bg-gray-50 px-50">

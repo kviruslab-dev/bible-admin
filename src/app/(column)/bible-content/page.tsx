@@ -1,11 +1,7 @@
-import { TodayColumnType } from '@/constants/column';
 import { use } from 'react';
 import { Container } from './_container';
-import { MalsumContainer, defaultRow } from './_malsum';
+import { MalsumContainer } from './_malsum';
 import HeaderLayout from './_header';
-
-// type ResData = { data: TodayColumnType[] };
-// type malsumData = { data: typeof defaultRow[] };
 
 export default function Page({ searchParams }: { searchParams: { type: string } }) {
   const { type = 'todaybook' } = searchParams;

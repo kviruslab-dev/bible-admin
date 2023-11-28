@@ -62,7 +62,7 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
         );
       },
       addRow: () => {
-        const setFunc = (old: TodayColumnType[]): any => [...old, defaultRow];
+        const setFunc = (old: TodayColumnType[]): any => [defaultRow, ...old];
         setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
@@ -101,7 +101,7 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
           추가하기
         </button>
         <button
-          className="text-white font-medium p-8 rounded-[10px] bg-main hover:bg-blue-600"
+          className="text-white font-medium py-8 px-[14px] rounded-[10px] bg-main hover:bg-blue-600"
           onClick={async () => {
             if (table.getRowModel().rows.every(row => row.getIsSelected() === false)) {
               return toast.error('하나 이상의 활성화된 데이터가 필요합니다.');
