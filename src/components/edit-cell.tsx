@@ -180,16 +180,16 @@ export const EditImgCell = ({
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
     //! 이미지  규격용
-    const img = new Image();
-    const _URL = window.URL || window.webkitURL;
-    img.src = _URL.createObjectURL(fileBlob);
-    img.onload = function () {
-      if (img.width < 640 || img.height < 730) {
-        alert('최소 이미지 사이즈(가로 640px, 세로 730px)에 맞춰서 올려주세요.');
-        return;
-      }
-      return;
-    };
+    // const img = new Image();
+    // const _URL = window.URL || window.webkitURL;
+    // img.src = _URL.createObjectURL(fileBlob);
+    // img.onload = function () {
+    //   if (img.width === 300 || img.height === 500) {
+    //     alert('최소 이미지 사이즈(가로 300px, 세로 500px)에 맞춰서 올려주세요.');
+    //     return;
+    //   }
+    //   return;
+    // };
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
@@ -215,15 +215,6 @@ export const EditImgCell = ({
         }}
         readOnly
       />
-      {/* <div
-        key={index + id}
-        className="overflow-hidden"
-        onDoubleClick={() => {
-          setVisible(pre => !pre);
-        }}
-      >
-        {!visible && typeof value === 'string' ? value : value?.name}
-      </div> */}
       {visible && (
         <div>
           <div
@@ -398,28 +389,3 @@ export const EditAreaCell = ({
 };
 
 //! 현재 필요한 것 : 수정 불가 셀, 수정 가능 셀 (text, select, img, date)
-
-{
-  /* {visible && (
-          <input
-            readOnly={!visible}
-            ref={inputRef}
-            type="file"
-            className="adsInput"
-            accept="image/gif, image/jpeg, image/png, image/webp, image/avif"
-            onChange={e => {
-              if (e.target.files === null) {
-                alert('이미지만 가능합니다.');
-              } else {
-                console.log(encodeFileToBase64(e?.target?.files[0]));
-                setValue(e?.target?.files[0]?.name as string);
-                table.options.meta?.updateData(index, id, e.target.files === null ? '' : encodeFileToBase64(e?.target?.files[0]));
-                encodeFileToBase64(e?.target?.files[0]);
-              }
-            }}
-            onKeyDown={e => {
-              e.key === 'Enter' && setVisible(pre => !pre);
-            }}
-          />
-        )} */
-}
