@@ -103,7 +103,7 @@ export const Container = ({ data, type }: { data: PhoneColumnType[]; type: strin
           onClick={async () => {
             console.log(table.getRowModel().rows.map(row => row.original));
             await toast.promise(
-              fetch('https://dev25backend.givemeprice.co.kr/cms', {
+              fetch('https://spare25backend.givemeprice.co.kr/cms', {
                 method: 'PATCH',
                 body: JSON.stringify(
                   table.getRowModel().rows.map(row => ({
