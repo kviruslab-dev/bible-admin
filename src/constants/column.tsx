@@ -9,6 +9,7 @@ import {
 } from '@/components/edit-cell';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { CITY, GU } from './routes';
+import toast from 'react-hot-toast';
 
 export interface ColumnType {
   id: string;
@@ -31,7 +32,7 @@ export interface ProductColumnType {
   id: string;
   create_at: string;
   title: string;
-  tick: string;
+  tick: number;
   gubun: string;
   money: string;
   image: string;
@@ -42,25 +43,6 @@ export interface ProductColumnType {
   sequence: string;
   edit: string;
 }
-
-// ! default 값
-export const defaultRow = {
-  id: Math.floor(Math.random() * 10000).toString(),
-  create_at: new Date().toLocaleString(),
-  title: '제목',
-  tick: 0,
-  start_date: '',
-  end_date: '',
-  page: 1,
-  location: 1,
-  rate: 0,
-  image: '',
-  link: '',
-  active: '',
-  timezone: '',
-  city: '',
-  edit: '',
-};
 
 export const columns: Array<ColumnDef<ColumnType>> = [
   {
@@ -173,12 +155,6 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     ),
     footer: props => props.column.id,
   },
-  // {
-  //   accessorKey: 'timezone', header: '지역(시)', size: 100, cell: ({ getValue, row: { index }, column: { id }, table }) => (
-  //     <EditSelectCell key={index + id} getValue={getValue} index={index} id={id} table={table} selectData={Object.keys(CITY)} />
-  //   ),
-  //   footer: props => props.column.id,
-  // },
   {
     accessorKey: 'city',
     header: '지역(구)',
@@ -196,9 +172,34 @@ export const columns: Array<ColumnDef<ColumnType>> = [
     cell: ({ getValue, row, column: { id }, table }) => {
       return (
         <button
-          onClick={() => {
-            // console.log(row.row.original);
-            alert(row.original?.link);
+          onClick={async () => {
+            const formData = new FormData();
+            formData.append('id', row.original.id.toString());
+            formData.append('upload', row.original.image);
+            formData.append('title', row.original.title);
+            formData.append('start_date', row.original.start_date);
+            formData.append('end_date', row.original.end_date);
+            formData.append('link', row.original.link);
+            formData.append('rate', row.original.rate.toString());
+            formData.append('location', row.original.location.toString());
+            formData.append('city', row.original.city);
+            formData.append('active', row.original.active === '운영함' ? '1' : '0');
+
+            const result =
+              row.original.id.toString() === ''
+                ? await fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                    method: 'POST',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'))
+                : await fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                    method: 'PATCH',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'));
+            result && window.location.reload();
           }}
           className="absBtn"
         >
@@ -211,18 +212,127 @@ export const columns: Array<ColumnDef<ColumnType>> = [
 ];
 
 export const productColumn: Array<ColumnDef<ProductColumnType>> = [
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
   { accessorKey: 'id', header: 'ID', enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
-  { accessorKey: 'title', header: '제목' },
+  {
+    accessorKey: 'title',
+    header: '제목',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
   { accessorKey: 'tick', header: '클릭수', enableColumnFilter: false },
-  { accessorKey: 'gubun', header: '구분', enableColumnFilter: false },
-  { accessorKey: 'money', header: '금액', enableColumnFilter: false },
-  { accessorKey: 'star', header: '별점', enableColumnFilter: false },
-  { accessorKey: 'dc', header: '할인율', enableColumnFilter: false },
-  { accessorKey: 'sequence', header: '순서', enableColumnFilter: false },
-  { accessorKey: 'image', header: '이미지', enableSorting: false, enableColumnFilter: false, size: 200 },
-  { accessorKey: 'link', header: '링크', enableSorting: false, enableColumnFilter: false },
-  { accessorKey: 'active', header: '운영', enableSorting: false },
+  {
+    accessorKey: 'gubun',
+    header: '구분',
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'money',
+    header: '금액',
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'star',
+    header: '별점',
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'dc',
+    header: '할인율',
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'sequence',
+    header: '순서',
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'image',
+    header: '이미지',
+    enableSorting: false,
+    enableColumnFilter: false,
+    size: 200,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'link',
+    header: '링크',
+    enableSorting: false,
+    enableColumnFilter: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'active',
+    header: '운영',
+    enableSorting: false,
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditSelectCell
+        key={index + id}
+        getValue={getValue}
+        index={index}
+        id={id}
+        table={table}
+        selectData={['운영함', '운영안함']}
+      />
+    ),
+    footer: props => props.column.id,
+  },
   {
     accessorKey: 'edit',
     header: '수정',
@@ -231,16 +341,40 @@ export const productColumn: Array<ColumnDef<ProductColumnType>> = [
     enableSorting: false,
     cell: ({ getValue, row, column, table }) => {
       return (
-        <td>
-          <button
-            onClick={() => {
-              alert(row.original?.link);
-            }}
-            className="absBtn"
-          >
-            저장
-          </button>
-        </td>
+        <button
+          onClick={async () => {
+            console.log(row.original);
+            const formData = new FormData();
+            formData.append('id', row.original.id.toString());
+            formData.append('upload', row.original.image);
+            formData.append('title', row.original.title);
+            formData.append('gubun', row.original.gubun);
+            formData.append('money', row.original.money);
+            formData.append('link', row.original.link);
+            formData.append('sequence', row.original.sequence.toString());
+            formData.append('star', row.original.star.toString());
+            formData.append('dc', row.original.dc);
+            formData.append('active', row.original.active === '운영함' ? '1' : '0');
+
+            const result =
+              row.original.id.toString() === ''
+                ? await fetch('https://spare25backend.givemeprice.co.kr/admin/pd', {
+                    method: 'POST',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'))
+                : await fetch('https://spare25backend.givemeprice.co.kr/admin/pd', {
+                    method: 'PATCH',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'));
+          }}
+          className="absBtn"
+        >
+          저장
+        </button>
       );
     },
   },

@@ -12,7 +12,7 @@ export default function Page({ searchParams }: { searchParams: { type: string; c
   const { type = 'main', city = '서울' } = searchParams;
 
   const data: any = use(
-    instance.get('/admin/select', { params: { type }, cache: 'force-cache' }).then((res: any) => res.data)
+    instance.get('/admin/select', { params: { type }, cache: 'no-cache' }).then((res: any) => res.data)
   );
   // const location = use(instance.get('/admin/local', { params: { type: city }, cache: 'force-cache' }));
 

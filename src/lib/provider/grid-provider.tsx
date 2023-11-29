@@ -9,36 +9,26 @@ import {
   useReactTable,
   ColumnDef,
 } from '@tanstack/react-table';
-import { ColumnType, columns, defaultRow } from '@/constants/column';
+import { ColumnType, columns } from '@/constants/column';
 import { FocusEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 
-// const defaultColumn: Partial<ColumnDef<ColumnType>> = {
-//   cell: ({ getValue, row: { index }, column: { id }, table }) => {
-//     const initialValue = getValue();
-//     const [value, setValue] = useState(initialValue);
-//     const onBlur = (e: FocusEvent<HTMLInputElement>) => {
-//       table.options.meta?.updateData(index, id, e.target.value);
-//     };
-//     useEffect(() => {
-//       setValue(initialValue);
-//     }, [initialValue]);
-
-//     return (
-//       // <td key={index + id} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
-//       <input
-//         readOnly
-//         className="adsInput"
-//         value={initialValue as string}
-//         onChange={e => {
-//           // table.options.meta?.updateData(index, id, e.target.value);
-//           setValue(e.target.value);
-//         }}
-//         onBlur={onBlur}
-//       />
-//       // </td>
-//     );
-//   },
-// };
+const defaultRow = {
+  id: '',
+  create_at: new Date().toLocaleString(),
+  title: '제목을 입력해주세요.',
+  tick: 0,
+  start_date: '날짜를 입력해주세요.',
+  end_date: '날짜를 입력해주세요.',
+  page: 1,
+  location: 1,
+  rate: 0,
+  image: '이미지를 추가해주세요.',
+  link: '링크를 추가해주세요',
+  active: '',
+  city: 'base',
+  edit: '',
+};
 
 export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string }) => {
   const [rowData, setRowData] = useState(data);
@@ -51,10 +41,8 @@ export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string 
   const table = useReactTable({
     data: rowData,
     columns,
-    // defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
-    // debugTable: true,
     enableRowSelection: true,
     state: {
       rowSelection,
@@ -82,7 +70,7 @@ export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string 
         );
       },
       addRow: () => {
-        const setFunc = (old: ColumnType[]) => [...old, defaultRow];
+        const setFunc = (old: ColumnType[]) => [defaultRow, ...old];
         setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
@@ -106,8 +94,44 @@ export const GridProvider = ({ data, type }: { data: ColumnType[]; type: string 
         </button>
         <button
           className="absBtn"
-          onClick={() => {
-            table.options.meta?.removeRow(4);
+          onClick={async () => {
+            if (table.getRowModel().rows.every(row => row.getIsSelected() === false)) {
+              return toast.error('하나 이상의 활성화된 데이터가 필요합니다.');
+            } else {
+              const result = await Promise.all([
+                ...table.getRowModel().rows.map(async row => {
+                  if (row.getIsSelected() === true) {
+                    console.log(row.original);
+                    const formData = new FormData();
+                    formData.append('id', row.original.id.toString());
+                    formData.append('upload', row.original.image);
+                    formData.append('title', row.original.title);
+                    formData.append('start_date', row.original.start_date);
+                    formData.append('end_date', row.original.end_date);
+                    formData.append('link', row.original.link);
+                    formData.append('rate', row.original.rate.toString());
+                    formData.append('location', row.original.location.toString());
+                    formData.append('city', row.original.city);
+                    formData.append('active', row.original.active === '운영함' ? '1' : '0');
+
+                    return row.original.id.toString() === ''
+                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                          method: 'POST',
+                          body: formData,
+                        })
+                          .then(() => toast.success('성공하였습니다.'))
+                          .catch(() => toast.error('실패하였습니다.'))
+                      : fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                          method: 'PATCH',
+                          body: formData,
+                        })
+                          .then(() => toast.success('성공하였습니다.'))
+                          .catch(() => toast.error('실패하였습니다.'));
+                  }
+                }),
+              ]);
+              return result && window.location.reload();
+            }
           }}
         >
           선택저장
