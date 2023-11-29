@@ -1,10 +1,8 @@
 import { DonateGrid } from '@/components/bd-grid';
 import { ProductGrid } from '@/components/product-grid';
-import { ColumnType, ProductColumnType, columns, productColumn } from '@/constants/column';
+import { ColumnType, ProductColumnType } from '@/constants/column';
 import { GridProvider } from '@/lib/provider/grid-provider';
 import { instance } from '@/utils/woxios';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { use } from 'react';
 
 type ResData = { data: ColumnType[] | ProductColumnType[] };

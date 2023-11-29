@@ -1,14 +1,9 @@
 'use client';
 
-import { ColumnType, PhoneColumnType } from '@/constants/column';
 import { instance } from '@/utils/woxios';
 import { Table } from '@tanstack/react-table';
 import { HTMLProps, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Spacing } from './common/spacing';
-import { get } from 'http';
-
-// TODO : td 태그를 다 갖고 있는 형태가 필요할 듯 하다.
-//! readonly -> non-onchange type -> input 종류
 
 export const EditTextCell = ({
   getValue,
@@ -143,7 +138,6 @@ export const EditSelectCell = ({
         }}
         onBlur={e => {
           visible && setVisible(pre => !pre);
-          !visible && table.options.meta?.updateData(index, id, e.target.value);
         }}
         onDoubleClick={() => {
           setVisible(pre => !pre);
