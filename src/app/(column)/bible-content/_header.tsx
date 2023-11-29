@@ -1,4 +1,4 @@
-import { ADS, TODAY_CONTENT } from '@/constants/routes';
+import { TODAY_CONTENT } from '@/constants/routes';
 import Image from 'next/image';
 import Link from 'next/link';
 

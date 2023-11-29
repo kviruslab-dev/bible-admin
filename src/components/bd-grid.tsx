@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { DonateColumnType, ProductColumnType, donateColumn, productColumn } from '@/constants/column';
+import { DonateColumnType, donateColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
