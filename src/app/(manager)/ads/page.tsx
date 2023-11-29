@@ -16,8 +16,6 @@ export default function Page({ searchParams }: { searchParams: { type: string; c
     instance.get('/admin/select', { params: { type }, cache: 'no-cache' }).then((res: any) => res.data)
   ).data;
 
-  console.log(data);
-
   switch (type) {
     case 'product':
       return (
@@ -38,10 +36,4 @@ export default function Page({ searchParams }: { searchParams: { type: string; c
         </main>
       );
   }
-
-  return (
-    <main className="min-h-screen bg-gray-50 px-50">
-      {type !== 'product' ? <GridProvider data={data} type={type} /> : <ProductGrid data={data} />}
-    </main>
-  );
 }

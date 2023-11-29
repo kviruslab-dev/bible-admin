@@ -618,8 +618,8 @@ export const todayColumn: Array<ColumnDef<TodayColumnType>> = [
       </div>
     ),
   },
-  { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
-  { accessorKey: 'active', header: '활성화', enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'id', header: 'ID', maxSize: 70, enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'active', header: '활성화', maxSize: 70, enableSorting: true, enableColumnFilter: true },
   {
     accessorKey: 'today',
     header: '날짜',
@@ -710,7 +710,7 @@ export const malsumColumn: Array<ColumnDef<MalsumColumnType>> = [
       </div>
     ),
   },
-  { accessorKey: 'id', header: 'ID', enableSorting: true, enableColumnFilter: true },
+  { accessorKey: 'id', header: 'ID', maxSize: 70, enableSorting: true, enableColumnFilter: true },
   {
     accessorKey: 'today',
     header: '날짜',

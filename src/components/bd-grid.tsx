@@ -153,7 +153,7 @@ export const DonateGrid = ({ data }: { data: DonateColumnType[] }) => {
                             cursor: header.column.getCanSort() ? 'pointer' : 'default',
                           },
                         }}
-                        className={`font-medium hover:bg-gray-600`}
+                        className={`font-medium hover:bg-gray-300`}
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}

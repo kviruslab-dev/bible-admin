@@ -12,23 +12,25 @@ export default function Page({ searchParams }: { searchParams: { type: string } 
       .catch(err => console.log(err))
   ).data;
 
-  if (type === 'malsum') {
-    return (
-      <>
-        <HeaderLayout type={type} />
-        <main className="min-h-screen bg-gray-50 px-50">
-          <MalsumContainer data={data} />
-        </main>
-      </>
-    );
+  switch (type) {
+    case 'todaybook':
+    case 'calum':
+      return (
+        <>
+          <HeaderLayout type={type} />
+          <main className="min-h-screen bg-gray-50 px-50">
+            <Container data={data} type={type} />
+          </main>
+        </>
+      );
+    case 'malsum':
+      return (
+        <>
+          <HeaderLayout type={type} />
+          <main className="min-h-screen bg-gray-50 px-50">
+            <MalsumContainer data={data} />
+          </main>
+        </>
+      );
   }
-
-  return (
-    <>
-      <HeaderLayout type={type} />
-      <main className="min-h-screen bg-gray-50 px-50">
-        <Container data={data} />
-      </main>
-    </>
-  );
 }
