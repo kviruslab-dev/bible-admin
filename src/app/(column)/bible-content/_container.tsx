@@ -24,19 +24,18 @@ export const defaultRow = {
   content: '더블 클릭해주세요',
 };
 
-export const Container = ({ data }: { data: TodayColumnType[] }) => {
+export const Container = ({ data, type }: { data: TodayColumnType[]; type: string }) => {
   const [rowData, setRowData] = useState(data);
   const [rowSelection, setRowSelection] = useState({});
   const router = useRouter();
 
   useLayoutEffect(() => {
     setRowData(data);
-  }, []);
+  }, [type]);
 
   const table = useReactTable({
     data: rowData,
     columns: todayColumn,
-    // defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     enableRowSelection: true,
@@ -118,13 +117,13 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
                     formData.append('content', row.original.content);
 
                     return row.original.id.toString() === ''
-                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
+                      ? fetch(`https://spare25backend.givemeprice.co.kr/admin/${type}`, {
                           method: 'POST',
                           body: formData,
                         })
                           .then(() => toast.success('성공하였습니다.'))
                           .catch(() => toast.error('실패하였습니다.'))
-                      : fetch('https://spare25backend.givemeprice.co.kr/admin/malsum', {
+                      : fetch(`https://spare25backend.givemeprice.co.kr/admin/${type}`, {
                           method: 'PATCH',
                           body: formData,
                         })
@@ -142,23 +141,11 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
       </div>
       <section className="flex justify-center w-full">
         <div id="table_wrapper">
-          <table {...{ style: { minWidth: /*  table.getTotalSize() */ '1800px' } }}>
+          <table {...{ style: { minWidth: /*  table.getTotalSize() */ '1200px' } }}>
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => {
-                    // const [open, setOpen] = useState(false);
-                    // const sortedUniqueValues = useMemo(
-                    //   () => Array.from(header.column?.getFacetedUniqueValues().keys()).sort(),
-                    //   [header.column]
-                    // );
-                    // const onFilterChange = (value: string) => {
-                    //   if (value === 'null') {
-                    //     header.column.setFilterValue(null);
-                    //   } else {
-                    //     header.column.setFilterValue(value);
-                    //   }
-                    // };
                     return (
                       <th
                         key={header.id}
@@ -177,27 +164,11 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
                           asc: ' 🔼',
                           desc: ' 🔽',
                         }[header.column.getIsSorted() as string] ?? null}
-                        {/* {header.column.getCanFilter() ? (
-                          <select onChange={({ currentTarget: { value } }) => onFilterChange(value)}>
-                            <option value="null">선택 안함</option>
-                            {sortedUniqueValues.map((value: string, index) => (
-                              <option key={value + index} value={value}>
-                                {value}
-                              </option>
-                            ))}
-                          </select>
-                        ) : null} */}
                         <div
                           {...{
                             onMouseDown: header.getResizeHandler(),
                             onTouchStart: header.getResizeHandler(),
                             className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`,
-                            // style: {
-                            //   transform:
-                            //     columnResizeMode === 'onEnd' && header.column.getIsResizing()
-                            //       ? `translateX(${table.getState().columnSizingInfo.deltaOffset}px)`
-                            //       : '',
-                            // },
                           }}
                         />
                       </th>
@@ -217,11 +188,6 @@ export const Container = ({ data }: { data: TodayColumnType[] }) => {
                 );
               })}
             </tbody>
-            {/* <tfoot>
-              <tr>
-                <th colSpan={table.getCenterLeafColumns().length} align="right"></th>
-              </tr>
-            </tfoot> */}
           </table>
         </div>
       </section>

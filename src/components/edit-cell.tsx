@@ -31,7 +31,6 @@ export const EditTextCell = ({
   }, [visible, getValue()]);
 
   return (
-    // <td >
     <input
       readOnly={!visible}
       ref={inputRef}
@@ -56,7 +55,6 @@ export const EditTextCell = ({
       }}
       {...props}
     />
-    // </td>
   );
 };
 
@@ -81,7 +79,6 @@ export const EditDateCell = ({
   }, [visible, getValue()]);
 
   return (
-    // <td key={index + id}>
     <input
       style={visible ? { backgroundColor: '#eee' } : {}}
       readOnly={!visible}
@@ -103,8 +100,6 @@ export const EditDateCell = ({
         e.key === 'Enter' && setVisible(pre => !pre);
       }}
     />
-    // </td>
-    // </td>
   );
 };
 
@@ -131,7 +126,6 @@ export const EditSelectCell = ({
   return (
     <div
       key={index + id}
-      // onClick={() => { setVisible(pre => !pre) }}
       onDoubleClick={() => {
         setVisible(pre => !pre);
       }}
@@ -212,7 +206,16 @@ export const EditImgCell = ({
 
   return (
     <>
-      <div
+      <input
+        type="text"
+        value={!visible && typeof value === 'string' ? value : value?.name}
+        className="adsInput"
+        onDoubleClick={() => {
+          setVisible(pre => !pre);
+        }}
+        readOnly
+      />
+      {/* <div
         key={index + id}
         className="overflow-hidden"
         onDoubleClick={() => {
@@ -220,7 +223,7 @@ export const EditImgCell = ({
         }}
       >
         {!visible && typeof value === 'string' ? value : value?.name}
-      </div>
+      </div> */}
       {visible && (
         <div>
           <div

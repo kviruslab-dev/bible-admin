@@ -72,5 +72,6 @@ export const GU = [
 // ! 추가는 이곳에
 export const TODAY_CONTENT = {
   오늘의책: 'todaybook',
+  칼럼: 'calum',
   말씀따라: 'malsum',
 } as const;
