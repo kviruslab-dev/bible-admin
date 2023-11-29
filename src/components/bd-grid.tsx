@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ProductColumnType, productColumn } from '@/constants/column';
+import { DonateColumnType, ProductColumnType, donateColumn, productColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -16,19 +16,13 @@ const defaultRow = {
   id: '',
   create_at: new Date().toLocaleString(),
   title: '제목을 입력해주세요.',
-  tick: 0,
-  gubun: '날짜를 입력해주세요.',
-  money: '날짜를 입력해주세요.',
   image: '이미지를 추가해주세요.',
   link: '링크를 추가해주세요',
-  active: '',
-  star: '별점을 입력해주세요.',
-  dc: '할인율을 입력해주세요.',
-  sequence: '순서를 입력해주세요.',
+  type: '타입을 입력해주세요.',
   edit: '',
 };
 
-export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
+export const DonateGrid = ({ data }: { data: DonateColumnType[] }) => {
   const [rowData, setRowData] = useState(data);
   const [rowSelection, setRowSelection] = useState({});
 
@@ -38,7 +32,7 @@ export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
 
   const table = useReactTable({
     data: rowData,
-    columns: productColumn,
+    columns: donateColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     enableRowSelection: true,
@@ -68,12 +62,12 @@ export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
         );
       },
       addRow: () => {
-        const setFunc = (old: ProductColumnType[]) => [defaultRow, ...old];
+        const setFunc = (old: DonateColumnType[]) => [defaultRow, ...old];
         setRowData(setFunc);
       },
       removeRow: (rowIndex: number) => {
-        const setFilterFunc = (old: ProductColumnType[]) =>
-          old.filter((_row: ProductColumnType, index: number) => index !== rowIndex);
+        const setFilterFunc = (old: DonateColumnType[]) =>
+          old.filter((_row: DonateColumnType, index: number) => index !== rowIndex);
         setRowData(setFilterFunc);
       },
     },
@@ -104,22 +98,17 @@ export const ProductGrid = ({ data }: { data: ProductColumnType[] }) => {
                     formData.append('id', row.original.id.toString());
                     formData.append('upload', row.original.image);
                     formData.append('title', row.original.title);
-                    formData.append('star', row.original.star);
-                    formData.append('gubun', row.original.gubun);
                     formData.append('link', row.original.link);
-                    formData.append('money', row.original.money);
-                    formData.append('dc', row.original.dc);
-                    formData.append('sequence', row.original.sequence);
-                    formData.append('active', row.original.active === '운영함' ? '1' : '0');
+                    formData.append('type', row.original.type);
 
                     return row.original.id.toString() === ''
-                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                      ? fetch('https://spare25backend.givemeprice.co.kr/admin/bd', {
                           method: 'POST',
                           body: formData,
                         })
                           .then(() => toast.success('성공하였습니다.'))
                           .catch(() => toast.error('실패하였습니다.'))
-                      : fetch('https://spare25backend.givemeprice.co.kr/admin/ad', {
+                      : fetch('https://spare25backend.givemeprice.co.kr/admin/bd', {
                           method: 'PATCH',
                           body: formData,
                         })

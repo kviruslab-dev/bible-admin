@@ -379,7 +379,7 @@ export const productColumn: Array<ColumnDef<ProductColumnType>> = [
     },
   },
 ];
-interface DonateColumnType {
+export interface DonateColumnType {
   id: string;
   create_at: string;
   title: string;
@@ -388,12 +388,108 @@ interface DonateColumnType {
   type: string;
 }
 export const donateColumn: Array<ColumnDef<DonateColumnType>> = [
-  { accessorKey: 'id', header: 'ID' },
+  {
+    accessorKey: 'select',
+    id: 'select',
+    enableSorting: false,
+    enableColumnFilter: false,
+    maxSize: 50,
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
+  { accessorKey: 'id', header: 'ID', enableColumnFilter: false, minSize: 70 },
   { accessorKey: 'create_at', header: '등록일' },
-  { accessorKey: 'title', header: '제목' },
-  { accessorKey: 'image', header: '이미지' },
-  { accessorKey: 'link', header: '링크' },
-  { accessorKey: 'type', header: '타입' },
+  {
+    accessorKey: 'title',
+    header: '제목',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'image',
+    header: '이미지',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditImgCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'link',
+    header: '링크',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'type',
+    header: '타입',
+    cell: ({ getValue, row: { index }, column: { id }, table }) => (
+      <EditTextCell key={index + id} getValue={getValue} index={index} id={id} table={table} />
+    ),
+    footer: props => props.column.id,
+  },
+  {
+    accessorKey: 'edit',
+    header: '수정',
+    minSize: 70,
+    enableColumnFilter: false,
+    enableSorting: false,
+    cell: ({ getValue, row, column, table }) => {
+      return (
+        <button
+          onClick={async () => {
+            console.log(row.original);
+            const formData = new FormData();
+            formData.append('id', row.original.id.toString());
+            formData.append('upload', row.original.image);
+            formData.append('title', row.original.title);
+            formData.append('link', row.original.link);
+            formData.append('type', row.original.type);
+
+            const result =
+              row.original.id.toString() === ''
+                ? await fetch('https://spare25backend.givemeprice.co.kr/admin/bd', {
+                    method: 'POST',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'))
+                : await fetch('https://spare25backend.givemeprice.co.kr/admin/bd', {
+                    method: 'PATCH',
+                    body: formData,
+                  })
+                    .then(() => toast.success('성공하였습니다.'))
+                    .catch(() => toast.error('실패하였습니다.'));
+          }}
+          className="absBtn"
+        >
+          저장
+        </button>
+      );
+    },
+  },
 ];
 
 export interface PhoneColumnType {
