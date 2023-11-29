@@ -7,7 +7,6 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  ColumnDef,
 } from '@tanstack/react-table';
 import { ProductColumnType, productColumn } from '@/constants/column';
 import { useLayoutEffect, useMemo, useState } from 'react';
@@ -18,10 +17,10 @@ const defaultRow = {
   create_at: new Date().toLocaleString(),
   title: '제목을 입력해주세요.',
   tick: 0,
-  gubun: '구분을 입력해주세요.',
-  money: '금액을 입력해주세요.',
+  gubun: '날짜를 입력해주세요.',
+  money: '날짜를 입력해주세요.',
   image: '이미지를 추가해주세요.',
-  link: '링크를 추가해주세요.',
+  link: '링크를 추가해주세요',
   active: '',
   star: '별점을 입력해주세요.',
   dc: '할인율을 입력해주세요.',
