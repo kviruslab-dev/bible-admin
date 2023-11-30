@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+//! ..
 export const useIntersectionObserver = (callback: any) => {
   const [observationTarget, setObservationTarget] = useState(null);
   const observer = useRef(
     new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) {return;}
+        if (!entry.isIntersecting) {
+          return;
+        }
         callback();
       },
       { threshold: 1 }
